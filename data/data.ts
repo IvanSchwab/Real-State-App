@@ -1,35 +1,36 @@
 export const appartmentTypeData = [
-    {
-      id: 1,
-      icon: "/images/a1.png",
-      type: "House",
-      number: 12,
-    },
-    {
-      id: 2,
-      icon: "/images/a2.png",
-      type: "Appartments",
-      number: 22,
-    },
-    {
-      id: 3,
-      icon: "/images/a3.png",
-      type: "Office",
-      number: 14,
-    },
-    {
-      id: 4,
-      icon: "/images/a4.png",
-      type: "Villa",
-      number: 9,
-    },
-    {
-      id: 5,
-      icon: "/images/a5.png",
-      type: "TownHouse",
-      number: 12,
-    },
-  ];
+  {
+    id: 1,
+    icon: "/images/a1.png",
+    type: "Casa",
+    number: 12,
+  },
+  {
+    id: 2,
+    icon: "/images/a2.png",
+    type: "Departamento",
+    number: 22,
+  },
+  {
+    id: 3,
+    icon: "/images/a3.png",
+    type: "Oficina",
+    number: 14,
+  },
+  {
+    id: 4,
+    icon: "/images/a4.png",
+    type: "Quinta",
+    number: 9,
+  },
+  {
+    id: 5,
+    icon: "/images/a5.png",
+    type: "Dúplex",
+    number: 12,
+  },
+]
+;
   
   export const properties = [
     {
@@ -41,6 +42,7 @@ export const appartmentTypeData = [
       size: 1200,
       price: 45000,
       imageUrl: "/images/p1.jpg",
+      contrat: "Venta",
     },
     {
       id: 2,
@@ -51,6 +53,7 @@ export const appartmentTypeData = [
       size: 950,
       price: 50000,
       imageUrl: "/images/p2.jpg",
+      contrat: "Alquiler",
     },
     {
       id: 3,
@@ -61,6 +64,7 @@ export const appartmentTypeData = [
       size: 1300,
       price: 60000,
       imageUrl: "/images/p3.jpg",
+      contrat: "Venta",
     },
     {
       id: 4,
@@ -71,6 +75,7 @@ export const appartmentTypeData = [
       size: 800,
       price: 75000,
       imageUrl: "/images/p4.jpg",
+      contrat: "Venta",
     },
     {
       id: 5,
@@ -81,6 +86,7 @@ export const appartmentTypeData = [
       size: 2000,
       price: 90000,
       imageUrl: "/images/p5.jpg",
+      contrat: "Alquiler",
     },
     {
       id: 6,
@@ -91,6 +97,7 @@ export const appartmentTypeData = [
       size: 700,
       price: 48000,
       imageUrl: "/images/p6.jpg",
+      contrat: "Alquiler",
     },
   ];
   
