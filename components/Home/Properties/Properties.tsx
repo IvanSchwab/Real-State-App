@@ -12,13 +12,18 @@ const Properties = () => {
                     Explora nuestras propiedades más recomendadas y encuentra la opción ideal para ti.
                 </p>
                 <div className='mt-10 md:mt-20 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 items-center'>
-                    {properties.map((property) => {
-                        return <div key={property.id}>
-                            { /* Property Card */}
+                    {properties.map((property, i) => (
+                        <div
+                            key={property.id}
+                            data-aos="fade-up"
+                            data-aos-delay={`${i * 50}`}
+                            data-aos-duration="800"
+                            data-aos-easing="ease-in-out"
+                            data-aos-offset="200"
+                        >
                             <PropertyCard property={property}></PropertyCard>
                         </div>
-
-                    })}
+                    ))}
                 </div>
             </div>
         </div>

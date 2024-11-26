@@ -50,7 +50,7 @@ const Nav = ({ openNav }: Props) => {
                             <Link key={navlink.id} href={navlink.url}>
                                 <p
                                     className={`select-none font-medium text-white border-2 px-6 py-3 rounded-lg 
-                                    ${navBg ? 'bg-[#647C64] border-[#647C64]' : 'bg-transparent border-transparent'} 
+                                    ${navBg ? 'bg-transparent border-transparent' : 'bg-transparent border-transparent'} 
                                     hover:bg-gray-300/30 hover:text-white hover:shadow-md hover:border-[#4d624d] transition-all duration-200 ease-in-out`}
                                 >
                                     {navlink.label}
