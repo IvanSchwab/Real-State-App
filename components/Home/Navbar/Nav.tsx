@@ -27,10 +27,10 @@ const Nav = ({ openNav }: Props) => {
     }, []);
 
     return (
-        <div className={`fixed h-[10vh] z-[100] w-full transition-all duration-200 ${navBg ? 'bg-custom-green' : 'bg-transparent'}`}>
-
-            <div className="flex items-center h-full justify-between w-[95%] sm:w[90%] xl:w-[80%] mx-auto">
-                { /* Logo */}
+        <div className={`fixed h-[10vh] z-[100] w-full transition-all duration-500 ease-in-out ${navBg ? 'bg-custom-green' : 'bg-transparent'}`}>
+            {/* Contenedor principal de la navbar */}
+            <div className="flex items-center h-full justify-between w-[95%] sm:w-[90%] xl:w-[80%] mx-auto">
+                {/* Logo */}
                 <div className="flex items-center space-x-2">
                     <div className="md:w-10 md:h-10 w-7 h-7 rounded-full bg-[#E3C565] text-white flex items-center shadow-md justify-center flex-col">
                         <FaHouse />
@@ -41,34 +41,33 @@ const Nav = ({ openNav }: Props) => {
                             Propiedades
                         </span>
                     </h1>
-
-
                 </div>
-                <div className="lg:flex items-center space-x-14 text-white hidden">
+
+                {/* Sección de enlaces de navegación */}
+                <div className="lg:flex items-center space-x-14 text-white hidden flex-grow justify-center transform xl:-translate-x-[105px]">
                     {navLinks.map((navlink) => {
-                        return <Link key={navlink.id} href={navlink.url} >
-                            <p className='select-none font-medium hover:text-[#FEC905]'>{navlink.label}</p>
-                        </Link>
+                        return (
+                            <Link key={navlink.id} href={navlink.url}>
+                                <p
+                                    className={`select-none font-medium text-white border-2 px-6 py-3 rounded-lg 
+                                    ${navBg ? 'bg-[#647C64] border-[#647C64]' : 'bg-transparent border-transparent'} 
+                                    hover:bg-gray-300/30 hover:text-white hover:shadow-md hover:border-[#4d624d] transition-all duration-200 ease-in-out`}
+                                >
+                                    {navlink.label}
+                                </p>
+                            </Link>
+                        );
                     })}
                 </div>
-                {/* login and burguer menu*/}
 
+                {/* Menú de hamburguesa */}
                 <div className='flex items-center space-x-4'>
-                    {/* login button */}
-
-                    <div className='flex items-center cursor-pointer text-white space-x-2 hover:text-[#FEC905] transtition-all duration-200'>
-                        <FaUserCircle className='w-5 h-5' />
-                        <p className='font select-none'> Iniciar sesión | Registrarse</p>
-                    </div>
-                    {/* burguer menu */}
-                    <HiBars3BottomRight onClick={openNav} className="sm:w-8 sm:h-8 w-6 h-6 cursor:pointer text-white lg:hidden" />
-
-
+                    <HiBars3BottomRight onClick={openNav} className="sm:w-8 sm:h-8 w-6 h-6 cursor-pointer text-white lg:hidden" />
                 </div>
-
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Nav
+export default Nav;
+

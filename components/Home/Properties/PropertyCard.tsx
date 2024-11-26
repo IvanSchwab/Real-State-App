@@ -18,7 +18,7 @@ type Props = {
 
 const PropertyCard = ({ property }: Props) => {
     return (
-        <div className='bg-white overflow-hidden group rounded-lg cursor-pointer shadow-lg'>
+        <div className='bg-[#f8fcf3] overflow-hidden group rounded-lg cursor-pointer shadow-lg'>
             <div className='select-none relative'>
                 <Image
                     src={property.imageUrl}
@@ -64,14 +64,14 @@ const PropertyCard = ({ property }: Props) => {
                         </div>
 
                         {/* Contrato */}
-                        <div className='relative'>
-                            <div className='w-full h-[1px] bg-gray-300'></div>
-                            <div className='absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white px-4'>
-                                <h1 className='text-rose-600 text-lg font-semibold'>
-                                    {property.contrat}
-                                </h1>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+                <div className='relative h-[25px]'>
+                    <div className='w-full h-[1px] bg-gray-300'></div>
+                    <div className='absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#f8fcf3] px-4'>
+                        <h1 className='text-rose-600 text-lg font-semibold'>
+                            {property.contrat}
+                        </h1>
                     </div>
                 </div>
             </div>
