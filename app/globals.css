@@ -47,3 +47,10 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+.truncate {
+  white-space: nowrap;          
+  overflow: hidden;            
+  text-overflow: ellipsis;      
+  max-width: 63%;              
+}

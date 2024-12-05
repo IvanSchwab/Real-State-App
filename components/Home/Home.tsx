@@ -8,6 +8,7 @@ import Footer from './Footer/Footer'
 import ScrollToTopButton from '../Helper/ScrollToTopButton'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import ResponsiveNav from './Navbar/ResponsiveNav';
 
 
 const Home = () => {
@@ -26,6 +27,8 @@ const Home = () => {
 
   return (
     <div className='overflow-hidden'>
+      <ResponsiveNav />
+
       <section id="inicio">
         <Hero />
       </section>

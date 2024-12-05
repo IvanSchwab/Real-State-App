@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
-import ResponsiveNav from "@/components/Home/Navbar/ResponsiveNav";
 import ScrollToTop from "@/components/Helper/ScrollToTop";
 
 
@@ -24,7 +23,6 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={font.className}>
-        <ResponsiveNav/>
         <ScrollToTop />
         {children}
         </body>

@@ -6,7 +6,7 @@ export const navLinks = [
     },
     {
         id: 2,
-        url: '#propiedades',
+        url: '/properties',
         label: "Propiedades"
     },
     {
@@ -18,5 +18,10 @@ export const navLinks = [
         id: 4,
         url: '#contacto',
         label: "Contacto"
+    },
+    {
+        id: 5,
+        url: '#tasaciones',
+        label: "Tasaciones"
     },
 ];
