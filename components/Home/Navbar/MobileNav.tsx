@@ -17,7 +17,7 @@ const MobileNav = ({ closeNav, showNav }: Props) => {
       <div
         className={`fixed inset-0 z-[900] bg-black transition-opacity duration-500 ${showNav ? "opacity-70 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`}
-        onClick={closeNav} // Cierra el menú al hacer clic en el fondo
+        onClick={closeNav} 
       ></div>
 
 

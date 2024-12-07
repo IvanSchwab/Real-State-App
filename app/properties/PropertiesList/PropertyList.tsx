@@ -4,58 +4,15 @@ import { FaBed, FaBath, FaSquare } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import Image from 'next/image'; 
-
-interface Image {
-  image: string;
-  thumbnail: string;
-  orientation: number;
-  imageId: number;
-  main: boolean;
-  type: number;
-  contentType: string;
-  order: number;
-  timestamp: string;
-}
-
-interface Property {
-  title: string;
-  id: number;
-  name: string;
-  zipCode: string;
-  country: string;
-  county: string;
-  city: string;
-  state: string;
-  price: number;
-  description: string;
-  descriptionFormatted: string;
-  propertyOperation: string;
-  images: Image[];
-  address: string;
-  propertyType: string;
-  currency: string;
-  mainImage: string;
-  location: {
-    lon: string;
-    lat: string;
-  };
-  rented: boolean;
-  sold: boolean;
-  lastUpdate: string;
-  bedrooms: number;
-  bathrooms: number;
-  size: number;
-  contract: string;
-}
+import { Property } from '@/constant/constant';
 
 const PropertyList: React.FC = () => {
-  const [properties, setProperties] = useState<Property[]>([]);
   const [totalProperties, setTotalProperties] = useState<number>(0);
-  const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [from, setFrom] = useState<number>(0);
+  const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [from, setFrom] = useState<number>(0);
   const propertiesPerPage = 9;
 
   const totalPages = Math.ceil(totalProperties / propertiesPerPage);
@@ -113,9 +70,14 @@ const PropertyList: React.FC = () => {
     }
   };
 
-  const handleClick = (id: number) => {
-    router.push(`/properties/${id}`);
+  const handleClick = (propertyHash: string) => {
+    if (!propertyHash) {
+      console.error("Property hash is missing:", propertyHash);
+      return;
+    }
+    router.push(`/properties/${propertyHash}`);
   };
+  
 
   const handleGoHome = () => {
     router.push('/');
@@ -145,23 +107,24 @@ const PropertyList: React.FC = () => {
   return (
     <div className="bg-[#f8fcf3] py-8 px-4 w-full">
       <div className="max-w-6xl mx-auto">
-      <div className="absolute top-4 left-4 w-[120px] h-[50px] md:w-[150px] md:h-[60px] rounded-lg overflow-hidden shadow-xl" onClick={handleGoHome}>
-                <img
-                    src="/images/logo-hero.png"
-                    alt="Logo de Olivera de Schwab"
-                    className="object-cover w-full h-full rounded-lg"
-                />
-            </div>
+        <div className="absolute top-4 left-4 w-[120px] h-[50px] md:w-[150px] md:h-[60px] rounded-lg overflow-hidden shadow-xl" onClick={handleGoHome}>
+          <img
+            src="/images/logo-hero.png"
+            alt="Logo de Olivera de Schwab"
+            className="object-cover w-full h-full rounded-lg"
+          />
+        </div>
         <h1 className="text-4xl font-semibold text-center text-gray-800 mb-12">PROPIEDADES EN VENTA O EN ALQUILER</h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {properties.map((property) => (
             <div
-              key={property.id}
+              key={property.propertyHash}
               className="rounded-lg shadow-lg overflow-hidden cursor-pointer group relative h-[450px] sm:h-[500px] hover:scale-105 transition-all duration-300"
-              onClick={() => handleClick(property.id)}
+              onClick={() => handleClick(property.propertyHash)}
               data-aos="fade-in"
             >
+
               <div className="relative">
                 <img
                   src={property.mainImage}
