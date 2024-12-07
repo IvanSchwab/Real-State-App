@@ -2,9 +2,9 @@ import React from 'react';
 
 const AboutUs = () => {
   return (
-    <section className="bg-gradient-to-r bg-white to-green-100 py-16">
+    <section className="bg-gradient-to-r bg-[#F8FCF3] to-green-100 py-16">
       {/* Contenedor principal con flexbox y un gradiente sutil */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between space-y-12 lg:space-y-0">
+      <div className="max-w-7xl mx-auto lg:px-8 flex flex-col lg:flex-row items-center justify-between space-y-12 lg:space-y-0 py-16 px-8">
 
         {/* Imagen */}
         <div className="relative w-full lg:w-1/2 h-96 overflow-hidden rounded-3xl shadow-xl hover:scale-105 transition-transform duration-500 ease-in-out select-none">

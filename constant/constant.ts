@@ -15,14 +15,14 @@ export const navLinks = [
         label: "Sobre nosotros"
     },
     {
-        id: 4,
-        url: '#contacto',
-        label: "Contacto"
-    },
-    {
         id: 5,
         url: '#tasaciones',
         label: "Tasaciones"
+    },
+    {
+        id: 4,
+        url: '#contacto',
+        label: "Contacto"
     },
 ];
 

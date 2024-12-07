@@ -9,6 +9,7 @@ import ScrollToTopButton from '../Helper/ScrollToTopButton'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ResponsiveNav from './Navbar/ResponsiveNav';
+import Appraisals from './Appraisals/Appraisals';
 
 
 const Home = () => {
@@ -40,9 +41,14 @@ const Home = () => {
         <AboutUs />
       </section>
 
+      <section id='tasaciones'>
+        <Appraisals />
+      </section>
+
       <section id='contacto'>
         <Footer />
       </section>
+
       <ScrollToTopButton></ScrollToTopButton>
     </div>
   )
