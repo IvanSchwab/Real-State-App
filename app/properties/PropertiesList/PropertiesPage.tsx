@@ -4,9 +4,9 @@ import Footer from '@/components/Home/Footer/Footer';
 
 export default function PropertiesPage() {
   return (
-    <div className="bg-[#f8fcf3] py-8 px-4">
+    <div className="bg-[#f8fcf3] ">
       <PropertyList />
-      <div className="py-1 w-screen transform  translate-y-[32px] translate-x-[-16px]">
+      <div className="w-screen lg:transform sm:translate-x-[-4px] translate-y-[38px] lg:translate-x-[-8px]">
         <Footer />
       </div>
     </div>
