@@ -139,3 +139,5 @@ export const appartmentTypeData = [
       numberOfProperties: 50,
     },
   ];
+
+ 

@@ -1,11 +1,15 @@
+"use client";
 import React, { useState } from 'react';
 
 const Appraisals = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        message: '',
+        subject: '',
+        message: ''
     });
+
+    const [statusMessage, setStatusMessage] = useState('');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -15,11 +19,34 @@ const Appraisals = () => {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Formulario enviado:', formData);
-        //Logica para mandar mails
+
+        try {
+            const response = await fetch('/api/sendEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                setStatusMessage('Correo enviado exitosamente.');
+                setFormData({
+                    name: '', email: '', message: '', subject: '',
+                });
+            } else {
+                setStatusMessage('Hubo un problema al enviar el correo.');
+            }
+        } catch (error) {
+            console.error('Error al enviar los datos:', error);
+            setStatusMessage('Error al enviar el correo. Intenta de nuevo más tarde.');
+        }
     };
+
 
     return (
         <section className="bg-gradient-to-r bg-[#D9E4C3] to-green-100 py-16">
@@ -57,7 +84,6 @@ const Appraisals = () => {
                                 onChange={handleChange}
                                 className="mt-1 px-3 py-2 border rounded-md text-gray-700"
                                 style={{ minWidth: '400px', maxWidth: '500px' }}
-
                                 required
                             />
                         </div>
@@ -95,7 +121,6 @@ const Appraisals = () => {
                                 onChange={handleChange}
                                 className="mt-1 px-3 py-2 border rounded-md resize-none text-gray-700"
                                 style={{ minWidth: '400px', maxWidth: '500px' }}
-
                                 rows={4}
                                 required
                             />
@@ -108,8 +133,11 @@ const Appraisals = () => {
                             Enviar Solicitud
                         </button>
                     </form>
-                </div>
 
+                    {statusMessage && (
+                        <p className="mt-4 text-sm font-semibold text-gray-600">{statusMessage}</p>
+                    )}
+                </div>
             </div>
         </section>
     );

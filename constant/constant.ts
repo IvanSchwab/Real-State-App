@@ -70,6 +70,10 @@ export interface Image {
     contract: string;
   }
   
+
+  interface ImageData {
+    image: string; 
+  }
   export interface PropertyData {
     code: string;
     codeSearch: string;
@@ -95,7 +99,7 @@ export interface Image {
     branchId: number;
     sold: boolean;
     ambiences: number;
-    images: string[];
+    images: ImageData[]; 
     address: string;
     published: boolean;
     zone2: number;

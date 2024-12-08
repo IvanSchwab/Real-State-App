@@ -54,21 +54,6 @@ const PropertyList: React.FC = () => {
     fetchProperties();
   }, [from]);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((prev) => prev + 1);
-      setFrom((prev) => prev + propertiesPerPage);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
-      setFrom((prev) => Math.max(prev - propertiesPerPage, 0));
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
 
   const handleClick = (propertyHash: string) => {
     if (!propertyHash) {
@@ -77,7 +62,19 @@ const PropertyList: React.FC = () => {
     }
     router.push(`/properties/${propertyHash}`);
   };
-  
+  const handlePageChange = (page: number) => {
+    setLoading(true);
+    setCurrentPage(page);
+    setFrom((page - 1) * propertiesPerPage);
+
+    document.body.style.overflow = 'hidden';
+
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      document.body.style.overflow = '';
+    }, 0);
+  };
+
 
   const handleGoHome = () => {
     router.push('/');
@@ -114,7 +111,10 @@ const PropertyList: React.FC = () => {
             className="object-cover w-full h-full rounded-lg"
           />
         </div>
-        <h1 className="text-4xl font-semibold text-center text-gray-800 mb-12">PROPIEDADES EN VENTA O EN ALQUILER</h1>
+        <h1 className="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-[#729c6b] to-[#4e7249] mb-12 uppercase tracking-wide shadow-md">
+          PROPIEDADES EN VENTA O EN ALQUILER
+        </h1>
+
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {properties.map((property) => (
@@ -166,23 +166,35 @@ const PropertyList: React.FC = () => {
             </div>
           ))}
         </div>
-
-        <div className="flex justify-center mt-12 space-x-6">
+        <div className="flex justify-center items-center mt-8 space-x-2">
           <button
-            onClick={handlePreviousPage}
-            className="px-6 py-3 bg-[#789b61] text-white rounded-lg shadow-md hover:bg-[#6f8d4f] transition-colors duration-300"
+            onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
             disabled={currentPage === 1}
+            className={`px-3 py-2 rounded-md border ${currentPage === 1 ? 'bg-gray-400' : 'bg-[#729c6b]'} text-white transition duration-200`}
           >
             Anterior
           </button>
-          <span className="text-xl text-gray-700 translate-y-[8px]">{currentPage} de {totalPages}</span>
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
+            <button
+              key={pageNumber}
+              onClick={() => handlePageChange(pageNumber)}
+              className={`px-3 py-2 rounded-md border ${currentPage === pageNumber
+                ? 'bg-[#4e7249] text-white'
+                : 'bg-[#729c6b] text-white'
+                } hover:bg-[#5b8456] transition duration-200`}
+            >
+              {pageNumber}
+            </button>
+          ))}
+
           <button
-            onClick={handleNextPage}
-            className="px-6 py-3 bg-[#789b61] text-white rounded-lg shadow-md hover:bg-[#6f8d4f] transition-colors duration-300"
+            onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
             disabled={currentPage === totalPages}
+            className={`px-3 py-2 rounded-md border ${currentPage === totalPages ? 'bg-gray-400' : 'bg-[#729c6b]'} text-white transition duration-200`}
           >
             Siguiente
           </button>
+
         </div>
       </div>
     </div>
