@@ -83,7 +83,7 @@ const Appraisals = () => {
                                 value={formData.name}
                                 onChange={handleChange}
                                 className="mt-1 px-3 py-2 border rounded-md text-gray-700"
-                                style={{ minWidth: '400px', maxWidth: '500px' }}
+                                style={{ minWidth: '100%', maxWidth: '120%' }}
                                 required
                             />
                         </div>
@@ -102,7 +102,7 @@ const Appraisals = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 className="flex mt-1 px-3 py-2 border rounded-md text-gray-700"
-                                style={{ minWidth: '400px', maxWidth: '500px' }}
+                                style={{ minWidth: '100%', maxWidth: '120%' }}
                                 required
                             />
                         </div>
@@ -120,7 +120,7 @@ const Appraisals = () => {
                                 value={formData.message}
                                 onChange={handleChange}
                                 className="mt-1 px-3 py-2 border rounded-md resize-none text-gray-700"
-                                style={{ minWidth: '400px', maxWidth: '500px' }}
+                                style={{ minWidth: '100%', maxWidth: '120%' }}
                                 rows={4}
                                 required
                             />
