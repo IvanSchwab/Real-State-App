@@ -2,6 +2,7 @@ import SectionHeading from '@/components/Helper/SectionHeading'
 import { properties } from '@/data/data'
 import React from 'react'
 import PropertyCard from './PropertyCard'
+import Link from 'next/link'
 
 const Properties = () => {
     return (
@@ -24,6 +25,17 @@ const Properties = () => {
                             <PropertyCard property={property}></PropertyCard>
                         </div>
                     ))}
+                </div>
+
+                <div className="mt-8 text-center">
+                    <Link href="/properties">
+                        <button className="px-6 py-3 bg-[#446447] bg-opacity-70  hover:scale-110 text-white rounded-lg hover:bg-opacity-95 transition duration-300"
+                            data-aos="fade-up"
+                            data-aos-offset="50"
+                            >
+                            Ver todas las propiedades!
+                        </button>
+                    </Link>
                 </div>
             </div>
         </div>
