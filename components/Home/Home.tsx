@@ -36,7 +36,10 @@ const Home = () => {
 
       <AppartmentType />
 
-      <Properties />
+      <section id='propiedades'>
+        <Properties />
+      </section>
+      
       <section id='sobre-nosotros'>
         <AboutUs />
       </section>

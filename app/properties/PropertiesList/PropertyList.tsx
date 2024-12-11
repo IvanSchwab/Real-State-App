@@ -15,6 +15,12 @@ const PropertyList: React.FC = () => {
   const [from, setFrom] = useState<number>(0);
   const propertiesPerPage = 9;
 
+  const queryParams = new URLSearchParams(location.search);
+
+  const type = queryParams.get("type") || "";
+  const zone = queryParams.get("zone") || "";
+  const county = queryParams.get("county") || "";
+
   const totalPages = Math.ceil(totalProperties / propertiesPerPage);
   const router = useRouter();
 
@@ -22,8 +28,17 @@ const PropertyList: React.FC = () => {
     const fetchProperties = async () => {
       setLoading(true);
       try {
+        const queryString = new URLSearchParams({
+          from: from.toString(),
+          limit: propertiesPerPage.toString(),
+          size: '9',
+          ...(type && { type }),
+          ...(zone && { zone }),
+          ...(county && { county }),
+        }).toString();
+
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}?from=${from}&limit=${propertiesPerPage}&size=9`,
+          `${process.env.NEXT_PUBLIC_API_URL}?${queryString}`,
           {
             method: 'GET',
             headers: {
@@ -52,7 +67,8 @@ const PropertyList: React.FC = () => {
     };
 
     fetchProperties();
-  }, [from]);
+  }, [from, type, zone, county]);
+
 
 
   const handleClick = (propertyHash: string) => {
@@ -104,6 +120,12 @@ const PropertyList: React.FC = () => {
   return (
     <div className="bg-[#f8fcf3] py-8 px-4 w-full">
       <div className="absolute top-4 right-4 z-50">
+        {properties.length === 0 && (
+          <div className="text-center text-gray-700">
+            No se encontraron propiedades con los filtros seleccionados.
+          </div>
+        )}
+
         <button
           onClick={handleGoHome}
           className="hidden md:block px-4 py-2 bg-custom-green bg-opacity-75 text-white font-medium rounded-lg shadow-md hover:bg-custom-green hover:bg-opacity-90 transition duration-300 ease-in-out"
@@ -115,7 +137,7 @@ const PropertyList: React.FC = () => {
       <div className="max-w-6xl mx-auto">
         <div className="hidden md:block absolute top-4 left-4 w-[120px] h-[50px] md:w-[150px] md:h-[60px] rounded-lg overflow-hidden shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110"
           onClick={handleGoHome}
-          >
+        >
 
           <img
             src="/images/logo-hero.png"
