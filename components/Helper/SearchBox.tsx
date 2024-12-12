@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { HiAdjustmentsHorizontal } from 'react-icons/hi2';
-import Link from 'next/link'; 
+import Link from 'next/link';
+import Fade from 'react-awesome-reveal';
 
 interface Type {
   description: string;
@@ -70,6 +71,7 @@ const SearchBox = () => {
   const [selectedZone, setSelectedZone] = useState<number | null>(null);
   const [selectedCounty, setSelectedCounty] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
   const buildQueryString = () => {
     const query: Record<string, string | number | null> = {
@@ -87,75 +89,91 @@ const SearchBox = () => {
     return queryString;
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setShowAdvanced(!showAdvanced);
+  };
+
   return (
-    <div className="w-full md:-[80%] mx-auto bg-[#f8fcf3] h-[4rem] sm:h-[5rem] flex px-4 sm:px-8 flex-col justify-center rounded-lg">
+    <div className="w-[95%] md:-[80%] mx-auto bg-[#7c8f7c] h-[4rem] sm:h-[5rem] flex px-4 sm:px-8 flex-col justify-center rounded-lg shadow-lg">
       <div className="flex items-center justify-between h-full">
         <input
           type="text"
           placeholder="Ingresa una dirección, ubicación o calle"
-          className="sm:flex-[0.8] h-[60%] bg-[#e5e9e0] block rounded-lg outline-none px-4 placeholder:text-sm"
+          className=" w-[75%] h-[60%] bg-[#A4B494] text-[#ddecde] rounded-lg outline-none font-bold px-4 placeholder:text-sm placeholder:text-[#ddecde] focus:ring-2 focus:ring-[#E3C565] transition-all duration-200"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        <select
-          value={selectedType || ''}
-          onChange={(e) => setSelectedType(Number(e.target.value) || null)}
-          className="h-[60%] bg-[#e5e9e0] block rounded-lg outline-none px-4"
-        >
-          <option value="">Tipo</option>
-          {types.map((type) => (
-            <option key={type.id} value={type.id}>
-              {type.description}
-            </option>
-          ))}
-        </select>
+        <div className="flex items-center ml-[-18] relative">
+          {showAdvanced && (
+            <Fade>
+              <div
+                className={`space-x-4 absolute top-8 left-[-12] xs:ml-[-160px] ml-[-200px]  sm:ml-[-126px] md:ml-[-106px] w-64 max-w-md bg-[#7C8F7C] p-4 rounded-lg shadow-sm z-10 transition-all duration-300              ${showAdvanced ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}
+              >
+                <select
+                  value={selectedType || ''}
+                  onChange={(e) => setSelectedType(Number(e.target.value) || null)}
+                  className="w-48 h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-200 ml-4"
+                >
+                  <option value="">Tipo</option>
+                  {types.map((type) => (
+                    <option key={type.id} value={type.id}>
+                      {type.description}
+                    </option>
+                  ))}
+                </select>
 
-        <select
-          value={selectedZone || ''}
-          onChange={(e) => setSelectedZone(Number(e.target.value) || null)}
-          className="h-[60%] bg-[#e5e9e0] block rounded-lg outline-none px-4"
-        >
-          <option value="">Zona</option>
-          {zones.map((zone) => (
-            <option key={zone.id} value={zone.id}>
-              {zone.description}
-            </option>
-          ))}
-        </select>
+                <select
+                  value={selectedZone || ''}
+                  onChange={(e) => setSelectedZone(Number(e.target.value) || null)}
+                  className="w-48 h-12 bg-[#A4B494] text-[#ddecde] rounded-lg outline-none font-semibold px-4 focus:ring-2 focus:ring-[#E3C565] transition-all duration-200 mt-2"
+                >
+                  <option value="">Zona</option>
+                  {zones.map((zone) => (
+                    <option key={zone.id} value={zone.id}>
+                      {zone.description}
+                    </option>
+                  ))}
+                </select>
 
-        {selectedZone && (
-          <select
-            value={selectedCounty || ''}
-            onChange={(e) => setSelectedCounty(Number(e.target.value) || null)}
-            className="h-[60%] bg-[#e5e9e0] block rounded-lg outline-none px-4"
+                <select
+                  value={selectedCounty || ''}
+                  onChange={(e) => setSelectedCounty(Number(e.target.value) || null)}
+                  disabled={!selectedZone}
+                  className={`w-48 h-12 bg-[#A4B494] text-[#ddecde] rounded-lg outline-none font-semibold px-4 focus:ring-2 focus:ring-[#E3C565] transition-all duration-200 mt-2 ${!selectedZone ? 'bg-[#737c72]' : ''
+                    }`}
+                >
+                  <option value="">Ciudad</option>
+                  {selectedZone &&
+                    zones
+                      .find((zone) => zone.id === selectedZone)
+                      ?.counties?.map((county) => (
+                        <option key={county.id} value={county.id}>
+                          {county.description}
+                        </option>
+                      ))}
+                </select>
+              </div>
+            </Fade>
+          )}
+          <div
+            className="flex items-center cursor-pointer space-x-2 select-none"
+            onClick={handleClick}
           >
-            <option value="">Condado</option>
-            {zones
-              .find((zone) => zone.id === selectedZone)
-              ?.counties?.map((county) => (
-                <option key={county.id} value={county.id}>
-                  {county.description}
-                </option>
-              ))}
-          </select>
-        )}
-
-        <div className="flex items-center flex-[0.2] ml-8 space-x-6">
-          <div className="lg:flex hidden items-center cursor-pointer space-x-2">
-            <HiAdjustmentsHorizontal className="text-gray-700 w-6 h-6" />
-            <p className="select-none text-gray-700 font-semibold">Busqueda avanzada</p>
+            <HiAdjustmentsHorizontal className="text-[#ddecde] flex w-6 h-6 transition-transform duration-300" />
+            <p className="lg:flex hidden select-none text-[#ddecde] font-semibold">
+              Busqueda Avanzada
+            </p>
           </div>
         </div>
+
         <Link href={`/properties?${buildQueryString()}`}>
-          <div className="w-12 h-12 bg-[#A4B494] flex items-center hover:bg-[#E3C565] transition-all duration-150 cursor-pointer justify-center text-white rounded-full">
+          <div className="w-12 h-12 bg-[#dfc05a] flex items-center hover:bg-[#d8b542] transition-all duration-150 cursor-pointer justify-center text-white rounded-full">
             <FaSearch />
           </div>
         </Link>
       </div>
-
-      {loading && <p>Cargando datos...</p>}
-      {error && <p>Error: {error}</p>}
     </div>
   );
 };

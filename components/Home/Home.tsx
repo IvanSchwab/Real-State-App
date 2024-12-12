@@ -10,6 +10,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ResponsiveNav from './Navbar/ResponsiveNav';
 import Appraisals from './Appraisals/Appraisals';
+import FilterBox from '../Helper/FilterBox';
 
 
 const Home = () => {
