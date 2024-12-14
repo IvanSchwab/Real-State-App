@@ -91,6 +91,8 @@ const FilterBox = () => {
     return queryString;
   };
 
+
+
   const getTitle = () => {
     if (params && (params.query || params.type || params.zone || params.county || params.priceMin || params.priceMax)) {
       return `Resultados de búsqueda para: ${params.query || 'Cualquier propiedad'}`;
@@ -100,10 +102,8 @@ const FilterBox = () => {
   };
 
   return (
-    <div className="inset-0 z-[100] fixed w-full " >
-
-      <div className=" top-0 w-full bg-white shadow-lg ">
-
+    <div className="fixed w-full">
+      <div className="top-0 w-full bg-[#94b190] shadow-lg">
         <Link href="/">
           <div className="hidden md:block absolute top-4 left-4 w- h-24 rounded-lg overflow-hidden shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110">
             <img
@@ -114,8 +114,8 @@ const FilterBox = () => {
           </div>
         </Link>
 
-        <div className="relative max-w-4xl mx-auto px-4 py-6 bg-white">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">{getTitle()}</h2>
+        <div className="relative max-w-4xl mx-auto px-4 py-6">
+          <h2 className="text-2xl font-semibold text-white mb-4">{getTitle()}</h2>
 
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -131,10 +131,10 @@ const FilterBox = () => {
               } lg:max-h-none lg:overflow-visible`}
           >
             <div className="lg:w-64">
-              <label htmlFor="search" className="block text-gray-600 font-medium">
+              <label htmlFor="search" className="block text-white font-medium">
                 Buscar propiedades
               </label>
-              <div className="flex items-center mt-2 border border-gray-300 rounded-lg p-2">
+              <div className="flex items-center mt-2 border bg-white border-gray-300 rounded-lg p-2">
                 <FaSearch className="text-gray-500 mr-2" />
                 <input
                   type="text"
@@ -142,20 +142,20 @@ const FilterBox = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Ingresa palabra clave"
-                  className="flex-grow focus:outline-none"
+                  className="flex-grow bg-white focus:outline-none"
                 />
               </div>
             </div>
 
             <div className="lg:w-64">
-              <label htmlFor="type" className="block text-gray-600 font-medium">
-                Tipo de propiedad
+              <label htmlFor="type" className="block text-white font-medium">
+                Tipo 
               </label>
               <select
                 id="type"
                 value={selectedType || ''}
                 onChange={(e) => setSelectedType(Number(e.target.value))}
-                className="w-full mt-2 p-2 border border-gray-300 rounded-lg focus:outline-none"
+                className="w-full mt-2 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none"
               >
                 <option value="">Seleccionar tipo</option>
                 {types.map((type) => (
@@ -167,14 +167,14 @@ const FilterBox = () => {
             </div>
 
             <div className="lg:w-64">
-              <label htmlFor="zone" className="block text-gray-600 font-medium">
+              <label htmlFor="zone" className="block text-white font-medium">
                 Zona
               </label>
               <select
                 id="zone"
                 value={selectedZone || ''}
                 onChange={(e) => setSelectedZone(Number(e.target.value))}
-                className="w-full mt-2 p-2 border border-gray-300 rounded-lg focus:outline-none"
+                className="w-full mt-2 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none"
               >
                 <option value="">Seleccionar zona</option>
                 {zones.map((zone) => (
@@ -185,32 +185,33 @@ const FilterBox = () => {
               </select>
             </div>
 
-            {selectedZone && (
               <div className="lg:w-64">
-                <label htmlFor="county" className="block text-gray-600 font-medium">
+                <label htmlFor="county" className="block text-white font-medium">
                   Condado
                 </label>
                 <select
                   id="county"
                   value={selectedCounty || ''}
                   onChange={(e) => setSelectedCounty(Number(e.target.value))}
-                  className="w-full mt-2 p-2 border border-gray-300 rounded-lg focus:outline-none"
+                  className="w-full mt-2 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none"
+                  disabled={!selectedZone}  
                 >
                   <option value="">Seleccionar condado</option>
-                  {zones
-                    .find((zone) => zone.id === selectedZone)
-                    ?.counties?.map((county) => (
-                      <option key={county.id} value={county.id}>
-                        {county.description}
-                      </option>
-                    ))}
+                  {selectedZone &&
+                    zones
+                      .find((zone) => zone.id === selectedZone)
+                      ?.counties?.map((county) => (
+                        <option key={county.id} value={county.id}>
+                          {county.description}
+                        </option>
+                      ))}
                 </select>
               </div>
-            )}
+
 
             <div className="lg:w-64">
-              <label htmlFor="priceRange" className="block text-gray-600 font-medium">
-                Rango de precio
+              <label htmlFor="priceRange" className="block text-white font-medium">
+                Precio
               </label>
               <input
                 type="range"
@@ -218,16 +219,16 @@ const FilterBox = () => {
                 max="100000"
                 value={priceRange[0]}
                 onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
-                className="mt-2"
+                className="mt-2 "
               />
-              <div className="flex justify-between text-gray-600">
+              <div className="flex justify-between text-white">
                 <span>${priceRange[0]}</span>
                 <span>${priceRange[1]}</span>
               </div>
             </div>
 
             <div className="lg:w-64 flex justify-between items-center">
-            <Link href={`/properties?${buildQueryString()}`}>
+              <Link href={`/properties?${buildQueryString()}`}>
                 <button
                   className="px-4 py-2 bg-custom-green text-white rounded-lg hover:bg-opacity-80 w-full"
                 >
@@ -240,6 +241,7 @@ const FilterBox = () => {
       </div>
     </div>
   );
+
 };
 
 export default FilterBox;
