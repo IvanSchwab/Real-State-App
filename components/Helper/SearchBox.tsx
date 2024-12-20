@@ -9,18 +9,8 @@ interface Type {
   id: number;
 }
 
-interface Zone {
-  description: string;
-  id: number;
-  counties?: {
-    description: string;
-    id: number;
-  }[];
-}
-
 export const useFetchData = () => {
   const [types, setTypes] = useState<Type[]>([]);
-  const [zones, setZones] = useState<Zone[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,28 +20,18 @@ export const useFetchData = () => {
       setError(null);
 
       try {
-        const [typesRes, zonesRes] = await Promise.all([
-          fetch(`${process.env.NEXT_PUBLIC_API_URL_TYPES}`, {
-            headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
-            },
-          }),
-          fetch(`${process.env.NEXT_PUBLIC_API_URL_ZONES}`, {
-            headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
-            },
-          }),
-        ]);
+        const typesRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL_TYPES}`, {
+          headers: {
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+          },
+        });
 
-        if (!typesRes.ok || !zonesRes.ok) {
-          throw new Error('Error fetching data');
+        if (!typesRes.ok) {
+          throw new Error('Error fetching types data');
         }
 
         const typesData = await typesRes.json();
-        const zonesData = await zonesRes.json();
-
         setTypes(typesData.types || typesData);
-        setZones(zonesData.states || zonesData);
       } catch (err: any) {
         setError(err.message || 'Unknown error');
       } finally {
@@ -62,120 +42,193 @@ export const useFetchData = () => {
     fetchData();
   }, []);
 
-  return { types, zones, loading, error };
+  return { types, loading, error };
 };
 
 const SearchBox = () => {
-  const { types, zones, loading, error } = useFetchData();
+  const { types } = useFetchData();
   const [selectedType, setSelectedType] = useState<number | null>(null);
-  const [selectedZone, setSelectedZone] = useState<number | null>(null);
-  const [selectedCounty, setSelectedCounty] = useState<number | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [bedrooms, setBedrooms] = useState<number | null>(null);
+  const [priceFrom, setPriceFrom] = useState<number | null>(null);
+  const [priceTo, setPriceTo] = useState<number | null>(null);
+  const [dateFrom, setDateFrom] = useState<string>('');
+  const [dateTo, setDateTo] = useState<string>('');
+  const [operation, setOperation] = useState<number | null>(null);
+  const [searchQuery] = useState<string>('');
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
+
+  const operationOptions = [
+    { id: 1, label: 'Venta' },
+    { id: 2, label: 'Alquiler' },
+  ];
 
   const buildQueryString = () => {
     const query: Record<string, string | number | null> = {
       type: selectedType,
-      zone: selectedZone,
-      county: selectedCounty,
+      operation,
+      bedrooms,
+      priceFrom,
+      priceTo,
+      dateFrom,
+      dateTo,
       query: searchQuery,
     };
 
     const queryString = Object.entries(query)
-      .filter(([_, value]) => value !== null)
+      .filter(([_, value]) => value !== null && value !== '')
       .map(([key, value]) => `${key}=${value}`)
       .join('&');
 
     return queryString;
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setShowAdvanced(!showAdvanced);
   };
+  const validateBedrooms = (value: string | number): number | null => {
+    const num = Number(value);
+    return num >= 0 && num <= 8 ? num : bedrooms;
+  };
+
+  const validatePrice = (value: string | number): number | null => {
+    const num = Number(value);
+    return num >= 0 && num <= 100000000 ? num : null;
+  };
 
   return (
-    <div className="w-[95%] md:-[80%] mx-auto bg-[#7c8f7c] h-[4rem] sm:h-[5rem] flex px-4 sm:px-8 flex-col justify-center rounded-lg shadow-lg">
-      <div className="flex items-center justify-between h-full">
-        <input
-          type="text"
-          placeholder="Ingresa una dirección, ubicación o calle"
-          className=" w-[75%] h-[60%] bg-[#A4B494] text-[#ddecde] rounded-lg outline-none font-bold px-4 placeholder:text-sm placeholder:text-[#ddecde] focus:ring-2 focus:ring-[#E3C565] transition-all duration-200"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-
-        <div className="flex items-center ml-[-18] relative">
-          {showAdvanced && (
-            <Fade>
-              <div
-                className={`space-x-4 absolute top-8 left-[-12] xs:ml-[-160px] ml-[-200px]  sm:ml-[-126px] md:ml-[-106px] w-64 max-w-md bg-[#7C8F7C] p-4 rounded-lg shadow-sm z-10 transition-all duration-300              ${showAdvanced ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}
-              >
-                <select
-                  value={selectedType || ''}
-                  onChange={(e) => setSelectedType(Number(e.target.value) || null)}
-                  className="w-48 h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-200 ml-4"
-                >
-                  <option value="">Tipo</option>
-                  {types.map((type) => (
-                    <option key={type.id} value={type.id}>
-                      {type.description}
-                    </option>
-                  ))}
-                </select>
-
-                <select
-                  value={selectedZone || ''}
-                  onChange={(e) => setSelectedZone(Number(e.target.value) || null)}
-                  className="w-48 h-12 bg-[#A4B494] text-[#ddecde] rounded-lg outline-none font-semibold px-4 focus:ring-2 focus:ring-[#E3C565] transition-all duration-200 mt-2"
-                >
-                  <option value="">Zona</option>
-                  {zones.map((zone) => (
-                    <option key={zone.id} value={zone.id}>
-                      {zone.description}
-                    </option>
-                  ))}
-                </select>
-
-                <select
-                  value={selectedCounty || ''}
-                  onChange={(e) => setSelectedCounty(Number(e.target.value) || null)}
-                  disabled={!selectedZone}
-                  className={`w-48 h-12 bg-[#A4B494] text-[#ddecde] rounded-lg outline-none font-semibold px-4 focus:ring-2 focus:ring-[#E3C565] transition-all duration-200 mt-2 ${!selectedZone ? 'bg-[#737c72]' : ''
-                    }`}
-                >
-                  <option value="">Ciudad</option>
-                  {selectedZone &&
-                    zones
-                      .find((zone) => zone.id === selectedZone)
-                      ?.counties?.map((county) => (
-                        <option key={county.id} value={county.id}>
-                          {county.description}
-                        </option>
-                      ))}
-                </select>
-              </div>
-            </Fade>
-          )}
-          <div
-            className="flex items-center cursor-pointer space-x-2 select-none"
+    <div className="w-[90%] mx-auto bg-[#7c8f7c] h-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center rounded-lg shadow-lg gap-4">
+      <div className="relative w-full sm:hidden">
+        <div className="flex justify-between items-center mb-2">
+          <p className="text-white font-semibold text-lg">Filtros</p>
+          <button
             onClick={handleClick}
+            className="text-white bg-[#dfc05a] p-2 rounded-md hover:bg-[#d8b542] transition-all duration-150"
           >
-            <HiAdjustmentsHorizontal className="text-[#ddecde] flex w-6 h-6 transition-transform duration-300" />
-            <p className="lg:flex hidden select-none text-[#ddecde] font-semibold">
-              Busqueda Avanzada
-            </p>
-          </div>
+            <HiAdjustmentsHorizontal className="w-6 h-6" />
+          </button>
         </div>
+        {showAdvanced && (
+          <Fade>
+            <div className="absolute top-12 left-0 w-full bg-[#7C8F7C] p-4 rounded-lg shadow-lg z-10">
+              <select
+                value={selectedType || ''}
+                onChange={(e) => setSelectedType(e.target.value ? Number(e.target.value) : null)}
+                className="w-full mb-2 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565]"
+              >
+                <option value="">Tipo</option>
+                {types.map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.description}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={operation || ''}
+                onChange={(e) => setOperation(e.target.value ? Number(e.target.value) : null)}
+                className="w-full mb-2 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565]"
+              >
+                <option value="">Operación</option>
+                {operationOptions.map((option) => (
+                  <option key={option.id} value={option.id}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="number"
+                placeholder="Habitaciones"
+                className="w-full mb-2 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565]"
+                value={bedrooms || ''}
+                onChange={(e) => setBedrooms(validateBedrooms(e.target.value))}
+              />
+              <input
+                type="number"
+                placeholder="Precio desde"
+                className="w-full mb-2 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565]"
+                value={priceFrom || ''}
+                onChange={(e) => setPriceFrom(validatePrice(e.target.value))}
+              />
+              <input
+                type="number"
+                placeholder="Precio hasta"
+                className="w-full mb-2 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565]"
+                value={priceTo || ''}
+                onChange={(e) => setPriceTo(validatePrice(e.target.value))}
+              />
+              <input
+                type="date"
+                className="w-full mb-2 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565]"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+              />
+              <input
+                type="date"
+                className="w-full bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565]"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+              />
+            </div>
+          </Fade>
+        )}
+      </div>
 
+      <div className="hidden sm:grid grid-cols-3 lg:grid-cols-6 w-full gap-4">
+        <select
+          value={selectedType || ''}
+          onChange={(e) => setSelectedType(e.target.value ? Number(e.target.value) : null)}
+          className="w-[90%] h-10 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565]"
+        >
+          <option value="">Tipo</option>
+          {types.map((type) => (
+            <option key={type.id} value={type.id}>
+              {type.description}
+            </option>
+          ))}
+        </select>
+        <select
+          value={operation || ''}
+          onChange={(e) => setOperation(e.target.value ? Number(e.target.value) : null)}
+          className="w-[90%] h-10 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565]"
+        >
+          <option value="">Operación</option>
+          {operationOptions.map((option) => (
+            <option key={option.id} value={option.id}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <input
+          type="number"
+          placeholder="Habitaciones"
+          className="w-[90%] h-10 bg-[#A4B494] placeholder:text-[#ddecde] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565]"
+          value={bedrooms || ''}
+          onChange={(e) => setBedrooms(validateBedrooms(e.target.value))}
+        />
+        <input
+          type="number"
+          placeholder="Precio Desde"
+          className="w-[90%] h-10 bg-[#A4B494] placeholder:text-[#ddecde] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565]"
+          value={priceFrom || ''}
+          onChange={(e) => setPriceFrom(validatePrice(e.target.value))}
+        />
+        <input
+          type="number"
+          placeholder="Precio Hasta"
+          className="w-[90%] h-10 bg-[#A4B494] text-[#ddecde] placeholder:text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565]"
+          value={priceTo || ''}
+          onChange={(e) => setPriceTo(validatePrice(e.target.value))}
+        />
         <Link href={`/properties?${buildQueryString()}`}>
-          <div className="w-12 h-12 bg-[#dfc05a] flex items-center hover:bg-[#d8b542] transition-all duration-150 cursor-pointer justify-center text-white rounded-full">
-            <FaSearch />
-          </div>
+          <button className="h-10 bg-[#dfc05a] hover:bg-[#d8b542] transition-all duration-150 text-white rounded-full sm:rounded-lg flex items-center justify-center px-6 col-span-2 md:col-span-1 ml-[30%]">
+            <FaSearch className="text-white w-5 h-5" />
+          </button>
         </Link>
       </div>
     </div>
   );
+
 };
+
 
 export default SearchBox;

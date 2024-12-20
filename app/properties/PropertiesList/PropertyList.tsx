@@ -19,8 +19,10 @@ const PropertyList: React.FC = () => {
   const queryParams = new URLSearchParams(location.search);
 
   const type = queryParams.get("type") || "";
-  const zone = queryParams.get("zone") || "";
-  const county = queryParams.get("county") || "";
+  const operation = queryParams.get("operation") || "";
+  const bedrooms = queryParams.get("bedrooms") || "";
+  const priceFrom = queryParams.get("priceFrom") || "";
+  const priceTo = queryParams.get("priceTo") || "";
 
   const totalPages = Math.ceil(totalProperties / propertiesPerPage);
   const router = useRouter();
@@ -30,12 +32,14 @@ const PropertyList: React.FC = () => {
       setLoading(true);
       try {
         const queryString = new URLSearchParams({
+          size: '9',
           from: from.toString(),
           limit: propertiesPerPage.toString(),
-          size: '9',
-          ...(type && { type }),
-          ...(zone && { zone }),
-          ...(county && { county }),
+          operation: operation.toString() || '',
+          type: type.toString() || '',
+          bedrooms: bedrooms.toString() || '',
+          priceFrom: priceFrom.toString() || '',
+          priceTo: priceTo.toString() || '',
         }).toString();
 
         const response = await fetch(
@@ -56,19 +60,20 @@ const PropertyList: React.FC = () => {
         const data = await response.json();
         setProperties(data.properties);
         setTotalProperties(data.total);
-        setLoading(false);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);
         } else {
           setError('An unknown error occurred');
         }
+      } finally {
         setLoading(false);
       }
     };
 
     fetchProperties();
-  }, [from, type, zone, county]);
+  }, [from, type, operation, bedrooms, priceFrom, priceTo]);
+
 
   const handleClick = (propertyHash: string) => {
     if (!propertyHash) {
