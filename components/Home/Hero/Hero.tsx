@@ -11,7 +11,7 @@ const Hero = () => {
             <div className="flex justify-center items-center flex-col w-[95%] sm:w-[80%] h-full mx-auto relative z-10">
                 <h1
                     data-aos="fade-left"
-                    className="select-none text-white text-opacity-90 text-center text-3xl sm:text-4xl lg:text-5xl font-semibold uppercase tracking-wide leading-tight shadow-md">
+                    className="select-none text-white text-opacity-90 text-center text-3xl sm:text-4xl lg:text-5xl font-semibold uppercase tracking-wide leading-tight ">
                     Encontrá
                 </h1>
                 <h1

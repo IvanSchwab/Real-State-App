@@ -94,7 +94,6 @@ const Properties = () => {
             return;
         }
 
-        // Verifica si el router está listo
         if (router && router.push) {
             router.push(`/properties/${propertyHash}`);
         } else {
@@ -103,7 +102,26 @@ const Properties = () => {
     };
 
     if (loading) {
-        return <p className="text-center text-xl">Cargando propiedades...</p>;
+        return (
+            <div className="pt-16 pb-16 bg-[#D9E4C3]">
+                <div className="w-[80%] mt-10 mx-auto">
+                    <SectionHeading heading="¡Propiedades Recientes!" />
+                    <p className="mt-4 text-xl text-gray-600 text-left font-medium">
+                        Explora nuestras propiedades más recomendadas y encuentra la opción ideal para ti.
+                    </p>
+                    <div className="mt-10 md:mt-20 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 items-center">
+                        {Array(6)
+                            .fill(0)
+                            .map((_, i) => (
+                                <div
+                                    key={`skeleton-${i}`}
+                                    className="bg-[#a6b8a4] rounded-lg animate-pulse h-64"
+                                />
+                            ))}
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     if (error) {
@@ -118,7 +136,7 @@ const Properties = () => {
               Explora nuestras propiedades más recomendadas y encuentra la opción ideal para ti.
             </p>
             <div className="mt-10 md:mt-20 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 items-center">
-              {loading ? (
+              {properties.length === 0 ? (
                 Array(6)
                   .fill(0)
                   .map((_, i) => (
@@ -149,7 +167,7 @@ const Properties = () => {
                 <button
                   className="px-6 py-3 bg-[#446447] bg-opacity-70 hover:scale-110 text-white rounded-lg hover:bg-opacity-95 transition duration-300"
                   data-aos="fade-up"
-                  data-aos-offset="50"
+                  data-aos-offset="200"
                 >
                   ¡Ver todas las propiedades!
                 </button>
@@ -157,8 +175,7 @@ const Properties = () => {
             </div>
           </div>
         </div>
-      );
-      
+    );
 };
 
 export default Properties;
