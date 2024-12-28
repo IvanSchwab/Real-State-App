@@ -107,6 +107,7 @@ export interface PropertyData {
   suspended: boolean;
   labels: string[];
   zone1Desc: string;
+  zone2Desc: string;
   propertyOperation: string;
   propertyHash: string;
   mainImage: string;
