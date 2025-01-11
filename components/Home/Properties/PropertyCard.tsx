@@ -17,7 +17,7 @@ type Props = {
 
 const PropertyCard = ({ property }: Props) => {
     return (
-        <div className="bg-[#f8fcf3] overflow-hidden group rounded-lg cursor-pointer shadow-lg h-full">
+        <div className="bg-[#f8fcf3] overflow-hidden group rounded-lg cursor-pointer shadow-lg h-full min-h-[450px]">
             <div className="select-none relative">
                 {/* Contenedor de la imagen con altura fija */}
                 <div className="w-full h-64 overflow-hidden">

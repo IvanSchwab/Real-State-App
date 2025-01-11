@@ -13,7 +13,7 @@ type Props = {
 
 const AppartmentTypeCard = ({ type }: Props) => {
     return (
-        <Link href={`/properties?type=${type.id}`}>  {/* Link dinámico */}
+        <Link href={`/properties?type=${type.id}`}> 
             <div className='rounded-lg shadow-lg p-6 hover:scale-110 transition-all duration-300'>
                 <Image src={type.icon} alt={type.type} width={50} height={50} />
                 <div className='mt-12'>

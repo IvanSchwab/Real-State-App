@@ -125,8 +125,8 @@ const PropertyDescription: React.FC = () => {
   return (
     <div className="w-full min-h-screen bg-gray-50">
       <Link href="/">
-      <div className="hidden 2xl:block 2xl:w-[10%] 2xl:h-[8%] absolute top-2 left-4 rounded-lg overflow-hidden shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110">
-      <img
+        <div className="hidden 2xl:block 2xl:w-[10%] 2xl:h-[8%] absolute top-2 left-4 rounded-lg overflow-hidden shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110">
+          <img
             src="/images/logo-hero.png"
             alt="Logo de Olivera de Schwab"
             className="object-cover w-full h-full rounded-lg"
@@ -204,7 +204,7 @@ const PropertyDescription: React.FC = () => {
               {images.map((img, index) => (
                 <div
                   key={index}
-                  className="w-full h-32 bg-gray-200 rounded-md overflow-hidden shadow-md cursor-pointer"
+                  className="w-full h-32 bg-gray-200 rounded-md overflow-hidden shadow-md cursor-pointer "
                   onClick={() => openModal(index)}
                 >
                   <img
@@ -229,25 +229,31 @@ const PropertyDescription: React.FC = () => {
               className="relative flex justify-center items-center"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Botón de cerrar */}
               <button
-                className="absolute top-4 right-4 text-white text-3xl"
-                onClick={closeModal}
-              >
+  className="absolute top-4 right-4 text-white text-3xl bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center"
+  onClick={closeModal}
+>
+  &times;
+</button>
 
-                &times;
-              </button>
+
+              {/* Botón de imagen anterior */}
               <button
                 className="absolute left-4 text-white text-3xl bg-gradient-to-r from-emerald-600 to-emerald-800 bg-opacity-80 shadow-lg rounded-full px-4 py-2 hover:shadow-xl transition-transform transform hover:scale-105"
                 onClick={handlePreviousImage}
               >
                 &#8249;
               </button>
+
+              {/* Imagen con tamaño máximo */}
               <img
                 src={`https://images.mapaprop.app/photos/${images[selectedImageIndex].image}`}
                 alt={`Imagen ${selectedImageIndex + 1}`}
-                className="max-w-full max-h-full rounded-md shadow-lg"
+                className="max-w-[90vw] max-h-[80vh] w-auto h-auto rounded-md shadow-lg"
               />
 
+              {/* Botón de imagen siguiente */}
               <button
                 className="absolute right-4 text-white text-3xl bg-gradient-to-r from-emerald-600 to-emerald-800 bg-opacity-80 shadow-lg rounded-full px-4 py-2 hover:shadow-xl transition-transform transform hover:scale-105"
                 onClick={handleNextImage}
@@ -257,6 +263,7 @@ const PropertyDescription: React.FC = () => {
             </div>
           </div>
         )}
+
       </div>
 
     </div>
