@@ -19,7 +19,6 @@ const PropertyList: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  const type1 = searchParams?.get("type") || "";
   const type = searchParams?.get("type") || "";
   const operation = searchParams?.get("operation") || "";
   const bedrooms = searchParams?.get("bedrooms") || "";
@@ -40,7 +39,6 @@ const PropertyList: React.FC = () => {
           limit: propertiesPerPage.toString(),
           ...(operation && { operation }),
           ...(type && { type }),
-          ...(type1 && { type1 }),
           ...(bedrooms && { bedrooms }),
           ...(priceTo && { priceTo }),
           ...(zone1 && { zone1 }),

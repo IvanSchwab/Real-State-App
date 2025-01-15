@@ -3,17 +3,8 @@ import React, { useEffect, useState } from 'react';
 import PropertyCard from './PropertyCard';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Property } from '@/constant/constant';
 
-interface Property {
-    propertyHash: string;
-    title: string;
-    bedrooms: number;
-    bathrooms: number;
-    size: number;
-    price: number;
-    mainImage: string;
-    contrat?: string;
-}
 
 const Properties = () => {
     const [properties, setProperties] = useState<Property[]>([]);

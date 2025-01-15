@@ -221,9 +221,10 @@ const FilterBox = () => {
                 type="number"
                 id="priceTo"
                 value={priceTo || ''}
-                onChange={(e) => setPriceTo(Number(e.target.value))}
+                onChange={(e) => setPriceTo(Math.max(0, Number(e.target.value)))}
                 className="w-full mt-1 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none shadow-sm hover:bg-gray-50 transition-all duration-300 ease-in-out"
                 placeholder="Valor"
+                min="0"
               />
             </div>
 

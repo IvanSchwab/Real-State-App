@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { FaWhatsapp } from 'react-icons/fa';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -62,8 +63,20 @@ const ContactUs = () => {
           <p className="select-none text-xl text-gray-700 leading-relaxed font-poppins">
             Contáctanos para más información sobre la propiedad que te interesa. Estamos aquí para ayudarte a tomar la mejor decisión.
           </p>
+          <p className="select-none text-lg text-gray-700 leading-relaxed font-poppins">
+            Contactanos via el siguiente formulario o directamente mediante WhatsApp.
+          </p>
+          <a
+            href="https://wa.me/5491164566539"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center space-x-2 bg-green-500 text-white py-2 px-4 rounded-full mt-4 hover:bg-green-600 transition duration-300"
+          >
+            <FaWhatsapp className="text-2xl" />
+            <span>Contactanos por WhatsApp</span>
+          </a>
         </div>
-
+  
         <div className="lg:w-2/4 mt-8 bg-[#dde2dc] p-6 rounded-lg shadow-md w-full max-w-md min-w-[350px]">
           <h3 className="text-2xl font-semibold mb-4 text-gray-800 font-poppins select-none">Solicita más información</h3>
           <form className="space-y-4" onSubmit={handleSubmit}>
@@ -85,7 +98,7 @@ const ContactUs = () => {
                 required
               />
             </div>
-
+  
             <div>
               <label
                 htmlFor="email"
@@ -104,7 +117,7 @@ const ContactUs = () => {
                 required
               />
             </div>
-
+  
             <div>
               <label
                 htmlFor="message"
@@ -123,15 +136,15 @@ const ContactUs = () => {
                 required
               />
             </div>
-
+  
             <button
               type="submit"
-              className="w-full bg-[#9bca91] text-white py-2 px-4 rounded-md hover:bg-[#83c774] transition duration-200"
+              className="w-full bg-[#89c77c] text-white py-2 px-4 rounded-md hover:bg-[#7cb370] transition duration-200"
             >
               Enviar Solicitud
             </button>
           </form>
-
+  
           {statusMessage && (
             <p className="mt-4 text-sm font-semibold text-gray-600">{statusMessage}</p>
           )}
@@ -139,6 +152,7 @@ const ContactUs = () => {
       </div>
     </section>
   );
+  
 };
 
 export default ContactUs;
