@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { FaBed, FaBath, FaSquare, FaSadTear } from 'react-icons/fa';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { Property } from '@/constant/constant';
@@ -16,18 +16,19 @@ const PropertyList: React.FC = () => {
   const [from, setFrom] = useState<number>(0);
   const propertiesPerPage = 9;
 
-  const queryParams = new URLSearchParams(location.search);
-
-  const type = queryParams.get("type") || "";
-  const operation = queryParams.get("operation") || "";
-  const bedrooms = queryParams.get("bedrooms") || "";
-  const priceFrom = queryParams.get("priceFrom") || "";
-  const priceTo = queryParams.get("priceTo") || "";
-  const zone1 = queryParams.get("zone1") || "";
-  const zone2 = queryParams.get("zone2") || "";
-
-  const totalPages = Math.ceil(totalProperties / propertiesPerPage);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  const type1 = searchParams?.get("type") || "";
+  const type = searchParams?.get("type") || "";
+  const operation = searchParams?.get("operation") || "";
+  const bedrooms = searchParams?.get("bedrooms") || "";
+  const priceTo = searchParams?.get("priceTo") || "";
+  const zone1 = searchParams?.get("zone1") || "";
+  const zone2 = searchParams?.get("zone2") || "";
+  
+  const totalPages = Math.ceil(totalProperties / propertiesPerPage);
+  
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -37,14 +38,15 @@ const PropertyList: React.FC = () => {
           size: '9',
           from: from.toString(),
           limit: propertiesPerPage.toString(),
-          operation: operation.toString() || '',
-          type: type.toString() || '',
-          bedrooms: bedrooms.toString() || '',
-          priceFrom: priceFrom.toString() || '',
-          priceTo: priceTo.toString() || '',
-          zone1: zone1.toString() || '',
-          zone2: zone2.toString() || '',
+          ...(operation && { operation }),
+          ...(type && { type }),
+          ...(type1 && { type1 }),
+          ...(bedrooms && { bedrooms }),
+          ...(priceTo && { priceTo }),
+          ...(zone1 && { zone1 }),
+          ...(zone2 && { zone2 })
         }).toString();
+
 
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}?${queryString}`,
@@ -76,7 +78,7 @@ const PropertyList: React.FC = () => {
     };
 
     fetchProperties();
-  }, [from, type, operation, zone1, zone2, bedrooms, priceFrom, priceTo]);
+  }, [from, type, operation, zone1, zone2, bedrooms, priceTo, searchParams?.toString()]);
 
 
   const handleClick = (propertyHash: string) => {
@@ -132,21 +134,21 @@ const PropertyList: React.FC = () => {
       <div className="bg-[#f8fcf3] pt-52 px-4 w-full min-h-[64vh]  items-center justify-center">
         {properties.length === 0 && (
           <div className="flex items-center justify-center text-gray-700">
-          <div className="flex flex-col items-center text-center">
-            <div className="text-4xl mt-24">
-              <FaSadTear className="text-6xl text-gray-500" /> 
+            <div className="flex flex-col items-center text-center">
+              <div className="text-4xl mt-24">
+                <FaSadTear className="text-6xl text-gray-500" />
+              </div>
+              <div className="text-xl mt-12">
+                No se encontraron propiedades con los filtros seleccionados.
+              </div>
+              <button
+                onClick={handleGoHome}
+                className="mt-6 px-4 py-2 bg-custom-green text-white font-medium rounded-lg shadow-md hover:bg-custom-green hover:bg-opacity-90 transition duration-300 ease-in-out"
+              >
+                Volver al Inicio
+              </button>
             </div>
-            <div className="text-xl mt-12">
-              No se encontraron propiedades con los filtros seleccionados.
-            </div>
-            <button
-              onClick={handleGoHome}
-              className="mt-6 px-4 py-2 bg-custom-green text-white font-medium rounded-lg shadow-md hover:bg-custom-green hover:bg-opacity-90 transition duration-300 ease-in-out"
-            >
-              Volver al Inicio
-            </button>
           </div>
-        </div>
         )}
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -200,39 +202,39 @@ const PropertyList: React.FC = () => {
             ))}
           </div>
           <div className="flex justify-center items-center mt-8 space-x-2">
-  {properties.length > 0 && (
-    <button
-      onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-      disabled={currentPage === 1}
-      className={`px-3 py-2 rounded-md border ${currentPage === 1 ? 'bg-gray-400' : 'bg-[#729c6b]'} text-white transition duration-200`}
-    >
-      Anterior
-    </button>
-  )}
+            {properties.length > 0 && (
+              <button
+                onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                disabled={currentPage === 1}
+                className={`px-3 py-2 rounded-md border ${currentPage === 1 ? 'bg-gray-400' : 'bg-[#729c6b]'} text-white transition duration-200`}
+              >
+                Anterior
+              </button>
+            )}
 
-  {properties.length > 0 && Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
-    <button
-      key={pageNumber}
-      onClick={() => handlePageChange(pageNumber)}
-      className={`px-3 py-2 rounded-md border ${currentPage === pageNumber
-        ? 'bg-[#4e7249] text-white'
-        : 'bg-[#729c6b] text-white'
-        } hover:bg-[#5b8456] transition duration-200 hidden md:inline-block`}
-    >
-      {pageNumber}
-    </button>
-  ))}
+            {properties.length > 0 && Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
+              <button
+                key={pageNumber}
+                onClick={() => handlePageChange(pageNumber)}
+                className={`px-3 py-2 rounded-md border ${currentPage === pageNumber
+                  ? 'bg-[#4e7249] text-white'
+                  : 'bg-[#729c6b] text-white'
+                  } hover:bg-[#5b8456] transition duration-200 hidden md:inline-block`}
+              >
+                {pageNumber}
+              </button>
+            ))}
 
-  {properties.length > 0 && (
-    <button
-      onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
-      disabled={currentPage === totalPages}
-      className={`px-3 py-2 rounded-md border ${currentPage === totalPages ? 'bg-gray-400' : 'bg-[#729c6b]'} text-white transition duration-200`}
-    >
-      Siguiente
-    </button>
-  )}
-</div>
+            {properties.length > 0 && (
+              <button
+                onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className={`px-3 py-2 rounded-md border ${currentPage === totalPages ? 'bg-gray-400' : 'bg-[#729c6b]'} text-white transition duration-200`}
+              >
+                Siguiente
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </>

@@ -85,13 +85,9 @@ const PropertyDescription: React.FC = () => {
     propertyType,
     customerName,
     customerPhone,
-    customerEmail,
-    zone1,
-    zone2,
     zone1Desc,
     zone2Desc,
     zipCode,
-    labels,
     images,
     currency,
   } = propertyDetails;
@@ -231,12 +227,11 @@ const PropertyDescription: React.FC = () => {
             >
               {/* Botón de cerrar */}
               <button
-  className="absolute top-4 right-4 text-white text-3xl bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center"
-  onClick={closeModal}
->
-  &times;
-</button>
-
+                className="absolute top-4 right-4 text-white text-3xl bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center"
+                onClick={closeModal}
+              >
+                &times;
+              </button>
 
               {/* Botón de imagen anterior */}
               <button

@@ -22,8 +22,6 @@ const Properties = () => {
     const router = useRouter();
     const [totalProperties, setTotalProperties] = useState<number>(0);
 
-    const recentProperties = Math.ceil(totalProperties - 6);
-
     useEffect(() => {
         const fetchProperties = async () => {
             setLoading(true);
@@ -39,22 +37,16 @@ const Properties = () => {
                         },
                     }
                 );
-    
+
                 if (!responseTotal.ok) {
                     throw new Error('Error al obtener el total de propiedades');
                 }
-    
-                const dataTotal = await responseTotal.json();
-                const totalProperties = dataTotal.total; 
-    
-                const recentProperties = totalProperties - 6;
-    
+
                 const queryString = new URLSearchParams({
                     size: '6',
-                    from: recentProperties.toString(),
                     view: 'list',
                 }).toString();
-    
+
                 const response = await fetch(
                     `${process.env.NEXT_PUBLIC_API_URL}?${queryString}`,
                     {
@@ -65,13 +57,13 @@ const Properties = () => {
                         },
                     }
                 );
-    
+
                 if (!response.ok) {
                     throw new Error('Error al obtener las propiedades');
                 }
-    
+
                 const data = await response.json();
-                setProperties(data.properties); 
+                setProperties(data.properties);
                 setTotalProperties(data.total);
             } catch (err) {
                 if (err instanceof Error) {
@@ -83,10 +75,10 @@ const Properties = () => {
                 setLoading(false);
             }
         };
-    
+
         fetchProperties();
     }, []);
-    
+
 
     const handleClick = (propertyHash: string) => {
         if (!propertyHash) {
@@ -130,50 +122,50 @@ const Properties = () => {
 
     return (
         <div className="pt-16 pb-16 bg-[#D9E4C3]">
-          <div className="w-[80%] mt-10 mx-auto">
-            <SectionHeading heading="¡Propiedades Recientes!" />
-            <p className="mt-4 text-xl text-gray-600 text-left font-medium">
-              Explora nuestras propiedades más recomendadas y encuentra la opción ideal para ti.
-            </p>
-            <div className="mt-10 md:mt-20 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 items-center">
-              {properties.length === 0 ? (
-                Array(6)
-                  .fill(0)
-                  .map((_, i) => (
-                    <div
-                      key={`skeleton-${i}`}
-                      className="bg-gray-300 rounded-lg animate-pulse h-64"
-                    />
-                  ))
-              ) : (
-                properties.map((property, i) => (
-                  <div
-                    key={property.propertyHash || `property-${i}`}
-                    data-aos="fade-up"
-                    data-aos-delay={`${i * 50}`}
-                    data-aos-duration="800"
-                    data-aos-easing="ease-in-out"
-                    data-aos-offset="200"
-                    onClick={() => handleClick(property.propertyHash)}
-                  >
-                    <PropertyCard property={property}></PropertyCard>
-                  </div>
-                ))
-              )}
+            <div className="w-[80%] mt-10 mx-auto">
+                <SectionHeading heading="¡Propiedades Recientes!" />
+                <p className="mt-4 text-xl text-gray-600 text-left font-medium">
+                    Explora nuestras propiedades más recomendadas y encuentra la opción ideal para ti.
+                </p>
+                <div className="mt-10 md:mt-20 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 items-center">
+                    {properties.length === 0 ? (
+                        Array(6)
+                            .fill(0)
+                            .map((_, i) => (
+                                <div
+                                    key={`skeleton-${i}`}
+                                    className="bg-gray-300 rounded-lg animate-pulse h-64"
+                                />
+                            ))
+                    ) : (
+                        properties.map((property, i) => (
+                            <div
+                                key={property.propertyHash || `property-${i}`}
+                                data-aos="fade-up"
+                                data-aos-delay={`${i * 50}`}
+                                data-aos-duration="800"
+                                data-aos-easing="ease-in-out"
+                                data-aos-offset="200"
+                                onClick={() => handleClick(property.propertyHash)}
+                            >
+                                <PropertyCard property={property}></PropertyCard>
+                            </div>
+                        ))
+                    )}
+                </div>
+
+                <div className="mt-8 text-center">
+                    <Link href="/properties">
+                        <button
+                            className="px-6 py-3 bg-[#446447] bg-opacity-70 hover:scale-110 text-white rounded-lg hover:bg-opacity-95 transition duration-300"
+                            data-aos="fade-up"
+                            data-aos-offset="200"
+                        >
+                            ¡Ver todas las propiedades!
+                        </button>
+                    </Link>
+                </div>
             </div>
-      
-            <div className="mt-8 text-center">
-              <Link href="/properties">
-                <button
-                  className="px-6 py-3 bg-[#446447] bg-opacity-70 hover:scale-110 text-white rounded-lg hover:bg-opacity-95 transition duration-300"
-                  data-aos="fade-up"
-                  data-aos-offset="200"
-                >
-                  ¡Ver todas las propiedades!
-                </button>
-              </Link>
-            </div>
-          </div>
         </div>
     );
 };

@@ -7,7 +7,7 @@ const AppartmentType = () => {
     return (
         <div className='pt-12 pb-12 bg-[#f8fcf3]'>
             <div className='w-[85%] mx-auto text-gray-700'>
-                <SectionHeading heading='Tipos de Departamento'></SectionHeading>
+                <SectionHeading heading='Tipos de Propiedades'></SectionHeading>
                 <p className="mt-4 text-lg font-medium text-gray-600">
                     Descubre una variedad de opciones que se ajustan a tus necesidades y estilo de vida.
                 </p>

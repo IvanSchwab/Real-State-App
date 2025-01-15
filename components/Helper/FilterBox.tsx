@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 interface Type {
@@ -74,7 +74,7 @@ const FilterBox = () => {
   const [priceTo, setPriceTo] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const params = useParams();
+  const router = useRouter();
 
   const buildQueryString = () => {
     const query: Record<string, string | number | null> = {
@@ -95,6 +95,12 @@ const FilterBox = () => {
     return queryString;
   };
 
+  const handleSearchClick = () => {
+    const queryString = buildQueryString();
+    router.push(`/properties?${queryString}`);
+  };
+
+
   const getTitle = () => {
     return '¡Propiedades en venta y alquiler!';
   };
@@ -111,19 +117,19 @@ const FilterBox = () => {
             />
           </div>
         </Link>
-  
+
         <div className="relative max-w-4xl mx-auto px-4 py-4">
           <h2 className="text-2xl font-semibold text-white mb-3 text-center lg:text-left">
             {getTitle()}
           </h2>
-  
+
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="block lg:hidden mx-auto p-2 text-white bg-custom-green rounded-lg hover:bg-opacity-80 transition-all duration-300 ease-in-out w-4/5 text-center"
           >
             Filtrar
           </button>
-  
+
           <div
             className={`lg:flex lg:space-x-4 space-y-2 lg:space-y-0 flex-col lg:flex-row transition-all duration-300 ease-in-out transform ${isMobileMenuOpen
               ? 'max-h-[300px] overflow-y-auto'
@@ -145,7 +151,7 @@ const FilterBox = () => {
                 ))}
               </select>
             </div>
-  
+
             <div className="lg:w-64">
               <select
                 id="zone"
@@ -161,7 +167,7 @@ const FilterBox = () => {
                 ))}
               </select>
             </div>
-  
+
             <div className="lg:w-64">
               <select
                 id="county"
@@ -181,7 +187,7 @@ const FilterBox = () => {
                     ))}
               </select>
             </div>
-  
+
             <div className="lg:w-64">
               <select
                 id="operation"
@@ -194,7 +200,7 @@ const FilterBox = () => {
                 <option value={2}>Alquiler</option>
               </select>
             </div>
-  
+
             <div className="lg:w-64">
               <select
                 id="bedrooms"
@@ -209,7 +215,7 @@ const FilterBox = () => {
                 <option value={4}>4+</option>
               </select>
             </div>
-  
+
             <div className="lg:w-64">
               <input
                 type="number"
@@ -220,32 +226,30 @@ const FilterBox = () => {
                 placeholder="Valor"
               />
             </div>
-  
+
           </div>
-  
+
           {isMobileMenuOpen && (
-            <Link href={`/properties?${buildQueryString()}`}>
-              <button
-                className="px-4 py-3 bg-custom-green mt-4 text-white rounded-lg hover:bg-opacity-80 w-full transition-all duration-300 ease-in-out transform hover:scale-105 block lg:hidden"
-              >
-                Buscar
-              </button>
-            </Link>
-          )}
-  
-          <Link href={`/properties?${buildQueryString()}`}>
             <button
-              className="px-4 py-3 bg-custom-green mt-4 text-white rounded-lg hover:bg-opacity-80 w-full transition-all duration-300 ease-in-out transform hover:scale-105 hidden lg:block"
+              onClick={handleSearchClick}
+              className="px-4 py-3 bg-custom-green mt-4 text-white rounded-lg hover:bg-opacity-80 w-full transition-all duration-300 ease-in-out transform hover:scale-105 block lg:hidden"
             >
               Buscar
             </button>
-          </Link>
-  
+          )}
+
+          <button
+            onClick={handleSearchClick}
+            className="px-4 py-3 bg-custom-green mt-4 text-white rounded-lg hover:bg-opacity-80 w-full transition-all duration-300 ease-in-out transform hover:scale-105 hidden lg:block"
+          >
+            Buscar
+          </button>
+
         </div>
       </div>
     </div>
   );
-  
+
 };
 
 export default FilterBox;

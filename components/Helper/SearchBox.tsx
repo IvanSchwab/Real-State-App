@@ -69,7 +69,6 @@ const SearchBox = () => {
   const [selectedCounty, setSelectedCounty] = useState<number | null>(null);
   const [selectedType, setSelectedType] = useState<number | null>(null);
   const [selectedZone, setSelectedZone] = useState<number | null>(null);
-  const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
   const [priceFrom, setPriceFrom] = useState<number | null>(null);
   const [operation, setOperation] = useState<number | null>(null);
   const [bedrooms, setBedrooms] = useState<number | null>(null);
@@ -101,11 +100,7 @@ const SearchBox = () => {
 
     return queryString;
   };
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setShowAdvanced(!showAdvanced);
-  };
+  
   const validateBedrooms = (value: string | number): number | null => {
     const num = Number(value);
     return num >= 0 && num <= 8 ? num : bedrooms;

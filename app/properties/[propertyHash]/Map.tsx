@@ -50,6 +50,7 @@ const Map = ({ propertyHash }: { propertyHash: string }) => {
       const map = L.map('map', {
         center: coordinates,
         zoom: 15,
+        minZoom: 10, 
       });
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
