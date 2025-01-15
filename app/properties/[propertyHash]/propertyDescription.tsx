@@ -19,7 +19,7 @@ const PropertyDescription: React.FC = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL_HASH}${propertyHash}`,
+          `${process.env.NEXT_PUBLIC_API_URL}properties/${propertyHash}`,
           {
             method: "GET",
             headers: {

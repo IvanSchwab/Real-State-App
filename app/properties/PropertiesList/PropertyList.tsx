@@ -49,7 +49,7 @@ const PropertyList: React.FC = () => {
 
 
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}?${queryString}`,
+          `${process.env.NEXT_PUBLIC_API_URL}properties?${queryString}`,
           {
             method: 'GET',
             headers: {

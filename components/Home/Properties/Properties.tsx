@@ -28,7 +28,7 @@ const Properties = () => {
             setError(null);
             try {
                 const responseTotal = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}?size=1`,
+                    `${process.env.NEXT_PUBLIC_API_URL}properties?size=1`,
                     {
                         method: 'GET',
                         headers: {
@@ -48,7 +48,7 @@ const Properties = () => {
                 }).toString();
 
                 const response = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}?${queryString}`,
+                    `${process.env.NEXT_PUBLIC_API_URL}properties?${queryString}`,
                     {
                         method: 'GET',
                         headers: {

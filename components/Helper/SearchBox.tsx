@@ -29,12 +29,12 @@ export const useFetchData = () => {
 
       try {
         const [typesRes, zonesRes] = await Promise.all([
-          fetch(`${process.env.NEXT_PUBLIC_API_URL_TYPES}`, {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}types`, {
             headers: {
               Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
             },
           }),
-          fetch(`${process.env.NEXT_PUBLIC_API_URL_ZONES}`, {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}zones`, {
             headers: {
               Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
             },

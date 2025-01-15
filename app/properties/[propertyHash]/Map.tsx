@@ -14,7 +14,7 @@ const Map = ({ propertyHash }: { propertyHash: string }) => {
 
     const fetchCoordinates = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_HASH}${propertyHash}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}properties/${propertyHash}`, {
           method: 'GET',
           headers: headers,
         });
