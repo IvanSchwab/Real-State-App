@@ -10,6 +10,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ResponsiveNav from './Navbar/ResponsiveNav';
 import Appraisals from './Appraisals/Appraisals';
+import WhatsappButton from '../Helper/WhatsappButton';
 
 const Home = () => {
   useEffect(() => {
@@ -51,7 +52,8 @@ const Home = () => {
         <Footer />
       </section>
 
-      <ScrollToTopButton></ScrollToTopButton>
+      <ScrollToTopButton/>
+      <WhatsappButton />
     </div>
   )
 }

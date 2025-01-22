@@ -3,6 +3,7 @@ import PropertyDescription from './propertyDescription';
 import Map from './Map';
 import Footer from '@/components/Home/Footer/Footer';
 import ContactUs from './ContacUs';
+import ScrollToTopButton from '@/components/Helper/ScrollToTopButton';
 
 const Page = ({ params }: { params: { propertyHash: string } }) => {
     return (
@@ -22,6 +23,7 @@ const Page = ({ params }: { params: { propertyHash: string } }) => {
             <div className="relative z-0">
                 <Footer />
             </div>
+            <ScrollToTopButton />
         </div>
     );
 };

@@ -1,5 +1,4 @@
-'use client'; // Directiva para cliente
-
+'use client';
 import { useState, useEffect } from "react";
 import { HiChevronUp } from "react-icons/hi";
 
@@ -28,10 +27,9 @@ const ScrollToTopButton = () => {
 
     return (
         <div
-            className={`fixed bottom-4 right-4 z-50 transition-all duration-300 ${showButton ? "opacity-100" : "opacity-0"
+            className={`fixed bottom-8 left-4 z-50 transition-all duration-300 ${showButton ? "opacity-100" : "opacity-0"
                 }`}
         >
-            {/* Botón con ícono de flecha hacia arriba */}
             <button
                 onClick={scrollToTop}
                 className="p-3 rounded-full shadow-lg text-white transition-all duration-300 hover:bg-[#E3C565] hover:shadow-xl"

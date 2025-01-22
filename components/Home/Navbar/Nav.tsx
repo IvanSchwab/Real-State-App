@@ -28,7 +28,7 @@ const Nav = ({ openNav }: Props) => {
             {/* Contenedor principal de la navbar */}
             <div className="flex items-center h-[80%] mt-2 justify-between w-[95%] sm:w-[90%] md:w-[85%] xl:w-[80%] mx-auto">
                 {/* Logo */}
-                <div className={`bg-[#77a579] opacity-65 p-2 sm:ml-2 transition-opacity duration-500 ${navBg ? 'opacity-90' : 'opacity-50'} rounded-md max-w-xs shadow-md mx-auto sm:ml-[-50px] md:ml-[-20px]`}>
+                <div className={`bg-[#84ac84] opacity-65 p-2 sm:ml-2 transition-opacity duration-500 ${navBg ? 'opacity-90' : 'opacity-70'} rounded-md max-w-xs shadow-md mx-auto sm:ml-[-50px] md:ml-[-20px]`}>
                     <img
                         src="/images/logo-background.png"
                         alt="Logo"

@@ -44,14 +44,14 @@ const Footer = () => {
 
             </div>
 
-            <div className="absolute bottom-4 left-4 w-[120px] h-[50px] md:w-[150px] md:h-[60px] rounded-lg overflow-hidden shadow-xl">
+            <div className="absolute bottom-6 left-20 w-[120px] h-[50px] md:w-[150px] md:h-[60px] rounded-lg overflow-hidden shadow-xl">
                 <img
                     src="/images/logo-hero.png"
                     alt="Logo de Olivera de Schwab"
                     className="object-cover w-full h-full rounded-lg"
                 />
             </div>
-            <div className="absolute bottom-4 right-4 w-[120px] h-[60px] md:w-[150px] md:h-[70px]">
+            <div className="absolute bottom-6 right-12 w-[120px] h-[60px] md:w-[150px] md:h-[70px]">
                 <img
                     src="/images/colegio-martilleros.png"
                     alt="Colegio de Martilleros"

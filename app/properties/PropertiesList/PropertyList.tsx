@@ -32,6 +32,7 @@ const PropertyList: React.FC = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       setLoading(true);
+      document.body.style.overflow = 'hidden';
       try {
         const queryString = new URLSearchParams({
           size: '9',
@@ -72,6 +73,7 @@ const PropertyList: React.FC = () => {
         }
       } finally {
         setLoading(false);
+        document.body.style.overflow = 'auto';
       }
     };
 
