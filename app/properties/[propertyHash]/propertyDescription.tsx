@@ -87,6 +87,7 @@ const PropertyDescription: React.FC = () => {
     descriptionFormatted,
     ambiences,
     sold,
+    code,
     rented,
     propertyType,
     customerName,
@@ -137,6 +138,7 @@ const PropertyDescription: React.FC = () => {
 
   return (
     <div className="w-full min-h-screen bg-gray-50">
+
       <Link href="/">
         <div className="hidden 2xl:block 2xl:w-[10%] 2xl:h-[8%] absolute top-2 left-4 rounded-lg overflow-hidden shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110">
           <img
@@ -155,7 +157,6 @@ const PropertyDescription: React.FC = () => {
               className="w-full h-full object-cover"
             />
           </div>
-
           <div className="mt-4 md:mt-0 md:w-2/3 space-y-2">
             <h1 className="text-3xl font-extrabold text-gray-900 mb-1">{title}</h1>
             <p className="text-lg font-semibold text-gray-700 mb-2">
@@ -221,6 +222,11 @@ const PropertyDescription: React.FC = () => {
             <div>
               <p className="font-semibold">Código Postal</p>
               <p>{zipCode ? zipCode : '-'}</p>
+            </div>
+
+            <div>
+              <p className="font-semibold">Código de Propiedad</p>
+              <p>{code}</p>
             </div>
           </div>
         </div>
