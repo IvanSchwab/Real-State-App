@@ -4,11 +4,15 @@ import Map from './Map';
 import Footer from '@/components/Home/Footer/Footer';
 import ContactUs from './ContacUs';
 import ScrollToTopButton from '@/components/Helper/ScrollToTopButton';
+import ResponsiveNavProperty from './NavBarProperty/ResponsiveTitle';
 
 const Page = ({ params }: { params: { propertyHash: string } }) => {
     return (
-        <div className='bg-gray-50'>
-            <div className="relative z-10">
+        <div className='bg-gray-100'>
+            <div className='z-0'>
+                <ResponsiveNavProperty propertyHash={params.propertyHash}></ResponsiveNavProperty>
+            </div>
+            <div className="relative z-100">
                 <PropertyDescription />
             </div>
 
@@ -23,7 +27,9 @@ const Page = ({ params }: { params: { propertyHash: string } }) => {
             <div className="relative z-0">
                 <Footer />
             </div>
+            <div className="relative z-0">
             <ScrollToTopButton />
+            </div>
         </div>
     );
 };
