@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { PropertyData } from "@/constant/constant";
 import ImageGallery from "./ImageGallery";
-import { FaInfoCircle, FaAlignLeft, FaCheckCircle, FaTimesCircle, FaKey, FaEnvelope, FaMapMarkerAlt, FaPhone, FaUser, FaBuilding, FaHome, FaWhatsapp, FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
+import { FaInfoCircle, FaAlignLeft, FaCheckCircle, FaTimesCircle, FaEnvelope, FaMapMarkerAlt, FaPhone, FaUser, FaBuilding, FaHome, FaWhatsapp, FaFacebook, FaLinkedin, FaImages } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 const PropertyDescription: React.FC = () => {
@@ -190,10 +190,12 @@ const PropertyDescription: React.FC = () => {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="mt-6 bg-gray-50 p-6 rounded-md shadow-inner w-full md:w-1/2 border border-transparent hover:border-gray-400">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800 flex items-center space-x-2">
-              <i className="fas fa-images text-blue-500"></i>
+          <div className="mt-6 bg-gray-50 p-6 rounded-md shadow-inner w-full md:w-1/2 border border-transparent hover:border-blue-200">
+            <h2 className="text-2xl font-semibold mb-4 text-gray-800 flex items-center">
+              <FaImages className="text-blue-500 mr-2" />
+              Galería de Imágenes
             </h2>
+
             <ImageGallery
               images={propertyDetails.images.map((image) => image.image)}
               selectedImageIndex={selectedImageIndex}

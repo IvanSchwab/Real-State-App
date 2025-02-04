@@ -42,9 +42,9 @@ const PropertyTitle = ({ openNav, propertyTitle }: Props) => {
                         className="select-none border-2 px-6 py-3 rounded-lg 
                             bg-gray-300/30 text-white shadow-md border-[#4d624d] 
                                 transition-all duration-200 ease-in-out whitespace-nowrap
-                                    text-shadow-lg"
+                                    text-shadow-lg uppercase font-bold"
                     >
-                        {propertyTitle.length > 20 ? `${propertyTitle.slice(0, 35)}...` : propertyTitle}
+                        {propertyTitle.length > 35 ? `${propertyTitle.slice(0, 35)}...` : propertyTitle}
                     </p>
                 </div>
             </div>

@@ -8,11 +8,11 @@ import ResponsiveNavProperty from './NavBarProperty/ResponsiveTitle';
 
 const Page = ({ params }: { params: { propertyHash: string } }) => {
     return (
-        <div className='bg-gray-100'>
+        <div className='bg-gray-50 min-h-screen flex flex-col'>
             <div className='z-0'>
                 <ResponsiveNavProperty propertyHash={params.propertyHash}></ResponsiveNavProperty>
             </div>
-            <div className="relative z-100">
+            <div className="relative z-100 bg-white">
                 <PropertyDescription />
             </div>
 
@@ -20,7 +20,7 @@ const Page = ({ params }: { params: { propertyHash: string } }) => {
                 <Map propertyHash={params.propertyHash} />
             </div>
 
-            <div className="relative z-0">
+            <div className="relative z-0 ">
                 <ContactUs />
             </div>
 

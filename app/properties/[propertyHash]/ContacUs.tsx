@@ -53,7 +53,7 @@ const ContactUs = () => {
   };
 
   return (
-    <section className="bg-cream py-16">
+    <section className="bg-white py-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between space-y-12 lg:space-y-0">
         <div className="lg:w-2/4 space-y-6 text-center lg:text-left lg:ml-12">
           <h2 className="select-none text-4xl font-semibold text-custom-green font-poppins">
