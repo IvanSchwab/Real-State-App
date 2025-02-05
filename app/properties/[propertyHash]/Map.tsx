@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { MapIcon, SatelliteDish, Route, Compass, MapPin } from "lucide-react";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 const MAP_STYLES = {
   normal: "mapbox://styles/mapbox/streets-v11",
@@ -58,7 +59,7 @@ const Map: React.FC<MapProps> = ({ propertyHash }) => {
       style: mapStyle,
       center: coordinates,
       zoom: 15,
-      minZoom: 10, 
+      minZoom: 10,
       pitch: 0,
       bearing: 0,
       accessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN
@@ -193,36 +194,36 @@ const Map: React.FC<MapProps> = ({ propertyHash }) => {
     <div className="flex flex-col items-center my-6  bg-gray-50 p-8 rounded-3xl ">
       <div className="text-center mb-8">
         <h1 className="text-4xl  font-bold bg-gradient-to-r from-green-800 to-green-700 bg-clip-text text-transparent">
-        Navegador de Propiedades
+          Navegador de Propiedades
         </h1>
-        <p className="mt-2 text-green-700">Explora la ubicación y encontrá tu camino</p>
+        <p className="mt-2 text-green-700">Explorá la ubicación y encontrá tu camino</p>
       </div>
-  
+
       <div className="relative w-full max-w-6xl h-[65vh] rounded-2xl shadow-xl overflow-hidden border-2 border-green-50">
         <div ref={mapContainerRef} className="w-full h-full" />
-        
+
         <div className="absolute top-36 right-2 flex flex-col gap-2">
           <button
             onClick={() => setMapStyle(MAP_STYLES.normal)}
             className="p-2 bg-white text-black rounded-lg shadow-md hover:bg-[#F2F2F2] transition-colors"
           >
-            <MapIcon className="w-5 h-5 text-olive-600" />
+            <MapIcon className="w-5 h-5" />
           </button>
           <button
             onClick={() => setMapStyle(MAP_STYLES.streetView)}
             className="p-2 bg-white text-black rounded-lg shadow-md hover:bg-[#F2F2F2] transition-colors"
           >
-            <SatelliteDish className="w-5 h-5 text-olive-600" />
+            <SatelliteDish className="w-5 h-5" />
           </button>
           <button
             onClick={toggle3DView}
             className="p-2 bg-white text-black rounded-lg shadow-md hover:bg-[#F2F2F2] transition-colors"
           >
-            <Compass className="w-5 h-5 text-olive-600" />
+            <Compass className="w-5 h-5 " />
           </button>
         </div>
       </div>
-  
+
       <div className="mt-8  w-full max-w-6xl flex flex-col sm:flex-row gap-4 items-center">
         <div className="relative flex-1 w-full">
           <MapPin className="absolute left-3 top-3.5 w-5 h-5 text-green-700" />
@@ -230,20 +231,20 @@ const Map: React.FC<MapProps> = ({ propertyHash }) => {
             type="text"
             value={userAddress}
             onChange={(e) => setUserAddress(e.target.value)}
-            placeholder="Ingresa tu dirección"
-            className="pl-10 pr-4 py-3 w-full text-gray-500 rounded-xl border border-green-500 focus:outline-none focus:ring-2 focus:ring-olive-500"
+            placeholder="Ingresa tu barrio o localidad"
+            className="pl-10 pr-4 py-3 w-full text-gray-500 rounded-xl border border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
-        
+
         <button
           onClick={getRoute}
-          className="flex items-center gap-2 px-6 py-3 bg-olive-600  bg-green-600 text-gray-200 rounded-xl shadow-lg hover:bg-olive-700 transition-all"
+          className="flex items-center gap-2 px-6 py-3 bg-olive-600  bg-green-700 text-gray-200 rounded-xl shadow-lg hover:bg-green-800 transition-all"
         >
           <Route className="w-5 h-5" />
           Calcular Ruta
         </button>
       </div>
-  
+
       {routeInfo && (
         <div className="mt-6 p-4 bg-green-50 rounded-xl shadow-md flex gap-6 border border-green-100">
           <div className="text-center">
@@ -256,19 +257,22 @@ const Map: React.FC<MapProps> = ({ propertyHash }) => {
           </div>
         </div>
       )}
-  
+
       <div className="mt-6 flex gap-4">
         <button
           onClick={() => setMapStyle(MAP_STYLES.light)}
-          className="px-4 py-2 bg-green-50 rounded-full shadow-md hover:bg-green-100 transition-colors text-green-800"
+          className="px-4 py-2 bg-amber-100 rounded-full shadow-md hover:bg-amber-200 transition-colors text-amber-600 flex items-center"
         >
-          Light Mode
+          <FaSun className="mr-2 text-amber-600" />
+          Modo Claro
         </button>
+
         <button
           onClick={() => setMapStyle(MAP_STYLES.dark)}
-          className="px-4 py-2 bg-green-800 text-green-50 rounded-full shadow-md hover:bg-green-700 transition-colors"
+          className="px-4 py-2 bg-[#153361] text-blue-100 rounded-full shadow-md hover:bg-[#173057] transition-colors flex items-center"
         >
-          Dark Mode
+          <FaMoon className="mr-2 text-blue-100" />
+          Modo Oscuro
         </button>
       </div>
     </div>

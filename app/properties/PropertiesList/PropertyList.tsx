@@ -18,16 +18,16 @@ const PropertyList: React.FC = () => {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  
+
   const type = searchParams?.get("type") || "";
   const operation = searchParams?.get("operation") || "";
   const bedrooms = searchParams?.get("bedrooms") || "";
   const priceTo = searchParams?.get("priceTo") || "";
   const zone1 = searchParams?.get("zone1") || "";
   const zone2 = searchParams?.get("zone2") || "";
-  
+
   const totalPages = Math.ceil(totalProperties / propertiesPerPage);
-  
+
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -81,13 +81,26 @@ const PropertyList: React.FC = () => {
   }, [from, type, operation, zone1, zone2, bedrooms, priceTo, searchParams?.toString()]);
 
 
-  const handleClick = (propertyHash: string) => {
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>, propertyHash: string) => {
     if (!propertyHash) {
-      console.error("Property hash is missing:", propertyHash);
+      console.error("Property ID is missing:", propertyHash);
       return;
     }
-    router.push(`/properties/${propertyHash}`);
+
+    const url = `/properties/${propertyHash}`;
+
+    if (event.button === 1) {
+      window.open(url, "_blank");
+      event.preventDefault();
+    } else if (event.ctrlKey || event.metaKey) {
+      window.open(url, "_blank");
+    } else if (router && router.push) {
+      router.push(url);
+    } else {
+      console.error("Router is not initialized");
+    }
   };
+
   const handlePageChange = (page: number) => {
     setLoading(true);
     setCurrentPage(page);
@@ -156,7 +169,7 @@ const PropertyList: React.FC = () => {
               <div
                 key={property.propertyHash}
                 className="rounded-lg shadow-lg bg-custom-green bg-opacity-5 overflow-hidden cursor-pointer group relative h-[450px] sm:h-[500px] hover:scale-105 transition-all duration-300"
-                onClick={() => handleClick(property.propertyHash)}
+                onMouseDown={(event) => handleClick(event, property.propertyHash)}
               >
                 <div className="relative">
                   <img

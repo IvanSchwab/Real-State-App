@@ -71,14 +71,21 @@ const Properties = () => {
     }, []);
 
 
-    const handleClick = (propertyHash: string) => {
+    const handleClick = (event: React.MouseEvent<HTMLDivElement>, propertyHash: string) => {
         if (!propertyHash) {
             console.error("Property ID is missing:", propertyHash);
             return;
         }
 
-        if (router && router.push) {
-            router.push(`/properties/${propertyHash}`);
+        const url = `/properties/${propertyHash}`;
+
+        if (event.button === 1) {
+            window.open(url, "_blank");
+            event.preventDefault();
+        } else if (event.ctrlKey || event.metaKey) {
+            window.open(url, "_blank");
+        } else if (router && router.push) {
+            router.push(url);
         } else {
             console.error("Router is not initialized");
         }
@@ -131,13 +138,13 @@ const Properties = () => {
                     ) : (
                         properties.map((property, i) => (
                             <div
-                                key={property.propertyHash || `property-${i}`}
+                                key={property.propertyHash}
                                 data-aos="fade-up"
                                 data-aos-delay={`${i * 50}`}
-                                data-aos-duration="800"
+                                data-aos-duration="400"
                                 data-aos-easing="ease-in-out"
                                 data-aos-offset="200"
-                                onClick={() => handleClick(property.propertyHash)}
+                                onMouseDown={(event) => handleClick(event, property.propertyHash)}
                             >
                                 <PropertyCard property={property}></PropertyCard>
                             </div>
@@ -148,9 +155,10 @@ const Properties = () => {
                 <div className="mt-8 text-center">
                     <Link href="/properties">
                         <button
-                            className="px-6 py-3 bg-[#446447] bg-opacity-70 hover:scale-110 text-white rounded-lg hover:bg-opacity-95 transition duration-300"
+                            className="px-6 py-3 bg-[#446447] bg-opacity-70 hover:scale-110 text-white rounded-lg hover:bg-opacity-95 transition duration-100"
                             data-aos="fade-up"
-                            data-aos-offset="200"
+                            data-aos-duration="300"
+                            data-aos-offset="100"
                         >
                             ¡Ver todas las propiedades!
                         </button>

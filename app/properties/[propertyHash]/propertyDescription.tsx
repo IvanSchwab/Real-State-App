@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { PropertyData } from "@/constant/constant";
 import ImageGallery from "./ImageGallery";
 import { FaInfoCircle, FaAlignLeft, FaCheckCircle, FaTimesCircle, FaEnvelope, FaMapMarkerAlt, FaPhone, FaUser, FaBuilding, FaHome, FaWhatsapp, FaFacebook, FaLinkedin, FaImages } from "react-icons/fa";
@@ -13,6 +13,10 @@ const PropertyDescription: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const [isMagnifierActive, setIsMagnifierActive] = useState(false);
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     const fetchPropertyDetails = async () => {
@@ -160,6 +164,25 @@ const PropertyDescription: React.FC = () => {
     window.open(whatsappUrl, "_blank");
   };
 
+  const handleMouseEnter = () => {
+    if (imgRef.current) {
+      const { width, height } = imgRef.current.getBoundingClientRect();
+      setImgSize({ width, height });
+      setIsMagnifierActive(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsMagnifierActive(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top } = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - left;
+    const y = e.clientY - top;
+    setCursorPosition({ x, y });
+  };
+
   return (
     <div className="w-full min-h-screen bg-gray-100">
       <button
@@ -183,13 +206,38 @@ const PropertyDescription: React.FC = () => {
         </h1>
 
         <div className="flex flex-col md:flex-row md:space-x-8">
-          <div className="flex-shrink-0 w-full md:w-1/2 h-96 relative rounded-md shadow-md overflow-hidden">
+          <div
+            className="flex-shrink-0 w-full md:w-1/2 h-96 relative cursor-zoom-in rounded-md shadow-md overflow-hidden"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onMouseMove={handleMouseMove}
+          >
             <img
+              ref={imgRef}
               src={`https://images.mapaprop.app/photos/${mainImage}`}
               alt={title}
+              onClick={() => openModal(0)}
               className="w-full h-full object-cover"
             />
+
+            {isMagnifierActive && mainImage && (
+              <div
+                className="absolute border-2 border-white rounded-sm pointer-events-none"
+                style={{
+                  left: `${cursorPosition.x - 140}px`,
+                  top: `${cursorPosition.y - 100}px`,
+                  width: '280px',
+                  height: '200px',
+                  backgroundImage: `url('https://images.mapaprop.app/photos/${mainImage}')`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: `${imgSize.width * 2}px ${imgSize.height * 2}px`,
+                  backgroundPosition: `-${cursorPosition.x * 2 - 100}px -${cursorPosition.y * 2 - 100}px`,
+                  boxShadow: '0 0 10px rgba(0,0,0,0.3)',
+                }}
+              />
+            )}
           </div>
+
           <div className="mt-6 bg-gray-50 p-6 rounded-md shadow-inner w-full md:w-1/2 border border-transparent hover:border-blue-200">
             <h2 className="text-2xl font-semibold mb-4 text-gray-800 flex items-center">
               <FaImages className="text-blue-500 mr-2" />
@@ -208,18 +256,18 @@ const PropertyDescription: React.FC = () => {
         </div>
 
         <div className="mt-8">
-        {rented && (
-              <p className="text-green-600 font-semibold flex items-center">
-                <FaCheckCircle className="mr-2" />
-                Propiedad actualmente alquilada
-              </p>
-            )}
-            {sold && (
-              <p className="text-red-600 font-semibold flex items-center">
-                <FaTimesCircle className="mr-2" />
-                Propiedad vendida
-              </p>
-            )}
+          {rented && (
+            <p className="text-green-600 font-semibold flex items-center">
+              <FaCheckCircle className="mr-2" />
+              Propiedad actualmente alquilada
+            </p>
+          )}
+          {sold && (
+            <p className="text-red-600 font-semibold flex items-center">
+              <FaTimesCircle className="mr-2" />
+              Propiedad vendida
+            </p>
+          )}
           <div className="bg-gray-50 p-6 rounded-md shadow-inner hover:shadow-lg transition-all duration-300 border border-transparent hover:border-indigo-500">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center space-x-2">
               <FaInfoCircle className="text-indigo-500" />
@@ -300,7 +348,7 @@ const PropertyDescription: React.FC = () => {
           </div>
 
           <div className="mt-6">
-            
+
 
             <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
               <button
