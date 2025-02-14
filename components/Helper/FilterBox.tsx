@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { FaFilter } from 'react-icons/fa';
 
 interface Type {
   description: string;
@@ -101,15 +102,11 @@ const FilterBox = () => {
   };
 
 
-  const getTitle = () => {
-    return '¡Propiedades en venta y alquiler!';
-  };
-
   return (
-    <div className="fixed w-full">
-      <div className="top-0 w-full bg-[#94b190] shadow-xl rounded-b-lg">
+    <div className="fixed w-full ">
+      <div className="top-0 pt-2 w-full bg-[#94b190] shadow-xl rounded-b-lg">
         <Link href="/">
-          <div className="hidden w-[12%] h-[46%] lg:block absolute top-2 left-4 rounded-lg overflow-hidden shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110">
+          <div className="hidden  w-[12%] h-[60%] lg:block absolute top-2 left-4 rounded-lg overflow-hidden shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110">
             <img
               src="/images/logo-hero.png"
               alt="Logo de Olivera de Schwab"
@@ -119,16 +116,23 @@ const FilterBox = () => {
         </Link>
 
         <div className="relative max-w-4xl mx-auto px-4 py-4">
-          <h2 className="text-2xl font-semibold text-white mb-3 text-center lg:text-left">
-            {getTitle()}
-          </h2>
+          <div className="flex items-center justify-between w-full lg:hidden">
+            <img src="/images/logo-hero.png" alt="Logo" className="h-16 rounded" />
+            <div>
+              <div className="flex items-center justify-between w-full ">
+                <h2 className="text-xl font-semibold text-white mr-3">
+                  Filtrar
+                </h2>
 
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="block lg:hidden mx-auto p-2 text-white bg-custom-green rounded-lg hover:bg-opacity-80 transition-all duration-300 ease-in-out w-4/5 text-center"
-          >
-            Filtrar
-          </button>
+                <button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="p-2 mr-6 text-white bg-custom-green rounded-lg hover:bg-opacity-80 transition-all duration-300 ease-in-out w-8 text-center"
+                >
+                  <FaFilter className="text-xl" />
+                </button>
+              </div>
+            </div>
+          </div>
 
           <div
             className={`lg:flex lg:space-x-4 space-y-2 lg:space-y-0 flex-col lg:flex-row transition-all duration-300 ease-in-out transform ${isMobileMenuOpen
@@ -227,13 +231,12 @@ const FilterBox = () => {
                 min="0"
               />
             </div>
-
           </div>
 
           {isMobileMenuOpen && (
             <button
               onClick={handleSearchClick}
-              className="px-4 py-3 bg-custom-green mt-4 text-white rounded-lg hover:bg-opacity-80 w-full transition-all duration-300 ease-in-out transform hover:scale-105 block lg:hidden"
+              className="px-4 py-3 bg-custom-green mt-6 text-white rounded-lg hover:bg-opacity-80 w-full transition-all duration-300 ease-in-out transform hover:scale-105 block lg:hidden"
             >
               Buscar
             </button>
@@ -241,7 +244,7 @@ const FilterBox = () => {
 
           <button
             onClick={handleSearchClick}
-            className="px-4 py-3 bg-custom-green mt-4 text-white rounded-lg hover:bg-opacity-80 w-full transition-all duration-300 ease-in-out transform hover:scale-105 hidden lg:block"
+            className="px-4 py-3 bg-custom-green mt-6 text-white rounded-lg hover:bg-opacity-80 w-full transition-all duration-300 ease-in-out transform hover:scale-105 hidden lg:block"
           >
             Buscar
           </button>

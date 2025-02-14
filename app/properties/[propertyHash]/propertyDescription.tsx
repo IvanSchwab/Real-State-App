@@ -17,8 +17,12 @@ const PropertyDescription: React.FC = () => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
   const imgRef = useRef<HTMLImageElement>(null);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    setIsTouchDevice(isTouch);
+
     const fetchPropertyDetails = async () => {
       if (!propertyHash) return;
 
@@ -190,14 +194,7 @@ const PropertyDescription: React.FC = () => {
         className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-50 transition-all duration-300 transform hover:scale-105"
         aria-label="Contactar por WhatsApp"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-10 h-10"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-        >
-          <path d="M12 0C5.383 0 0 5.383 0 12c0 2.12.555 4.185 1.607 6.003L0 24l6.118-1.577A11.91 11.91 0 0 0 12 24c6.617 0 12-5.383 12-12S18.617 0 12 0zm-.005 21.157a9.089 9.089 0 0 1-4.82-1.384l-.344-.21-3.638.938.972-3.541-.225-.35A9.092 9.092 0 0 1 2.914 12 9.09 9.09 0 1 1 11.995 21.157zm4.958-5.652c-.247-.123-1.464-.721-1.69-.802-.226-.08-.39-.123-.555.124-.164.246-.637.802-.78.966-.142.164-.29.184-.537.062-.248-.123-1.05-.391-2-1.248-.738-.633-1.237-1.418-1.382-1.664-.144-.247-.015-.38.108-.503.111-.11.247-.29.371-.435.124-.145.165-.247.247-.412.082-.165.041-.31-.02-.434-.062-.123-.555-1.335-.76-1.83-.2-.483-.403-.418-.555-.428-.144-.012-.31-.012-.475-.012s-.435.062-.664.31c-.227.247-.866.846-.866 2.065 0 1.218.888 2.392 1.011 2.557.124.165 1.752 2.671 4.259 3.745.596.257 1.062.411 1.424.527.599.19 1.146.164 1.58.1.482-.073 1.464-.601 1.67-1.182.206-.581.206-1.079.145-1.182-.062-.103-.226-.165-.474-.289z" />
-        </svg>
+        <FaWhatsapp className="w-10 h-10" />
       </button>
 
       <div className="max-w-7xl mx-auto p-8 bg-white shadow-lg rounded-lg">
@@ -207,10 +204,11 @@ const PropertyDescription: React.FC = () => {
 
         <div className="flex flex-col md:flex-row md:space-x-8">
           <div
+            ref={imgRef}
             className="flex-shrink-0 w-full md:w-1/2 h-96 relative cursor-zoom-in rounded-md shadow-md overflow-hidden"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onMouseMove={handleMouseMove}
+            onMouseEnter={!isTouchDevice ? handleMouseEnter : undefined}
+            onMouseLeave={!isTouchDevice ? handleMouseLeave : undefined}
+            onMouseMove={!isTouchDevice ? handleMouseMove : undefined}
           >
             <img
               ref={imgRef}
@@ -239,7 +237,7 @@ const PropertyDescription: React.FC = () => {
           </div>
 
           <div className="mt-6 bg-gray-50 p-6 rounded-md shadow-inner w-full md:w-1/2 border border-transparent hover:border-blue-200">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800 flex items-center">
+            <h2 className="text-2xl font-semibold mb-[-16px] text-gray-800 flex items-center">
               <FaImages className="text-blue-500 mr-2" />
               Galería de Imágenes
             </h2>

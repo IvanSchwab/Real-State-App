@@ -24,11 +24,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
     const width = window.innerWidth;
 
     if (width >= 1024) {
-      setDisplayedImagesCount(11);
-    } else if (width >= 768) {
       setDisplayedImagesCount(9);
-    } else if (width >= 640) {
-      setDisplayedImagesCount(7);
     } else {
       setDisplayedImagesCount(5);
     }
@@ -44,21 +40,21 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   }, []);
 
   return (
-    <div className="relative ">
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
+    <div className="relative">
+      <div className="grid pt-16 grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {images.slice(0, displayedImagesCount).map((image, index) => (
           <img
             key={index}
             src={`https://images.mapaprop.app/photos/${image}`}
             alt={`Imagen ${index + 1}`}
-            className="object-cover w-full h-32 rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300"
+            className="object-cover w-full aspect-square rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300"
             onClick={() => onImageSelect(index)}
           />
         ))}
 
         {images.length > displayedImagesCount && !showMoreImages && (
           <button
-            className="col-span-1 bg-gray-200 text-gray-700 font-semibold rounded-lg flex items-center justify-center h-32 cursor-pointer hover:bg-gray-300 transition-all"
+            className="col-span-1 bg-gray-200 text-gray-700 font-semibold rounded-lg flex items-center justify-center aspect-square w-full cursor-pointer hover:bg-gray-300 transition-all"
             onClick={() => setShowMoreImages(true)}
           >
             +{images.length - displayedImagesCount} más
