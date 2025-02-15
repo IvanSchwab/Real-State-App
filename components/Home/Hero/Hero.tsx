@@ -9,12 +9,12 @@ const Hero = () => {
             <div className="flex justify-center items-center flex-col w-[95%] sm:w-[80%] h-full mx-auto relative z-10">
                 <h1
                     data-aos="fade-left"
-                    className="select-none text-white text-opacity-90 text-center text-3xl sm:text-4xl lg:text-5xl font-semibold uppercase tracking-wide leading-tight ">
+                    className="font-quicksand select-none text-white text-opacity-90 text-center text-3xl sm:text-4xl lg:text-5xl font-thin uppercase tracking-wide leading-tight ">
                     Encontrá
                 </h1>
                 <h1
                     data-aos="fade-right"
-                    className="select-none text-white text-opacity-90 text-center font-extrabold text-4xl sm:text-6xl lg:text-7xl mt-6 mb-4">
+                    className="font-quicksand select-none text-white text-opacity-90 text-center  text-4xl sm:text-6xl lg:text-7xl mt-6 mb-4">
                     Tu Hogar Ideal
                 </h1>
                 <div

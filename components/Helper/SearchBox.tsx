@@ -111,7 +111,7 @@ const SearchBox = () => {
     return num >= 0 && num <= 100000000 ? num : null;
   };
   return (
-    <div className="w-[90%] mx-auto bg-[#7c8f7c] h-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center rounded-lg shadow-lg gap-4">
+    <div className="w-[90%] font-quicksand mx-auto bg-[#7c8f7c] h-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center rounded-lg shadow-lg gap-4">
       <div className="hidden sm:grid grid-cols-3 lg:grid-cols-6 w-full gap-4">
         <select
           value={selectedType || ''}

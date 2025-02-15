@@ -27,7 +27,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className='overflow-hidden'>
+    <div className='overflow-hidden font-quicksand'>
       <ResponsiveNav />
 
       <section id="inicio">

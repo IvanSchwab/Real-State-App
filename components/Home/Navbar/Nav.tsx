@@ -26,7 +26,7 @@ const Nav = ({ openNav }: Props) => {
 
     return (
         <div
-            className={`fixed h-[10vh] z-[50] w-full right-2 transition-all duration-500 ease-in-out ${navBg ? "bg-custom-green" : "bg-transparent"
+            className={`fixed h-[10vh] font-quicksand z-[50] w-full right-2 transition-all duration-500 ease-in-out ${navBg ? "bg-custom-green" : "bg-transparent"
                 }`}
 
         >

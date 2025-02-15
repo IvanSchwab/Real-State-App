@@ -8,7 +8,7 @@ import ResponsiveNavProperty from './NavBarProperty/ResponsiveTitle';
 
 const Page = ({ params }: { params: { propertyHash: string } }) => {
     return (
-        <div className='bg-gray-50 min-h-screen flex flex-col'>
+        <div className='bg-gray-50 min-h-screen font-quicksand flex flex-col'>
             <div className='z-0'>
                 <ResponsiveNavProperty propertyHash={params.propertyHash}></ResponsiveNavProperty>
             </div>
