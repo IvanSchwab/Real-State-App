@@ -24,8 +24,11 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
     const width = window.innerWidth;
 
     if (width >= 1024) {
-      setDisplayedImagesCount(9);
-    } else {
+      setDisplayedImagesCount(11);
+    } else if (width >= 768) {
+      setDisplayedImagesCount(8);
+    }
+    else {
       setDisplayedImagesCount(5);
     }
 
@@ -41,7 +44,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   return (
     <div className="relative">
-      <div className="grid pt-16 grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="grid pt-16 grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {images.slice(0, displayedImagesCount).map((image, index) => (
           <img
             key={index}
@@ -115,13 +118,13 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
           >
             ✕
           </button>
-          <div className="w-full max-w-4xl mx-auto bg-gray-200 rounded-lg p-4 flex flex-wrap gap-4 justify-center border-4 border-custom-green">
+          <div className="w-full gap-x-2 gap-y-1 max-w-4xl mx-auto bg-gray-200 rounded-lg p-4 flex flex-wrap justify-center border-4 border-custom-green">
             {images.map((image, index) => (
               <img
                 key={index}
                 src={`https://images.mapaprop.app/photos/${image}`}
                 alt={`Imagen ${index + 1}`}
-                className="h-40 w-40 object-cover cursor-pointer hover:scale-105 transition-transform rounded-md"
+                className="h-56 w-56 object-cover cursor-pointer hover:scale-105 transition-transform rounded-md"
                 onClick={() => {
                   setShowMoreImages(false);
                   onImageSelect(index);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaTimes, FaFilter } from 'react-icons/fa';
 import Link from 'next/link';
 
 interface Type {
@@ -63,7 +63,6 @@ export const useFetchData = () => {
   return { types, zones };
 };
 
-
 const SearchBox = () => {
   const { types, zones } = useFetchData();
   const [selectedCounty, setSelectedCounty] = useState<number | null>(null);
@@ -100,7 +99,7 @@ const SearchBox = () => {
 
     return queryString;
   };
-  
+
   const validateBedrooms = (value: string | number): number | null => {
     const num = Number(value);
     return num >= 0 && num <= 8 ? num : bedrooms;
@@ -111,8 +110,8 @@ const SearchBox = () => {
     return num >= 0 && num <= 100000000 ? num : null;
   };
   return (
-    <div className="w-[90%] font-quicksand mx-auto bg-[#7c8f7c] h-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center rounded-lg shadow-lg gap-4">
-      <div className="hidden sm:grid grid-cols-3 lg:grid-cols-6 w-full gap-4">
+    <div className="w-[65%] sm:w-[100%] md:w-[90%] font-quicksand mx-auto bg-[#7c8f7c] h-auto px-2 sm:px-4 py-2 sm:py-6 flex flex-col sm:flex-row justify-between items-center rounded-lg shadow-lg gap-0 sm:gap-4">
+      <div className="hidden sm:grid grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 w-full gap-4">
         <select
           value={selectedType || ''}
           onChange={(e) => setSelectedType(e.target.value ? Number(e.target.value) : null)}
@@ -188,109 +187,119 @@ const SearchBox = () => {
         />
       </div>
 
-      <div className="sm:hidden w-full">
+      <div className="sm:hidden w-[50%] flex justify-between">
         <button
-          onClick={() => setShowFilters(!showFilters)}
-          className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+          onClick={() => setShowFilters(true)}
+          className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150 flex items-center justify-center"
         >
-          {showFilters ? 'Ocultar Filtros' : 'Mostrar Filtros'}
+          <FaFilter className="mr-2" /> Mostrar Filtros
         </button>
-
-
-
-        {showFilters && (
-          <div className="w-full mt-4 flex flex-col gap-4">
-            <select
-              value={selectedType || ''}
-              onChange={(e) => setSelectedType(e.target.value ? Number(e.target.value) : null)}
-              className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
-            >
-              <option value="">Tipo</option>
-              {types.map((type) => (
-                <option key={type.id} value={type.id}>
-                  {type.description}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={operation || ''}
-              onChange={(e) => setOperation(e.target.value ? Number(e.target.value) : null)}
-              className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
-            >
-              <option value="">Operación</option>
-              {operationOptions.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-
-            <select
-              id="zone"
-              value={selectedZone || ''}
-              onChange={(e) => setSelectedZone(Number(e.target.value))}
-              className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
-            >
-              <option value="">Zona</option>
-              {zones.map((zone) => (
-                <option key={zone.id} value={zone.id}>
-                  {zone.description}
-                </option>
-              ))}
-            </select>
-
-            <select
-              id="county"
-              value={selectedCounty || ''}
-              onChange={(e) => setSelectedCounty(Number(e.target.value))}
-              className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
-              disabled={!selectedZone}
-            >
-              <option value="">Partido</option>
-              {selectedZone &&
-                zones
-                  .find((zone) => zone.id === selectedZone)
-                  ?.counties?.map((county) => (
-                    <option key={county.id} value={county.id}>
-                      {county.description}
-                    </option>
-                  ))}
-            </select>
-
-            <input
-              type="number"
-              placeholder="Habitaciones"
-              className="w-full h-12 bg-[#A4B494] text-[#ddecde] placeholder:text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
-              value={bedrooms || ''}
-              onChange={(e) => setBedrooms(validateBedrooms(e.target.value))}
-            />
-
-            <input
-              type="number"
-              placeholder="Precio Hasta"
-              className="w-full h-12 bg-[#A4B494] text-[#ddecde] placeholder:text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
-              value={priceTo || ''}
-              onChange={(e) => setPriceTo(validatePrice(e.target.value))}
-            />
-          </div>
-        )}
       </div>
 
-
       {showFilters && (
-  <div className="w-full mt-4 flex flex-col gap-4 items-center justify-center">
-    <Link href={`/properties?${buildQueryString()}`}>
-      <button className="h-12 bg-[#dfc05a] hover:bg-[#d8b542] transition-all duration-150 text-white rounded-full sm:rounded-lg items-center justify-center px-6">
-        Buscar
-      </button>
-    </Link>
-  </div>
-)}
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div
+            className="absolute inset-0 bg-black opacity-50"
+            onClick={() => setShowFilters(false)}
+          ></div>
+          <div className="bg-[#7c8f7c] w-11/12 max-w-md mx-auto p-6 rounded-lg shadow-lg z-50">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-[#ddecde]">Filtros</h3>
+              <button onClick={() => setShowFilters(false)}>
+                <FaTimes className="text-white" />
+              </button>
+            </div>
+            <div className="flex flex-col gap-4">
+              <select
+                value={selectedType || ''}
+                onChange={(e) => setSelectedType(e.target.value ? Number(e.target.value) : null)}
+                className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+              >
+                <option value="">Tipo</option>
+                {types.map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.description}
+                  </option>
+                ))}
+              </select>
 
+              <select
+                value={operation || ''}
+                onChange={(e) => setOperation(e.target.value ? Number(e.target.value) : null)}
+                className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+              >
+                <option value="">Operación</option>
+                {operationOptions.map((option) => (
+                  <option key={option.id} value={option.id}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                id="zone"
+                value={selectedZone || ''}
+                onChange={(e) => setSelectedZone(Number(e.target.value))}
+                className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+              >
+                <option value="">Zona</option>
+                {zones.map((zone) => (
+                  <option key={zone.id} value={zone.id}>
+                    {zone.description}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                id="county"
+                value={selectedCounty || ''}
+                onChange={(e) => setSelectedCounty(Number(e.target.value))}
+                className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+                disabled={!selectedZone}
+              >
+                <option value="">Partido</option>
+                {selectedZone &&
+                  zones
+                    .find((zone) => zone.id === selectedZone)
+                    ?.counties?.map((county) => (
+                      <option key={county.id} value={county.id}>
+                        {county.description}
+                      </option>
+                    ))}
+              </select>
+
+              <input
+                type="number"
+                placeholder="Habitaciones"
+                className="w-full h-12 bg-[#A4B494] text-[#ddecde] placeholder:text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+                value={bedrooms || ''}
+                onChange={(e) => setBedrooms(validateBedrooms(e.target.value))}
+              />
+
+              <input
+                type="number"
+                placeholder="Precio Hasta"
+                className="w-full h-12 bg-[#A4B494] text-[#ddecde] placeholder:text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+                value={priceTo || ''}
+                onChange={(e) => setPriceTo(validatePrice(e.target.value))}
+              />
+            </div>
+            <div className="mt-4">
+              <Link href={`/properties?${buildQueryString()}`}>
+                <button
+                  onClick={() => setShowFilters(false)}
+                  className="w-full h-12 bg-[#dfc05a] hover:bg-[#d8b542] transition-all duration-150 text-white rounded-full flex items-center justify-center"
+                >
+                  Buscar
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Link href={`/properties?${buildQueryString()}`}>
-        <button className="h-12 bg-[#dfc05a] hover:bg-[#d8b542] transition-all duration-150 text-white rounded-full sm:rounded-lg  items-center justify-center px-6 ml-4 hidden sm:block">
+        <button className="h-12 bg-[#dfc05a] hover:bg-[#d8b542] transition-all duration-150 text-white rounded-full sm:rounded-lg items-center justify-center px-6 hidden sm:flex">
           <FaSearch className="text-white w-6 h-6" />
         </button>
       </Link>

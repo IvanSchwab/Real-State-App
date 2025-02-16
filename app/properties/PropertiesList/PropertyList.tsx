@@ -142,7 +142,7 @@ const PropertyList: React.FC = () => {
   return (
     <>
       <div className="absolute z-50">
-        <FilterBox />
+        <FilterBox />        
       </div>
       <div className="bg-[#f8fcf3] pt-32 md:pt-44 px-4 w-full min-h-[64vh]  items-center justify-center">
         {properties.length === 0 && (

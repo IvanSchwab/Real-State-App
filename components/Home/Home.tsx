@@ -30,25 +30,25 @@ const Home = () => {
     <div className='overflow-hidden font-quicksand'>
       <ResponsiveNav />
 
-      <section id="inicio">
+      <section id="Inicio">
         <Hero />
       </section>
 
       <AppartmentType />
 
-      <section id='propiedades'>
+      <section id='Propiedades'>
         <Properties />
       </section>
       
-      <section id='sobre-nosotros'>
+      <section id='Sobre-Nosotros'>
         <AboutUs />
       </section>
 
-      <section id='tasaciones'>
+      <section id='Tasaciones'>
         <Appraisals />
       </section>
 
-      <section id='contacto'>
+      <section id='Contacto'>
         <Footer />
       </section>
 

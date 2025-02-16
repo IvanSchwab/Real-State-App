@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FaFilter } from 'react-icons/fa';
+import { FaCircleArrowLeft } from 'react-icons/fa6';
 
 interface Type {
   description: string;
@@ -105,19 +106,25 @@ const FilterBox = () => {
   return (
     <div className="fixed w-full ">
       <div className="top-0 pt-2 w-full bg-[#94b190] shadow-xl rounded-b-lg">
+
         <Link href="/">
-          <div className="hidden  w-[12%] h-[60%] lg:block absolute top-2 left-4 rounded-lg overflow-hidden shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110">
+          <div className="hidden w-48 h-20 xl:block absolute top-2 left-4 rounded-lg overflow-hidden shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110">
             <img
               src="/images/logo-hero.png"
               alt="Logo de Olivera de Schwab"
               className="object-cover w-full h-full rounded-lg"
             />
           </div>
+
+          <div className="hidden lg:flex xl:hidden absolute top-4 left-4 cursor-pointer text-3xl">
+            <FaCircleArrowLeft />
+          </div>
+
         </Link>
 
-        <div className="relative max-w-4xl mx-auto px-4 py-4">
+        <div className="relative max-w-4xl mx-auto px-4 py-4 ">
           <div className="flex items-center justify-between w-full lg:hidden">
-            <img src="/images/logo-hero.png" alt="Logo" className="h-16 rounded" />
+            <img src="/images/logo-hero.png" alt="Logo" className="h-16 object-cover shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110  rounded-lg " />
             <div>
               <div className="flex items-center justify-between w-full ">
                 <h2 className="text-xl font-semibold text-white mr-3">

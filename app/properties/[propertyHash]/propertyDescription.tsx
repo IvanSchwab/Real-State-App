@@ -205,7 +205,7 @@ const PropertyDescription: React.FC = () => {
         <div className="flex flex-col md:flex-row md:space-x-8">
           <div
             ref={imgRef}
-            className="flex-shrink-0 w-full md:w-1/2 h-96 relative cursor-zoom-in rounded-md shadow-md overflow-hidden"
+            className="flex-shrink-0 w-full md:w-3/5 h-[450px] relative cursor-zoom-in rounded-md shadow-md overflow-hidden"
             onMouseEnter={!isTouchDevice ? handleMouseEnter : undefined}
             onMouseLeave={!isTouchDevice ? handleMouseLeave : undefined}
             onMouseMove={!isTouchDevice ? handleMouseMove : undefined}

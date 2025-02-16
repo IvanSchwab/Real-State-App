@@ -52,7 +52,7 @@ const SearchCode: React.FC = () => {
         <div className="relative font-quicksand">
             <button
                 onClick={() => setIsModalOpen(true)}
-                className="bg-[#81A781] text-white px-4 py-2 rounded-lg hidden sm:block"
+                className="bg-[#81A781] text-sm text-white px-4 py-2 rounded-lg hidden sm:block"
             >
                 Buscar Propiedad
             </button>
