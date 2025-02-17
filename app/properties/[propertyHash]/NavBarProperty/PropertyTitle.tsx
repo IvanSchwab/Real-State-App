@@ -1,4 +1,5 @@
 "use client";
+import SearchCode from '@/components/Helper/SearchCode';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
@@ -47,6 +48,7 @@ const PropertyTitle = ({ openNav, propertyTitle }: Props) => {
                         {propertyTitle.length > 35 ? `${propertyTitle.slice(0, 35)}...` : propertyTitle}
                     </p>
                 </div>
+                <SearchCode/>
             </div>
         </div>
     );

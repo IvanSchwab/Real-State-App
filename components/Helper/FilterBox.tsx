@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FaFilter } from 'react-icons/fa';
 import { FaCircleArrowLeft } from 'react-icons/fa6';
+import SearchCode from './SearchCode';
 
 interface Type {
   description: string;
@@ -121,19 +122,22 @@ const FilterBox = () => {
           </div>
 
         </Link>
+        <div className="pt-5 max-w-10 max-h-10 absolute top-2 right-14 md:right-20 lg:right-24 cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110 ">
+          <SearchCode />
+        </div>
 
         <div className="relative max-w-4xl mx-auto px-4 py-4 ">
           <div className="flex items-center justify-between w-full lg:hidden">
             <img src="/images/logo-hero.png" alt="Logo" className="h-16 object-cover shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110  rounded-lg " />
             <div>
-              <div className="flex items-center justify-between w-full ">
+              <div className="flex items-center pb-2 pr-20 justify-between w-full ">
                 <h2 className="text-xl font-semibold text-white mr-3">
                   Filtrar
                 </h2>
 
                 <button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="p-2 mr-6 text-white bg-custom-green rounded-lg hover:bg-opacity-80 transition-all duration-300 ease-in-out w-8 text-center"
+                  className="p-2 mr-7 text-white bg-custom-green rounded-lg hover:bg-opacity-80 transition-all duration-300 ease-in-out w-9 text-center"
                 >
                   <FaFilter className="text-xl" />
                 </button>
@@ -249,13 +253,13 @@ const FilterBox = () => {
             </button>
           )}
 
+
           <button
             onClick={handleSearchClick}
             className="px-4 py-3 bg-custom-green mt-6 text-white rounded-lg hover:bg-opacity-80 w-full transition-all duration-300 ease-in-out transform hover:scale-105 hidden lg:block"
           >
             Buscar
           </button>
-
         </div>
       </div>
     </div>

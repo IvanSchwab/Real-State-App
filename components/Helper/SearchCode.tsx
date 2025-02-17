@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaSearch } from "react-icons/fa";
+import { createPortal } from "react-dom";
 
 const SearchCode: React.FC = () => {
     const [searchCode, setSearchCode] = useState("");
@@ -49,21 +50,25 @@ const SearchCode: React.FC = () => {
     };
 
     return (
-        <div className="relative font-quicksand">
+        <>
+            {/* Botón con texto en pantallas medianas o más grandes */}
             <button
                 onClick={() => setIsModalOpen(true)}
-                className="bg-[#81A781] text-sm text-white px-4 py-2 rounded-lg hidden sm:block"
+                className="hidden lg:block bg-[#81A781] text-sm text-white px-4 py-2 rounded-lg"
             >
                 Buscar Propiedad
             </button>
+
+            {/* Botón con ícono en móviles */}
             <button
                 onClick={() => setIsModalOpen(true)}
-                className="sm:hidden flex mr-8 items-center justify-center bg-[#81A781] text-white p-3 rounded-full shadow-md hover:bg-[#6e9372] active:scale-95 transition-all"
+                className="lg:hidden flex items-center justify-center bg-[#81A781] text-white p-3 rounded-full shadow-md hover:bg-[#6e9372] active:scale-95 transition-all"
             >
-                <FaSearch className="text-lg" />
+                <FaSearch className="text-xl" />
             </button>
 
-            {isModalOpen && (
+            {/* Modal */}
+            {isModalOpen && createPortal(
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="bg-white p-6 rounded-lg w-[90%] max-w-sm relative">
                         <button
@@ -93,10 +98,11 @@ const SearchCode: React.FC = () => {
                             Buscar
                         </button>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
-        </div>
+        </>
     );
-}
+};
 
 export default SearchCode;

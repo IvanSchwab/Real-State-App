@@ -53,7 +53,7 @@ const Nav = ({ openNav }: Props) => {
                 </div>
 
                 <div className="flex items-center gap-4 w-auto">
-                    <div className="relative w-[55px] sm:w-[100px] md:w-[100px] lg:w-[120px]">
+                    <div className="relative w-[55px] sm:w-[60px] md:w-[40px] lg:w-[100px]">
                         <SearchCode />
                     </div>
                     <HiBars3BottomRight
