@@ -40,15 +40,16 @@ const PropertyTitle = ({ openNav, propertyTitle }: Props) => {
 
                 <div className="absolute left-1/2 transform -translate-x-1/2 text-center">
                     <p
-                        className="select-none border-2 px-6 py-3 rounded-lg 
-                            bg-gray-300/30 text-white shadow-md border-[#4d624d] 
-                                transition-all duration-200 ease-in-out whitespace-nowrap
-                                    text-shadow-lg uppercase font-bold"
+                        title={propertyTitle}
+                        className="relative inline-block px-6 py-3 border-2 border-[#406642] bg-[#385839] rounded-lg select-none uppercase font-bold text-xs sm:text-sm md:text-base lg:text-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:border-[#528a55] overflow-hidden"
                     >
-                        {propertyTitle.length > 35 ? `${propertyTitle.slice(0, 35)}...` : propertyTitle}
+                        <span className="relative z-10 text-white">
+                            {propertyTitle.length > 35 ? `${propertyTitle.slice(0, 35)}...` : propertyTitle}
+                        </span>
+                        <span className="absolute inset-0 bg-gradient-to-br from-green-300 to-green-600 opacity-30 blur-md"></span>
                     </p>
                 </div>
-                <SearchCode/>
+                <SearchCode />
             </div>
         </div>
     );

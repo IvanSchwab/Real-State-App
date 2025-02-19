@@ -51,7 +51,6 @@ const SearchCode: React.FC = () => {
 
     return (
         <>
-            {/* Botón con texto en pantallas medianas o más grandes */}
             <button
                 onClick={() => setIsModalOpen(true)}
                 className="hidden lg:block bg-[#81A781] text-sm text-white px-4 py-2 rounded-lg"
@@ -59,7 +58,6 @@ const SearchCode: React.FC = () => {
                 Buscar Propiedad
             </button>
 
-            {/* Botón con ícono en móviles */}
             <button
                 onClick={() => setIsModalOpen(true)}
                 className="lg:hidden flex items-center justify-center bg-[#81A781] text-white p-3 rounded-full shadow-md hover:bg-[#6e9372] active:scale-95 transition-all"
@@ -67,7 +65,6 @@ const SearchCode: React.FC = () => {
                 <FaSearch className="text-xl" />
             </button>
 
-            {/* Modal */}
             {isModalOpen && createPortal(
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="bg-white p-6 rounded-lg w-[90%] max-w-sm relative">

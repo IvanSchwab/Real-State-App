@@ -43,7 +43,7 @@ const Footer = () => {
                     </p>
                     <p className="select-none text-xs text-center">
                         Software realizado por: {' '}
-                        <a href="https://github.com/IvanSchwab" target="_blank" className="text-blue-500 hover:underline">
+                        <a href="https://ivanschwabdev.vercel.app/" target="_blank" className="text-blue-500 hover:underline">
                             Iván Schwab
                         </a>
                     </p>
