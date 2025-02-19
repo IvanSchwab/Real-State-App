@@ -1,5 +1,5 @@
 "use client";
-import SearchCode from '@/components/Helper/SearchCode';
+import SearchCode from '@/components/common/SearchCode';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 

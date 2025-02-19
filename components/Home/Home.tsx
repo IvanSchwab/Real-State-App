@@ -2,15 +2,15 @@
 import React, { useEffect } from 'react'
 import Hero from './Hero/Hero'
 import AppartmentType from './AppartmentType/AppartmentType'
-import Properties from './Properties/Properties'
+import Properties from './HomeProperties/Properties'
 import AboutUs from './AboutUs/AboutUs'
 import Footer from './Footer/Footer'
-import ScrollToTopButton from '../Helper/ScrollToTopButton'
+import ScrollToTopButton from '../common/ScrollToTopButton'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ResponsiveNav from './Navbar/ResponsiveNav';
 import Appraisals from './Appraisals/Appraisals';
-import WhatsappButton from '../Helper/WhatsappButton';
+import WhatsappButton from '../common/WhatsappButton';
 
 const Home = () => {
   useEffect(() => {

@@ -1,4 +1,4 @@
-import SectionHeading from '@/components/Helper/SectionHeading'
+import SectionHeading from '@/components/common/SectionHeading'
 import { appartmentTypeData } from '@/data/data'
 import React from 'react'
 import AppartmentTypeCard from './AppartmentTypeCard'

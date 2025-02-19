@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import { FaBed, FaBath, FaSquare, FaSadTear } from 'react-icons/fa';
 import { useRouter, useSearchParams } from 'next/navigation';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 import { Property } from '@/constant/constant';
-import FilterBox from '@/components/Helper/FilterBox';
+import FilterBox from '@/app/properties/list/FilterBox';
+import 'aos/dist/aos.css';
+import AOS from 'aos';
 
 const PropertyList: React.FC = () => {
   const [totalProperties, setTotalProperties] = useState<number>(0);

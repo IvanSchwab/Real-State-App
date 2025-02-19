@@ -1,10 +1,10 @@
 import React from 'react';
-import PropertyDescription from './propertyDescription';
-import Map from './Map';
+import PropertyDescription from './details/propertyDescription';
+import Map from './details/Map';
 import Footer from '@/components/Home/Footer/Footer';
-import ContactUs from './ContacUs';
-import ScrollToTopButton from '@/components/Helper/ScrollToTopButton';
-import ResponsiveNavProperty from './NavBarProperty/ResponsiveTitle';
+import ContactUs from './details/ContacUs';
+import ScrollToTopButton from '@/components/common/ScrollToTopButton';
+import ResponsiveNavProperty from './NavProperty/ResponsiveTitle';
 
 const Page = ({ params }: { params: { propertyHash: string } }) => {
     return (

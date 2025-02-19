@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FaFilter } from 'react-icons/fa';
 import { FaCircleArrowLeft } from 'react-icons/fa6';
-import SearchCode from './SearchCode';
+import SearchCode from '../../../components/common/SearchCode';
 
 interface Type {
   description: string;

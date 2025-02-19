@@ -1,9 +1,9 @@
-import SectionHeading from '@/components/Helper/SectionHeading';
+import SectionHeading from '@/components/common/SectionHeading';
 import React, { useEffect, useState } from 'react';
-import PropertyCard from './PropertyCard';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Property } from '@/constant/constant';
+import PropertyCard from './PropertyCard';
 
 
 const Properties = () => {

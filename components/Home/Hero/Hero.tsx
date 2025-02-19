@@ -1,4 +1,4 @@
-import SearchBox from '@/components/Helper/SearchBox'
+import SearchBox from '@/components/Home/Hero/SearchBox'
 import React from 'react'
 
 const Hero = () => {

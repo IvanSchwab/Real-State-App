@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
-import ScrollToTop from "@/components/Helper/ScrollToTop";
+import ScrollToTop from "@/components/common/ScrollToTop";
 
 
 const font = Roboto({
