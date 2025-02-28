@@ -46,7 +46,7 @@ const PropertyTitle = ({ openNav, propertyTitle }: Props) => {
                         <span className="relative z-10 text-white">
                             {propertyTitle.length > 35 ? `${propertyTitle.slice(0, 35)}...` : propertyTitle}
                         </span>
-                        <span className="absolute inset-0 bg-gradient-to-br from-green-300 to-green-600 opacity-30 blur-md"></span>
+                        <span className="absolute inset-0 bg-gradient-to-br bg-custom-green opacity-80 blur-md"></span>
                     </p>
                 </div>
                 <SearchCode />
