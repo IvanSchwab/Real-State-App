@@ -30,13 +30,19 @@ const PropertyList: React.FC = () => {
 
 
   useEffect(() => {
+    const pageFromQuery = searchParams?.get("page");
+    const pageNumber = pageFromQuery ? parseInt(pageFromQuery, 10) : 1;
+    
+    setCurrentPage(pageNumber);
+    setFrom((pageNumber - 1) * propertiesPerPage);
+    
     const fetchProperties = async () => {
       setLoading(true);
       document.body.style.overflow = 'hidden';
       try {
         const queryString = new URLSearchParams({
           size: '9',
-          from: from.toString(),
+          from: ((pageNumber - 1) * propertiesPerPage).toString(),
           limit: propertiesPerPage.toString(),
           ...(operation && { operation }),
           ...(type && { type }),
@@ -45,8 +51,7 @@ const PropertyList: React.FC = () => {
           ...(zone1 && { zone1 }),
           ...(zone2 && { zone2 })
         }).toString();
-
-
+  
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}properties?${queryString}`,
           {
@@ -57,11 +62,11 @@ const PropertyList: React.FC = () => {
             },
           }
         );
-
+  
         if (!response.ok) {
           throw new Error('Failed to fetch properties');
         }
-
+  
         const data = await response.json();
         setProperties(data.properties);
         setTotalProperties(data.total);
@@ -76,10 +81,10 @@ const PropertyList: React.FC = () => {
         document.body.style.overflow = 'auto';
       }
     };
-
+  
     fetchProperties();
-  }, [from, type, operation, zone1, zone2, bedrooms, priceTo, searchParams?.toString()]);
-
+  }, [searchParams, type, operation, zone1, zone2, bedrooms, priceTo]);
+  
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>, propertyHash: string) => {
     if (!propertyHash) {
@@ -102,18 +107,18 @@ const PropertyList: React.FC = () => {
   };
 
   const handlePageChange = (page: number) => {
+    router.push(`?page=${page}`);
     setLoading(true);
     setCurrentPage(page);
     setFrom((page - 1) * propertiesPerPage);
-
+  
     document.body.style.overflow = 'hidden';
-
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'auto' });
       document.body.style.overflow = '';
     }, 0);
   };
-
+  
   const handleGoHome = () => {
     router.push('/');
   };
@@ -142,7 +147,7 @@ const PropertyList: React.FC = () => {
   return (
     <>
       <div className="absolute z-50">
-        <FilterBox />        
+        <FilterBox />
       </div>
       <div className="bg-[#f8fcf3] pt-32 md:pt-44 px-4 w-full min-h-[64vh]  items-center justify-center">
         {properties.length === 0 && (
@@ -230,7 +235,7 @@ const PropertyList: React.FC = () => {
                 key={pageNumber}
                 onClick={() => handlePageChange(pageNumber)}
                 className={`px-3 py-2 rounded-md border ${currentPage === pageNumber
-                  ? 'bg-[#4e7249] text-white'
+                  ? 'bg-[#4e7249] pointer-events-none text-white'
                   : 'bg-[#729c6b] text-white'
                   } hover:bg-[#5b8456] transition duration-200 hidden md:inline-block`}
               >
