@@ -27,6 +27,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const initialDistance = useRef<number | null>(null);
+  const panStart = useRef<{ x: number; y: number } | null>(null);
 
   const updateDisplayedImagesCount = () => {
     const width = window.innerWidth;
@@ -44,6 +45,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
     if (e.touches.length === 1) {
       setTouchStart(e.touches[0].clientX);
       setTouchEnd(e.touches[0].clientX);
+      panStart.current = { x: e.touches[0].clientX - position.x, y: e.touches[0].clientY - position.y };
     } else if (e.touches.length === 2) {
       const dist = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
@@ -56,18 +58,20 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   const handleTouchMove = (e: React.TouchEvent) => {
     if (e.touches.length === 1 && scale === 1) {
       setTouchEnd(e.touches[0].clientX);
+    } else if (e.touches.length === 1 && scale > 1 && panStart.current) {
+      const newX = e.touches[0].clientX - panStart.current.x;
+      const newY = e.touches[0].clientY - panStart.current.y;
+      setPosition(limitPan(newX, newY));
     } else if (e.touches.length === 2 && initialDistance.current) {
       e.preventDefault();
       const currentDistance = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
       );
-      const newScale = (currentDistance / initialDistance.current) * scale;
-      setScale(Math.min(Math.max(newScale, 1), 3));
+      const newScale = currentDistance / initialDistance.current;
+      setScale(Math.min(Math.max(newScale, 1), 4));
     }
   };
-
-
 
   const handleTouchEnd = () => {
     setIsTouching(false);
@@ -81,6 +85,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
         onPreviousImage();
       }
     }
+    panStart.current = null;
   };
 
   const handleDoubleClick = () => {
@@ -101,20 +106,34 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
     const handleMouseMove = (e: MouseEvent) => {
       const newX = e.clientX - startX;
       const newY = e.clientY - startY;
-      setPosition({
-        x: newX,
-        y: newY
-      });
+      setPosition(limitPan(newX, newY));
     };
 
     const handleMouseUp = () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
   };
+
+  const limitPan = (x: number, y: number) => {
+    if (!imageRef.current || !containerRef.current) return { x, y };
+
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const imgWidth = imageRef.current.offsetWidth * scale;
+    const imgHeight = imageRef.current.offsetHeight * scale;
+
+    const overflowX = Math.max((imgWidth - containerRect.width) / 2, 0);
+    const overflowY = Math.max((imgHeight - containerRect.height) / 2, 0);
+
+    const limitedX = Math.min(Math.max(x, -overflowX), overflowX);
+    const limitedY = Math.min(Math.max(y, -overflowY), overflowY);
+
+    return { x: limitedX, y: limitedY };
+  };
+
 
   const resetZoom = () => {
     setScale(1);
@@ -124,8 +143,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   useEffect(() => {
     resetZoom();
   }, [selectedImageIndex]);
-
-
 
   useEffect(() => {
     updateDisplayedImagesCount();
@@ -169,9 +186,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
           >
             <button
               onClick={onPreviousImage}
-              className={`absolute left-4 z-40 text-white text-3xl font-bold p-2 rounded-full bg-gray-800/80 hover:bg-gray-700/80 transition-opacity ${isTouching ? 'opacity-0' : 'opacity-100'
+              className={`absolute left-4 z-40 text-white text-3xl font-bold p-2 rounded-full bg-gray-800/80 hover:bg-gray-700/80 transition-opacity ${isTouching ? "opacity-0" : "opacity-100"
                 } md:block`}
-              style={{ top: '50%', transform: 'translateY(-50%)' }}
+              style={{ top: "50%", transform: "translateY(-50%)" }}
             >
               &lt;
             </button>
@@ -184,9 +201,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
                 className="cursor-grab active:cursor-grabbing"
                 style={{
                   transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
-                  transition: scale === 1 ? 'transform 0.3s' : 'none',
-                  maxWidth: '90vw',
-                  maxHeight: '90vh',
+                  transition: scale === 1 ? "transform 0.3s" : "none",
+                  maxWidth: "90vw",
+                  maxHeight: "90vh",
                 }}
                 onDoubleClick={handleDoubleClick}
                 onMouseDown={handleMouseDown}
@@ -204,9 +221,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 
             <button
               onClick={onNextImage}
-              className={`absolute right-4 text-white text-3xl font-bold p-2 rounded-full bg-gray-800/80 hover:bg-gray-700/80 transition-opacity ${isTouching ? 'opacity-0' : 'opacity-100'
+              className={`absolute right-4 text-white text-3xl font-bold p-2 rounded-full bg-gray-800/80 hover:bg-gray-700/80 transition-opacity ${isTouching ? "opacity-0" : "opacity-100"
                 } md:block`}
-              style={{ top: '50%', transform: 'translateY(-50%)' }}
+              style={{ top: "50%", transform: "translateY(-50%)" }}
             >
               &gt;
             </button>

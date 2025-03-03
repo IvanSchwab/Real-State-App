@@ -122,14 +122,14 @@ const FilterBox = () => {
           </div>
 
         </Link>
-        <div className="pt-5 max-w-10 max-h-10 absolute top-2 right-14 md:right-20 lg:right-24 cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110 ">
+        <div className="pt-5 pl-2 z-40 max-w-10 max-h-10 absolute top-2 right-14 md:right-20 lg:right-24 cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110 ">
           <SearchCode />
         </div>
 
         <div className="relative max-w-4xl mx-auto px-4 py-4 ">
-          <div className="flex items-center justify-between w-full lg:hidden">
+          <div className="flex items-center  w-full lg:hidden">
             <img src="/images/logo-hero.png" alt="Logo" className="h-16 object-cover shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110  rounded-lg " />
-            <div>
+            <div className='pl-2'>
               <div className="flex items-center pb-2 pr-20 justify-between w-full ">
                 <h2 className="text-xl font-semibold text-white mr-3">
                   Filtrar
@@ -167,7 +167,7 @@ const FilterBox = () => {
               </select>
             </div>
 
-            <div className="lg:w-64">
+            <div className="lg:w-64 ">
               <select
                 id="zone"
                 value={selectedZone || ''}
