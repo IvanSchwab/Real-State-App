@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 import { FaFacebook, FaInstagram, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa';
 
@@ -51,18 +52,29 @@ const Footer = () => {
 
                 <div className="flex flex-wrap justify-center gap-6 mt-4 w-full">
                     <div className="w-28 md:w-32 h-12 md:h-14 rounded-lg overflow-hidden shadow-xl">
-                        <img
-                            src="/images/logo-hero.png"
-                            alt="Logo de Olivera de Schwab"
-                            className="object-cover w-full h-full rounded-lg"
-                        />
+                        <div className="relative w-full h-full rounded-lg overflow-hidden">
+                            <Image
+                                src="/images/logo-hero.png"
+                                alt="Logo de Olivera de Schwab"
+                                fill
+                                sizes="(max-width: 768px) 100px, 150px"
+                                className="object-cover rounded-lg"
+                                quality={100}
+                                priority={true}
+                            />
+                        </div>
                     </div>
                     <div className="w-28 md:w-32 h-12 md:h-14">
-                        <img
-                            src="/images/colegio-martilleros.png"
-                            alt="Colegio de Martilleros"
-                            className="object-contain w-full h-full"
-                        />
+                        <div className="relative w-full h-full">
+                            <Image
+                                src="/images/colegio-martilleros.png"
+                                alt="Colegio de Martilleros"
+                                fill
+                                sizes="(max-width: 768px) 100vw, 400px"
+                                className="object-contain"
+                                quality={90}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

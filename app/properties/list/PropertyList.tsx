@@ -6,6 +6,7 @@ import { Property } from '@/constant/constant';
 import FilterBox from '@/app/properties/list/FilterBox';
 import 'aos/dist/aos.css';
 import AOS from 'aos';
+import Image from 'next/image';
 
 const PropertyList: React.FC = () => {
   const [totalProperties, setTotalProperties] = useState<number>(0);
@@ -13,7 +14,7 @@ const PropertyList: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [from, setFrom] = useState<number>(0);
+  const [, setFrom] = useState<number>(0);
   const propertiesPerPage = 9;
 
   const router = useRouter();
@@ -32,10 +33,10 @@ const PropertyList: React.FC = () => {
   useEffect(() => {
     const pageFromQuery = searchParams?.get("page");
     const pageNumber = pageFromQuery ? parseInt(pageFromQuery, 10) : 1;
-    
+
     setCurrentPage(pageNumber);
     setFrom((pageNumber - 1) * propertiesPerPage);
-    
+
     const fetchProperties = async () => {
       setLoading(true);
       document.body.style.overflow = 'hidden';
@@ -51,7 +52,7 @@ const PropertyList: React.FC = () => {
           ...(zone1 && { zone1 }),
           ...(zone2 && { zone2 })
         }).toString();
-  
+
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}properties?${queryString}`,
           {
@@ -62,11 +63,11 @@ const PropertyList: React.FC = () => {
             },
           }
         );
-  
+
         if (!response.ok) {
           throw new Error('Failed to fetch properties');
         }
-  
+
         const data = await response.json();
         setProperties(data.properties);
         setTotalProperties(data.total);
@@ -81,10 +82,10 @@ const PropertyList: React.FC = () => {
         document.body.style.overflow = 'auto';
       }
     };
-  
+
     fetchProperties();
   }, [searchParams, type, operation, zone1, zone2, bedrooms, priceTo]);
-  
+
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>, propertyHash: string) => {
     if (!propertyHash) {
@@ -111,14 +112,14 @@ const PropertyList: React.FC = () => {
     setLoading(true);
     setCurrentPage(page);
     setFrom((page - 1) * propertiesPerPage);
-  
+
     document.body.style.overflow = 'hidden';
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'auto' });
       document.body.style.overflow = '';
     }, 0);
   };
-  
+
   const handleGoHome = () => {
     router.push('/');
   };
@@ -177,11 +178,15 @@ const PropertyList: React.FC = () => {
                 onMouseDown={(event) => handleClick(event, property.propertyHash)}
               >
                 <div className="relative">
-                  <img
-                    src={property.mainImage}
-                    alt={property.title}
-                    className="w-full h-56 object-cover group-hover:scale-110 transition-all duration-300"
-                  />
+                  <div className="w-full h-56 relative overflow-hidden">
+                    <Image
+                      src={property.mainImage}
+                      alt={property.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 768px"
+                      className="object-cover group-hover:scale-110 transition-all duration-300"
+                    />
+                  </div>
                   <div className="p-5 space-y-4">
                     <div className="flex items-center justify-between">
                       <h1 className="group-hover:underline text-gray-900 font-bold text-lg truncate">{property.title}</h1>

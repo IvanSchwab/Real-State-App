@@ -5,6 +5,7 @@ import { PropertyData } from "@/constant/constant";
 import ImageGallery from "./ImageGallery";
 import { FaInfoCircle, FaAlignLeft, FaCheckCircle, FaTimesCircle, FaEnvelope, FaMapMarkerAlt, FaPhone, FaUser, FaBuilding, FaHome, FaWhatsapp, FaFacebook, FaLinkedin, FaImages } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import Image from "next/image";
 
 const PropertyDescription: React.FC = () => {
   const router = useParams();
@@ -210,13 +211,21 @@ const PropertyDescription: React.FC = () => {
             onMouseLeave={!isTouchDevice ? handleMouseLeave : undefined}
             onMouseMove={!isTouchDevice ? handleMouseMove : undefined}
           >
-            <img
+            <div
               ref={imgRef}
-              src={`https://images.mapaprop.app/photos/${mainImage}`}
-              alt={title}
+              className="relative w-full h-full cursor-pointer"
               onClick={() => openModal(0)}
-              className="w-full h-full object-cover"
-            />
+            >
+              <Image
+                src={`https://images.mapaprop.app/photos/${mainImage}`}
+                alt={title}
+                fill
+                sizes="(max-width: 768px) 100vw, 80vw"
+                className="object-cover"
+                quality={85}
+                priority={true} 
+              />
+            </div>
 
             {isMagnifierActive && mainImage && (
               <div

@@ -19,8 +19,8 @@ interface Zone {
 export const useFetchData = () => {
   const [types, setTypes] = useState<Type[]>([]);
   const [zones, setZones] = useState<Zone[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [, setLoading] = useState(false);
+  const [, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,7 +68,7 @@ const SearchBox = () => {
   const [selectedCounty, setSelectedCounty] = useState<number | null>(null);
   const [selectedType, setSelectedType] = useState<number | null>(null);
   const [selectedZone, setSelectedZone] = useState<number | null>(null);
-  const [priceFrom, setPriceFrom] = useState<number | null>(null);
+  const [priceFrom] = useState<number | null>(null);
   const [operation, setOperation] = useState<number | null>(null);
   const [bedrooms, setBedrooms] = useState<number | null>(null);
   const [priceTo, setPriceTo] = useState<number | null>(null);

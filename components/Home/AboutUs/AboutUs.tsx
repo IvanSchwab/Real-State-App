@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 const AboutUs = () => {
@@ -8,15 +9,23 @@ const AboutUs = () => {
 
         {/* Imagen */}
         <div className="relative w-full lg:w-1/2 h-96 overflow-hidden rounded-3xl shadow-xl hover:scale-105 transition-transform duration-500 ease-in-out select-none">
-          <img
+          <div
             data-aos="zoom-in-mini"
             data-aos-duration="800"
             data-aos-easing="ease-out"
             data-aos-offset="200"
-            src="/images/picture-real-state.jpg"
-            alt="Imagen de la empresa"
-            className="object-cover w-full h-full rounded-3xl"
-          />
+            className="relative w-full h-full rounded-3xl overflow-hidden"
+          >
+            <Image
+              src="/images/picture-real-state.jpg"
+              alt="Imagen de la empresa"
+              fill
+              sizes="(max-width: 768px) 100vw, 80vw"
+              className="object-cover rounded-3xl"
+              quality={85}
+              priority={true}
+            />
+          </div>
         </div>
 
         {/* Sección de texto */}

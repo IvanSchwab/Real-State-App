@@ -6,32 +6,33 @@ import ContactUs from './details/ContacUs';
 import ScrollToTopButton from '@/components/common/ScrollToTopButton';
 import ResponsiveNavProperty from './NavProperty/ResponsiveTitle';
 
-const Page = ({ params }: { params: { propertyHash: string } }) => {
+interface PageProps {
+    params: Promise<{ propertyHash: string }>;
+}
+
+export default async function Page({ params }: PageProps) {
+    const { propertyHash } = await params;
+
     return (
         <div className='bg-gray-50 min-h-screen font-quicksand flex flex-col'>
             <div className='z-0'>
-                <ResponsiveNavProperty propertyHash={params.propertyHash}></ResponsiveNavProperty>
+                <ResponsiveNavProperty propertyHash={propertyHash} />
             </div>
             <div className="relative z-100 bg-white">
                 <PropertyDescription />
             </div>
-
             <div className="relative z-0">
-                <Map propertyHash={params.propertyHash} />
+                <Map propertyHash={propertyHash} />
             </div>
-
             <div className="relative z-0 ">
                 <ContactUs />
             </div>
-
             <div className="relative z-0">
                 <Footer />
             </div>
             <div className="relative z-0">
-            <ScrollToTopButton />
+                <ScrollToTopButton />
             </div>
         </div>
     );
-};
-
-export default Page;
+}

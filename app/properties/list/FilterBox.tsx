@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { FaFilter } from 'react-icons/fa';
 import { FaCircleArrowLeft } from 'react-icons/fa6';
 import SearchCode from '../../../components/common/SearchCode';
+import Image from 'next/image';
 
 interface Type {
   description: string;
@@ -22,8 +23,8 @@ interface Zone {
 export const useFetchData = () => {
   const [types, setTypes] = useState<Type[]>([]);
   const [zones, setZones] = useState<Zone[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [, setLoading] = useState(false);
+  const [, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,8 +54,12 @@ export const useFetchData = () => {
 
         setTypes(typesData.types || typesData);
         setZones(zonesData.states || zonesData);
-      } catch (err: any) {
-        setError(err.message || 'Unknown error');
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Unknown error');
+        }
       } finally {
         setLoading(false);
       }
@@ -75,7 +80,7 @@ const FilterBox = () => {
   const [operation, setOperation] = useState<number | null>(null);
   const [bedrooms, setBedrooms] = useState<number | null>(null);
   const [priceTo, setPriceTo] = useState<number | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery] = useState<string>('');
 
   const router = useRouter();
 
@@ -91,7 +96,7 @@ const FilterBox = () => {
     };
 
     const queryString = Object.entries(query)
-      .filter(([_, value]) => value !== null)
+      .filter(([, value]) => value !== null)
       .map(([key, value]) => `${key}=${value}`)
       .join('&');
 
@@ -103,38 +108,40 @@ const FilterBox = () => {
     router.push(`/properties?${queryString}`);
   };
 
-
   return (
     <div className="fixed w-full ">
       <div className="top-0 pt-2 w-full bg-[#94b190] shadow-xl rounded-b-lg">
-
         <Link href="/">
           <div className="hidden w-48 h-20 xl:block absolute top-2 left-4 rounded-lg overflow-hidden shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110">
-            <img
+            <Image
               src="/images/logo-hero.png"
               alt="Logo de Olivera de Schwab"
-              className="object-cover w-full h-full rounded-lg"
+              layout="fill"
+              objectFit="cover"
+              className="rounded-lg"
             />
           </div>
 
           <div className="hidden lg:flex xl:hidden absolute top-4 left-4 cursor-pointer text-3xl">
             <FaCircleArrowLeft />
           </div>
-
         </Link>
         <div className="pt-5 pl-2 z-40 max-w-10 max-h-10 absolute top-2 right-14 md:right-20 lg:right-24 cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110 ">
           <SearchCode />
         </div>
 
         <div className="relative max-w-4xl mx-auto px-4 py-4 ">
-          <div className="flex items-center  w-full lg:hidden">
-            <img src="/images/logo-hero.png" alt="Logo" className="h-16 object-cover shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110  rounded-lg " />
-            <div className='pl-2'>
+          <div className="flex items-center w-full lg:hidden">
+            <Image
+              src="/images/logo-hero.png"
+              alt="Logo"
+              width={160}
+              height={160}
+              className="object-cover shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110 rounded-lg"
+            />
+            <div className="pl-2">
               <div className="flex items-center pb-2 pr-20 justify-between w-full ">
-                <h2 className="text-xl font-semibold text-white mr-3">
-                  Filtrar
-                </h2>
-
+                <h2 className="text-xl font-semibold text-white mr-3">Filtrar</h2>
                 <button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                   className="p-2 mr-7 text-white bg-custom-green rounded-lg hover:bg-opacity-80 transition-all duration-300 ease-in-out w-9 text-center"
@@ -147,8 +154,8 @@ const FilterBox = () => {
 
           <div
             className={`lg:flex lg:space-x-4 space-y-2 lg:space-y-0 flex-col lg:flex-row transition-all duration-300 ease-in-out transform ${isMobileMenuOpen
-              ? 'max-h-[300px] overflow-y-auto'
-              : 'max-h-0 overflow-hidden'
+                ? 'max-h-[300px] overflow-y-auto'
+                : 'max-h-0 overflow-hidden'
               } lg:max-h-none lg:overflow-visible`}
           >
             <div className="lg:w-64">
@@ -236,7 +243,9 @@ const FilterBox = () => {
                 type="number"
                 id="priceTo"
                 value={priceTo || ''}
-                onChange={(e) => setPriceTo(Math.max(0, Number(e.target.value)))}
+                onChange={(e) =>
+                  setPriceTo(Math.max(0, Number(e.target.value)))
+                }
                 className="w-full mt-1 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none shadow-sm hover:bg-gray-50 transition-all duration-300 ease-in-out"
                 placeholder="Valor"
                 min="0"
@@ -253,7 +262,6 @@ const FilterBox = () => {
             </button>
           )}
 
-
           <button
             onClick={handleSearchClick}
             className="px-4 py-3 bg-custom-green mt-6 text-white rounded-lg hover:bg-opacity-80 w-full transition-all duration-300 ease-in-out transform hover:scale-105 hidden lg:block"
@@ -264,7 +272,6 @@ const FilterBox = () => {
       </div>
     </div>
   );
-
 };
 
 export default FilterBox;

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useEffect, useState, useRef } from "react";
 
 interface ImageGalleryProps {
@@ -156,15 +157,21 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
     <div className="relative">
       <div className="grid pt-16 grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {images.slice(0, displayedImagesCount).map((image, index) => (
-          <img
+          <div
             key={index}
-            src={`https://images.mapaprop.app/photos/${image}`}
-            alt={`Imagen ${index + 1}`}
-            className="object-cover w-full aspect-square rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300"
+            className="relative w-full aspect-square rounded-lg overflow-hidden cursor-pointer"
             onClick={() => onImageSelect(index)}
-          />
+          >
+            <Image
+              src={`https://images.mapaprop.app/photos/${image}`}
+              alt={`Imagen ${index + 1}`}
+              fill
+              sizes="(max-width: 768px) 50vw, 33vw"
+              className="object-cover hover:scale-105 transition-transform duration-300"
+              quality={70}
+            />
+          </div>
         ))}
-
         {images.length > displayedImagesCount && !showMoreImages && (
           <button
             className="col-span-1 bg-gray-200 text-gray-700 font-semibold rounded-lg flex items-center justify-center aspect-square w-full cursor-pointer hover:bg-gray-300 transition-all"
@@ -194,11 +201,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
             </button>
 
             <div className="relative h-full w-full flex items-center justify-center overflow-hidden">
-              <img
+              <div
                 ref={imageRef}
-                src={`https://images.mapaprop.app/photos/${images[selectedImageIndex]}`}
-                alt={`Imagen seleccionada ${selectedImageIndex + 1}`}
-                className="cursor-grab active:cursor-grabbing"
+                className="relative flex items-center justify-center cursor-grab active:cursor-grabbing"
                 style={{
                   transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
                   transition: scale === 1 ? "transform 0.3s" : "none",
@@ -207,7 +212,18 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
                 }}
                 onDoubleClick={handleDoubleClick}
                 onMouseDown={handleMouseDown}
-              />
+              >
+                <Image
+                  src={`https://images.mapaprop.app/photos/${images[selectedImageIndex]}`}
+                  alt={`Imagen seleccionada ${selectedImageIndex + 1}`}
+                  width={800} 
+                  height={600}
+                  sizes="(max-width: 768px) 100vw, 80vw"
+                  className="object-contain w-auto h-auto max-w-full max-h-full"
+                  quality={85}
+                />
+              </div>
+
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
                 {images.map((_, idx) => (
                   <span
@@ -248,16 +264,23 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
           </button>
           <div className="w-full gap-x-2 gap-y-1 max-w-4xl mx-auto bg-gray-200 rounded-lg p-4 flex flex-wrap justify-center border-4 border-custom-green">
             {images.map((image, index) => (
-              <img
+              <div
                 key={index}
-                src={`https://images.mapaprop.app/photos/${image}`}
-                alt={`Imagen ${index + 1}`}
-                className="h-56 w-56 object-cover cursor-pointer hover:scale-105 transition-transform rounded-md"
+                className="relative h-56 w-56 overflow-hidden rounded-md cursor-pointer"
                 onClick={() => {
                   setShowMoreImages(false);
                   onImageSelect(index);
                 }}
-              />
+              >
+                <Image
+                  src={`https://images.mapaprop.app/photos/${image}`}
+                  alt={`Imagen ${index + 1}`}
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="object-cover hover:scale-105 transition-transform duration-300"
+                  quality={70}
+                />
+              </div>
             ))}
           </div>
         </div>

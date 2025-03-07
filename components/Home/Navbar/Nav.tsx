@@ -1,6 +1,7 @@
 "use client";
 import SearchCode from '@/components/common/SearchCode';
 import { navLinks } from '@/constant/constant';
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { HiBars3BottomRight } from 'react-icons/hi2';
@@ -31,11 +32,16 @@ const Nav = ({ openNav }: Props) => {
                     className={`bg-[#84ac84] opacity-65 p-2 transition-opacity duration-500 ${navBg ? "opacity-90" : "opacity-70"
                         } rounded-md shadow-md w-[90%] max-w-[150px] sm:w-[250px] sm:ml-5 md:ml-[-20px] `}
                 >
-                    <img
-                        src="/images/logo-background.png"
-                        alt="Logo"
-                        className="w-full h-[52px] object-cover rounded-md"
-                    />
+                    <div className="relative w-full h-[52px] rounded-md overflow-hidden">
+                        <Image
+                            src="/images/logo-background.png"
+                            alt="Logo"
+                            fill
+                            sizes="(max-width: 768px) 100px, 150px"
+                            className="object-cover rounded-md"
+                            quality={100}
+                        />
+                    </div>
                 </div>
 
                 <div className="hidden lg:flex items-center flex-grow justify-center space-x-4 xl:space-x-6 mx-4">

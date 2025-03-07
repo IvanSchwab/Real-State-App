@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import NavProperty from './PropertyTitle';
 
 const ResponsiveTitle = ({ propertyHash }: { propertyHash: string }) => {
-    const [showNav, setShowNav] = useState(false);
+    const [, setShowNav] = useState(false);
     const [propertyTitle, setPropertyTitle] = useState<string | null>(null);
 
     const openNavHandler = () => setShowNav(true);

@@ -1,5 +1,6 @@
 "use client";
 import SearchCode from '@/components/common/SearchCode';
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
@@ -8,8 +9,8 @@ type Props = {
     propertyTitle: string;
 };
 
-const PropertyTitle = ({ openNav, propertyTitle }: Props) => {
-    const [navBg, setNavBg] = useState(false);
+const PropertyTitle = ({ propertyTitle }: Props) => {
+    const [, setNavBg] = useState(false);
 
     useEffect(() => {
         const handler = () => {
@@ -30,11 +31,17 @@ const PropertyTitle = ({ openNav, propertyTitle }: Props) => {
                     <div
                         className="hidden sm:block bg-[#84ac84] opacity-90 p-2 rounded-md max-w-xs cursor-pointer shadow-md hover:opacity-100 hover:shadow-lg hover:scale-105 transition-all duration-300 ease-in-out"
                     >
-                        <img
-                            src="/images/logo-background.png"
-                            alt="Logo"
-                            className="object-cover w-full h-[52px] rounded-md"
-                        />
+                        <div className="relative mb-3 w-full h-[52px] rounded-md">
+                            <Image
+                                src="/images/logo-background.png"
+                                alt="Logo"
+                                width={150}
+                                height={52}
+                                sizes="(max-width: 768px) 100px, 150px"
+                                className="object-cover rounded-md"
+                                quality={100}
+                            />
+                        </div>
                     </div>
                 </Link>
 

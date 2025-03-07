@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react'
 import { FaBath, FaBed, FaSquare } from 'react-icons/fa';
 
@@ -16,22 +17,28 @@ type Props = {
 
 const PropertyCard = ({ property }: Props) => {
     return (
-        <div className="bg-[#f8fcf3] overflow-hidden group rounded-lg cursor-pointer shadow-lg h-[500px] relative"> 
+        <div className="bg-[#f8fcf3] overflow-hidden group rounded-lg cursor-pointer shadow-lg h-[500px] relative">
             <div className="select-none relative">
                 <div className="w-full h-64 overflow-hidden">
-                    <img
-                        src={property.mainImage}
-                        alt={property.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
-                    />
+                    <div className="relative w-full h-full overflow-hidden">
+                        <Image
+                            src={property.mainImage}
+                            alt={property.title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 800px"
+                            className="object-cover group-hover:scale-110 transition-all duration-300"
+                            quality={85}
+                            priority={true}
+                        />
+                    </div>
                 </div>
 
-                <div className="p-6"> 
-                    <div className="flex items-center justify-between mb-4"> 
+                <div className="p-6">
+                    <div className="flex items-center justify-between mb-4">
                         <h1 className="group-hover:underline text-gray-900 font-bold text-lg overflow-hidden text-ellipsis whitespace-nowrap" style={{ maxWidth: '300px' }}>
                             {property.title}
                         </h1>
-                        <p className="text-base font-bold text-black bg-gray-200 py-2 px-4 rounded-lg"> 
+                        <p className="text-base font-bold text-black bg-gray-200 py-2 px-4 rounded-lg">
                             ${property.price}
                         </p>
                     </div>
