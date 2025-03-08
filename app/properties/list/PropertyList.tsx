@@ -20,12 +20,12 @@ const PropertyList: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const type = searchParams?.get("type") || "";
-  const operation = searchParams?.get("operation") || "";
-  const bedrooms = searchParams?.get("bedrooms") || "";
-  const priceTo = searchParams?.get("priceTo") || "";
-  const zone1 = searchParams?.get("zone1") || "";
-  const zone2 = searchParams?.get("zone2") || "";
+  const type = searchParams?.get("type") ?? "";
+  const operation = searchParams?.get("operation") ?? "";
+  const bedrooms = searchParams?.get("bedrooms") ?? "";
+  const priceTo = searchParams?.get("priceTo") ?? "";
+  const zone1 = searchParams?.get("zone1") ?? "";
+  const zone2 = searchParams?.get("zone2") ?? "";
 
   const totalPages = Math.ceil(totalProperties / propertiesPerPage);
 
