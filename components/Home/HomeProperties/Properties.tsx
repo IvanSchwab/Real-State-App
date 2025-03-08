@@ -11,7 +11,7 @@ const Properties = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
-    const [totalProperties, setTotalProperties] = useState<number>(0);
+    const [, setTotalProperties] = useState<number>(0);
 
     useEffect(() => {
         const fetchProperties = async () => {

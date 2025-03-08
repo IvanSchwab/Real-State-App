@@ -50,8 +50,12 @@ export const useFetchData = () => {
 
         setTypes(typesData.types || typesData);
         setZones(zonesData.states || zonesData);
-      } catch (err: any) {
-        setError(err.message || 'Unknown error');
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message || 'Unknown error');
+        } else {
+          setError('Unknown error');
+        }
       } finally {
         setLoading(false);
       }
@@ -61,6 +65,7 @@ export const useFetchData = () => {
   }, []);
 
   return { types, zones };
+
 };
 
 const SearchBox = () => {
@@ -93,12 +98,13 @@ const SearchBox = () => {
     };
 
     const queryString = Object.entries(query)
-      .filter(([_, value]) => value !== null && value !== '')
+      .filter(([, value]) => value !== null && value !== '') 
       .map(([key, value]) => `${key}=${value}`)
       .join('&');
 
     return queryString;
   };
+
 
   const validateBedrooms = (value: string | number): number | null => {
     const num = Number(value);

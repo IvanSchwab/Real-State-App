@@ -3,6 +3,15 @@ import { useRouter } from "next/navigation";
 import { FaSearch } from "react-icons/fa";
 import { createPortal } from "react-dom";
 
+interface Property {
+    code: string;
+    propertyHash: string;
+}
+
+interface DataResponse {
+    properties: Property[];
+}
+
 const SearchCode: React.FC = () => {
     const [searchCode, setSearchCode] = useState("");
     const [error, setError] = useState("");
@@ -32,10 +41,11 @@ const SearchCode: React.FC = () => {
                 throw new Error("No se pudo obtener las propiedades.");
             }
 
-            const data = await response.json();
+            const data: DataResponse = await response.json();
             console.log(data);
 
-            const foundProperty = data.properties.find((prop: any) => prop.code === searchCode);
+            // Buscamos la propiedad con el código ingresado
+            const foundProperty = data.properties.find((prop) => prop.code === searchCode);
 
             if (foundProperty) {
                 router.push(`/properties/${foundProperty.propertyHash}`);
@@ -44,8 +54,12 @@ const SearchCode: React.FC = () => {
                 setError("No se encontró ninguna propiedad con ese código.");
             }
 
-        } catch (err: any) {
-            setError(err.message || "Error al obtener las propiedades.");
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("Error desconocido al obtener las propiedades.");
+            }
         }
     };
 
