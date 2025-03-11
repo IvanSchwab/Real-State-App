@@ -18,36 +18,18 @@ const Properties = () => {
             setLoading(true);
             setError(null);
             try {
-                const responseTotal = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}properties?size=1`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                );
+                const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}properties`);
+                url.searchParams.append('from', '0');
+                url.searchParams.append('size', '6');
+                url.searchParams.append('oauth_token', process.env.NEXT_PUBLIC_API_KEY || '');
 
-                if (!responseTotal.ok) {
-                    throw new Error('Error al obtener el total de propiedades');
-                }
-
-                const queryString = new URLSearchParams({
-                    size: '6',
-                    view: 'list',
-                }).toString();
-
-                const response = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}properties?${queryString}`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                );
+                const response = await fetch(url.toString(), {
+                    method: 'GET',
+                    // headers: {
+                    //   Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+                    //   'Content-Type': 'application/json',
+                    // },
+                });
 
                 if (!response.ok) {
                     throw new Error('Error al obtener las propiedades');
@@ -69,6 +51,7 @@ const Properties = () => {
 
         fetchProperties();
     }, []);
+
 
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement>, propertyHash: string) => {
