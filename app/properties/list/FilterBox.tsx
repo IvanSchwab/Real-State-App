@@ -33,14 +33,14 @@ export const useFetchData = () => {
 
       try {
         const [typesRes, zonesRes] = await Promise.all([
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}types`, {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}types?oauth_client=${process.env.NEXT_PUBLIC_API_KEY!}`, {
             headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+              'Authorization': process.env.NEXT_PUBLIC_API_KEY!
             },
           }),
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}zones`, {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}zones?oauth_client=${process.env.NEXT_PUBLIC_API_KEY!}`, {
             headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+              'Authorization': process.env.NEXT_PUBLIC_API_KEY!
             },
           }),
         ]);
@@ -154,8 +154,8 @@ const FilterBox = () => {
 
           <div
             className={`lg:flex lg:space-x-4 space-y-2 lg:space-y-0 flex-col lg:flex-row transition-all duration-300 ease-in-out transform ${isMobileMenuOpen
-                ? 'max-h-[300px] overflow-y-auto'
-                : 'max-h-0 overflow-hidden'
+              ? 'max-h-[300px] overflow-y-auto'
+              : 'max-h-0 overflow-hidden'
               } lg:max-h-none lg:overflow-visible`}
           >
             <div className="lg:w-64">

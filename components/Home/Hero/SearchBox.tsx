@@ -29,15 +29,15 @@ export const useFetchData = () => {
 
       try {
         const [typesRes, zonesRes] = await Promise.all([
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}types`, {
-            headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
-            },
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}types?oauth_token=${process.env.NEXT_PUBLIC_API_KEY!}`, {
+            headers: new Headers({
+              'Authorization': process.env.NEXT_PUBLIC_API_KEY! 
+            }),
           }),
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}zones`, {
-            headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
-            },
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}zones?oauth_token=${process.env.NEXT_PUBLIC_API_KEY!}`, {
+            headers: new Headers({
+              'Authorization': process.env.NEXT_PUBLIC_API_KEY!
+            }),
           }),
         ]);
 
@@ -98,7 +98,7 @@ const SearchBox = () => {
     };
 
     const queryString = Object.entries(query)
-      .filter(([, value]) => value !== null && value !== '') 
+      .filter(([, value]) => value !== null && value !== '')
       .map(([key, value]) => `${key}=${value}`)
       .join('&');
 
