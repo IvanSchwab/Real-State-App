@@ -29,14 +29,25 @@ const PropertyDescription: React.FC = () => {
 
       setLoading(true);
       document.body.style.overflow = 'hidden';
+
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+      if (!apiUrl || !apiKey) {
+        console.error('Missing API configuration');
+        setError('Missing API configuration');
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}properties/${propertyHash}`,
+          `${apiUrl}properties/${propertyHash}?oauth_token=${apiKey}`,
           {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
-              "Content-Type": "application/json",
+              'Authorization': `Bearer ${apiKey}`,
+              'Content-Type': 'application/json',
             },
           }
         );
@@ -223,7 +234,7 @@ const PropertyDescription: React.FC = () => {
                 sizes="(max-width: 768px) 100vw, 80vw"
                 className="object-cover"
                 quality={85}
-                priority={true} 
+                priority={true}
               />
             </div>
 

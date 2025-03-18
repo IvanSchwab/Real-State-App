@@ -12,9 +12,6 @@ const MAP_STYLES = {
   dark: "mapbox://styles/mapbox/dark-v10",
 };
 
-const API_HEADERS = {
-  Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
-};
 
 interface MapProps {
   propertyHash: string;
@@ -31,10 +28,24 @@ const Map: React.FC<MapProps> = ({ propertyHash }) => {
 
   useEffect(() => {
     const fetchCoordinates = async () => {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+      if (!apiUrl || !apiKey) {
+        console.error('Missing API configuration');
+        return;
+      }
+
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}properties/${propertyHash}`,
-          { method: "GET", headers: API_HEADERS }
+          `${apiUrl}properties/${propertyHash}?oauth_token=${apiKey}`,
+          {
+            method: "GET",
+            headers: {
+              'Authorization': `Bearer ${apiKey}`,
+              'Content-Type': 'application/json',
+            },
+          }
         );
 
         if (!response.ok) throw new Error("Failed to fetch coordinates");

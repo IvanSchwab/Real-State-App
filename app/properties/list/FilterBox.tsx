@@ -31,16 +31,26 @@ export const useFetchData = () => {
       setLoading(true);
       setError(null);
 
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+      if (!apiUrl || !apiKey) {
+        console.error('Missing API configuration');
+        setError('Missing API configuration');
+        setLoading(false);
+        return;
+      }
+
       try {
         const [typesRes, zonesRes] = await Promise.all([
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}types?oauth_client=${process.env.NEXT_PUBLIC_API_KEY!}`, {
+          fetch(`${apiUrl}types?oauth_token=${apiKey}`, {
             headers: {
-              'Authorization': process.env.NEXT_PUBLIC_API_KEY!
+              'Authorization': `Bearer ${apiKey}`,
             },
           }),
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}zones?oauth_client=${process.env.NEXT_PUBLIC_API_KEY!}`, {
+          fetch(`${apiUrl}zones?oauth_token=${apiKey}`, {
             headers: {
-              'Authorization': process.env.NEXT_PUBLIC_API_KEY!
+              'Authorization': `Bearer ${apiKey}`,
             },
           }),
         ]);
@@ -54,7 +64,7 @@ export const useFetchData = () => {
 
         setTypes(typesData.types || typesData);
         setZones(zonesData.states || zonesData);
-      } catch (err: unknown) {
+      } catch (err) {
         if (err instanceof Error) {
           setError(err.message);
         } else {

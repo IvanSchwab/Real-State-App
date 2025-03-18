@@ -17,22 +17,36 @@ const Properties = () => {
         const fetchProperties = async () => {
             setLoading(true);
             setError(null);
+
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+            const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+            if (!apiUrl || !apiKey) {
+                console.error('Missing API configuration');
+                setError('Missing API configuration');
+                setLoading(false);
+                return;
+            }
+
             try {
                 const responseTotal = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}properties?size=1`,
+                    `${apiUrl}properties?size=1&oauth_token=${apiKey}`,
                     {
                         method: 'GET',
                         headers: {
-                            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+                            Authorization: `Bearer ${apiKey}`,
                             'Content-Type': 'application/json',
                         },
                     }
                 );
 
                 if (!responseTotal.ok) {
+                    console.error('Error al obtener el total de propiedades:', responseTotal.statusText);
                     throw new Error('Error al obtener el total de propiedades');
                 }
-                
+
+                const totalData = await responseTotal.json();
+                const totalProperties = totalData.total || 0;
 
                 const queryString = new URLSearchParams({
                     size: '6',
@@ -40,25 +54,27 @@ const Properties = () => {
                 }).toString();
 
                 const response = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}properties?${queryString}`,
+                    `${apiUrl}properties?${queryString}&oauth_token=${apiKey}`,
                     {
                         method: 'GET',
                         headers: {
-                            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+                            Authorization: `Bearer ${apiKey}`,
                             'Content-Type': 'application/json',
                         },
                     }
                 );
 
                 if (!response.ok) {
+                    console.error('Error al obtener las propiedades:', response.statusText);
                     throw new Error('Error al obtener las propiedades');
                 }
 
                 const data = await response.json();
-                setProperties(data.properties);
-                setTotalProperties(data.total);
+                setProperties(data.properties || []);
+                setTotalProperties(totalProperties);
             } catch (err) {
                 if (err instanceof Error) {
+                    console.error('Fetch error:', err.message);
                     setError(err.message);
                 } else {
                     setError('Error desconocido');

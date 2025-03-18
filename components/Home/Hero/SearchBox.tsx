@@ -27,31 +27,47 @@ export const useFetchData = () => {
       setLoading(true);
       setError(null);
 
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+      if (!apiUrl || !apiKey) {
+        console.error('Missing API configuration');
+        setError('Missing API configuration');
+        setLoading(false);
+        return;
+      }
+
       try {
         const [typesRes, zonesRes] = await Promise.all([
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}types?oauth_token=${process.env.NEXT_PUBLIC_API_KEY!}`, {
+          fetch(`${apiUrl}types?oauth_token=${apiKey}`, {
             headers: new Headers({
-              'Authorization': process.env.NEXT_PUBLIC_API_KEY! 
-            }),
+              'Authorization': `Bearer ${apiKey}`
+            })
           }),
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}zones?oauth_token=${process.env.NEXT_PUBLIC_API_KEY!}`, {
+          fetch(`${apiUrl}zones?oauth_token=${apiKey}`, {
             headers: new Headers({
-              'Authorization': process.env.NEXT_PUBLIC_API_KEY!
-            }),
-          }),
+              'Authorization': `Bearer ${apiKey}`
+            })
+          })
         ]);
 
-        if (!typesRes.ok || !zonesRes.ok) {
-          throw new Error('Error fetching data');
+        if (!typesRes.ok) {
+          console.error('Error fetching types:', typesRes.statusText);
+        } else {
+          const typesData = await typesRes.json();
+          setTypes(Array.isArray(typesData.types) ? typesData.types : typesData);
         }
 
-        const typesData = await typesRes.json();
-        const zonesData = await zonesRes.json();
+        if (!zonesRes.ok) {
+          console.error('Error fetching zones:', zonesRes.statusText);
+        } else {
+          const zonesData = await zonesRes.json();
+          setZones(Array.isArray(zonesData.states) ? zonesData.states : zonesData);
+        }
 
-        setTypes(typesData.types || typesData);
-        setZones(zonesData.states || zonesData);
       } catch (err: unknown) {
         if (err instanceof Error) {
+          console.error('Fetch error:', err.message);
           setError(err.message || 'Unknown error');
         } else {
           setError('Unknown error');

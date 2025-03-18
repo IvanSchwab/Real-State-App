@@ -40,6 +40,18 @@ const PropertyList: React.FC = () => {
     const fetchProperties = async () => {
       setLoading(true);
       document.body.style.overflow = 'hidden';
+
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+      if (!apiUrl || !apiKey) {
+        console.error('Missing API configuration');
+        setError('Missing API configuration');
+        setLoading(false);
+        document.body.style.overflow = 'auto';
+        return;
+      }
+
       try {
         const queryString = new URLSearchParams({
           size: '9',
@@ -50,29 +62,32 @@ const PropertyList: React.FC = () => {
           ...(bedrooms && { bedrooms }),
           ...(priceTo && { priceTo }),
           ...(zone1 && { zone1 }),
-          ...(zone2 && { zone2 })
+          ...(zone2 && { zone2 }),
         }).toString();
 
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}properties?${queryString}`,
+          `${apiUrl}properties?${queryString}&oauth_token=${apiKey}`,
           {
             method: 'GET',
             headers: {
-              'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+              'Authorization': `Bearer ${apiKey}`,
               'Content-Type': 'application/json',
             },
           }
         );
 
         if (!response.ok) {
+          console.error('Error fetching properties:', response.statusText);
           throw new Error('Failed to fetch properties');
         }
 
         const data = await response.json();
         setProperties(data.properties);
         setTotalProperties(data.total);
+
       } catch (err) {
         if (err instanceof Error) {
+          console.error('Fetch error:', err.message);
           setError(err.message);
         } else {
           setError('An unknown error occurred');

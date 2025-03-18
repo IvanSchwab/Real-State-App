@@ -31,11 +31,22 @@ const SearchCode: React.FC = () => {
                 codeSearch: searchCode,
             }).toString();
 
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/properties?${queryString}`, {
-                headers: {
-                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
-                },
-            });
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+            const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
+            if (!apiUrl || !apiKey) {
+                console.error('Missing API configuration');
+                return;
+            }
+
+            const response = await fetch(
+                `${apiUrl}/properties?${queryString}&oauth_token=${apiKey}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${apiKey}`,
+                    },
+                }
+            );
 
             if (!response.ok) {
                 throw new Error("No se pudo obtener las propiedades.");
@@ -44,7 +55,6 @@ const SearchCode: React.FC = () => {
             const data: DataResponse = await response.json();
             console.log(data);
 
-            // Buscamos la propiedad con el código ingresado
             const foundProperty = data.properties.find((prop) => prop.code === searchCode);
 
             if (foundProperty) {
