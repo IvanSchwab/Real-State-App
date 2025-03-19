@@ -222,7 +222,7 @@ const PropertyList: React.FC = () => {
                         </div>
                         <div className="flex items-center space-x-2">
                           <FaSquare className="text-custom-green text-xl" />
-                          <p className="text-sm font-medium text-gray-700">{property.size} m²</p>
+                          <p className="text-sm font-medium text-gray-700">{property.landArea} m²</p>
                         </div>
                       </div>
                     </div>

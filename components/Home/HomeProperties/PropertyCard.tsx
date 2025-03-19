@@ -8,7 +8,7 @@ type Props = {
         title: string;
         bedrooms: number;
         bathrooms: number;
-        size: number;
+        landArea: number;
         price: number;
         mainImage: string;
         propertyOperation?: string;
@@ -60,7 +60,7 @@ const PropertyCard = ({ property }: Props) => {
                             <div className="flex items-center space-x-2">
                                 <FaSquare className="text-custom-green text-xl" />
                                 <p className="text-sm font-medium select-none text-gray-700">
-                                    {property.size} m²
+                                    {property.landArea} m²
                                 </p>
                             </div>
                         </div>

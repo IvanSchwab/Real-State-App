@@ -66,7 +66,7 @@ export interface Property {
   lastUpdate: string;
   bedrooms: number;
   bathrooms: number;
-  size: number;
+  landArea: number;
   contract: string;
 }
 
@@ -78,6 +78,7 @@ export interface PropertyData {
   code: string;
   codeSearch: string;
   description: string;
+  landArea: number;
   alternativePrices: any[];
   customerCountry: number;
   type: number;
