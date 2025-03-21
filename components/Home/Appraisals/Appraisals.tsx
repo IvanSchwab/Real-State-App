@@ -3,11 +3,15 @@ import React, { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-const Appraisals = () => {
-  useEffect(() => {
-    AOS.init({ duration: 1200 }); 
-  }, []);
+declare global {
+  interface Window {
+    grecaptcha: {
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+    }
+  }
+}
 
+const Appraisals = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,7 +19,9 @@ const Appraisals = () => {
     message: "",
   });
 
-  const [statusMessage, setStatusMessage] = useState("");
+  useEffect(() => {
+    AOS.init({ duration: 1200 });
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -27,16 +33,52 @@ const Appraisals = () => {
     }));
   };
 
+  const [statusMessage, setStatusMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState('');
+
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = `https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`;
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      console.log('reCAPTCHA script cargado');
+    };
+  }, []);
+
+  const handleCaptcha = async () => {
+    try {
+      if (!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
+        throw new Error('reCAPTCHA site key is not defined');
+      }
+      const token = await window.grecaptcha.execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, { action: 'submit' });
+      setCaptchaToken(token);
+    } catch (error) {
+      console.error('Error al obtener el token de reCAPTCHA', error);
+    }
+  };
+
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!captchaToken) {
+      setStatusMessage('Por favor, verifica el captcha.');
+      setIsSubmitting(false);
+      return;
+    }
     try {
       const response = await fetch("/api/sendEmail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, captchaToken }),
       });
 
       const data = await response.json();
@@ -46,16 +88,19 @@ const Appraisals = () => {
         setFormData({
           name: "",
           email: "",
-          message: "",
           subject: "",
+          message: "",
         });
       } else {
         setStatusMessage("Hubo un problema al enviar el correo.");
       }
     } catch (error) {
-      console.error("Error al enviar los datos:", error);
-      setStatusMessage("Error al enviar el correo. Intenta de nuevo más tarde.");
-    }
+      console.error('Error al enviar correo:', error);
+      setStatusMessage('Hubo un error al enviar el correo.');
+    } finally {
+      setIsSubmitting(false);
+    };
+
   };
 
   return (
@@ -85,6 +130,7 @@ const Appraisals = () => {
               <label
                 htmlFor="name"
                 className="block text-sm font-medium text-gray-700"
+                aria-label="Nombre"
               >
                 Nombre
               </label>
@@ -104,6 +150,7 @@ const Appraisals = () => {
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
+                aria-label="Correo Electrónico"
               >
                 Correo Electrónico
               </label>
@@ -123,6 +170,7 @@ const Appraisals = () => {
               <label
                 htmlFor="message"
                 className="block text-sm font-medium text-gray-700"
+                aria-label="Mensaje"
               >
                 Mensaje
               </label>
@@ -140,9 +188,11 @@ const Appraisals = () => {
 
             <button
               type="submit"
-              className="w-full bg-[#7A9F6E] text-white py-2 px-4 rounded-md hover:bg-[#5F8554] transition duration-200"
+              className="w-full bg-[#89c77c] text-white py-2 px-4 rounded-md hover:bg-[#7cb370] transition duration-200"
+              onClick={handleCaptcha} 
+              disabled={isSubmitting}
             >
-              Enviar Solicitud
+              {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
             </button>
           </form>
 

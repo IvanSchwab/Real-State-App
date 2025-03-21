@@ -1,5 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+declare global {
+  interface Window {
+    grecaptcha: {
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+    }
+  }
+}
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -8,9 +16,6 @@ const ContactUs = () => {
     subject: "",
     message: "",
   });
-
-  const [statusMessage, setStatusMessage] = useState("");
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -21,8 +26,43 @@ const ContactUs = () => {
     }));
   };
 
+  const [statusMessage, setStatusMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState('');
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = `https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`;
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      console.log('reCAPTCHA script cargado');
+    };
+  }, []);
+
+  const handleCaptcha = async () => {
+    try {
+      if (!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
+        throw new Error('reCAPTCHA site key is not defined');
+      }
+      const token = await window.grecaptcha.execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, { action: 'submit' });
+      setCaptchaToken(token);
+    } catch (error) {
+      console.error('Error al obtener el token de reCAPTCHA', error);
+    }
+  };
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!captchaToken) {
+      setStatusMessage('Por favor, verifica el captcha.');
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       const response = await fetch("/api/sendEmail", {
@@ -30,7 +70,7 @@ const ContactUs = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, captchaToken }),
       });
 
       const data = await response.json();
@@ -40,15 +80,17 @@ const ContactUs = () => {
         setFormData({
           name: "",
           email: "",
-          message: "",
           subject: "",
+          message: "",
         });
       } else {
         setStatusMessage("Hubo un problema al enviar el correo.");
       }
     } catch (error) {
-      console.error("Error al enviar los datos:", error);
-      setStatusMessage("Error al enviar el correo. Intenta de nuevo más tarde.");
+      console.error('Error al enviar correo:', error);
+      setStatusMessage('Hubo un error al enviar el correo.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -63,17 +105,20 @@ const ContactUs = () => {
             Contáctanos para más información sobre la propiedad que te interesa. Estamos aquí para ayudarte a tomar la mejor decisión.
           </p>
           <p className="select-none text-lg text-gray-700 leading-relaxed font-poppins">
-            Contactanos via el siguiente formulario o directamente mediante WhatsApp.
+            Contáctanos vía el siguiente formulario o directamente mediante WhatsApp.
           </p>
         </div>
 
         <div className="lg:w-2/4 mt-8 bg-[#dde2dc] p-6 rounded-lg shadow-md w-full max-w-md min-w-[350px]">
-          <h3 className="text-2xl font-semibold mb-4 text-gray-800 font-poppins select-none">Solicita más información</h3>
+          <h3 className="text-2xl font-semibold mb-4 text-gray-800 font-poppins select-none">
+            Solicita más información
+          </h3>
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="name"
                 className="block text-sm font-medium text-gray-700"
+                aria-label="Nombre"
               >
                 Nombre
               </label>
@@ -93,6 +138,7 @@ const ContactUs = () => {
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
+                aria-label="Correo Electrónico"
               >
                 Correo Electrónico
               </label>
@@ -112,6 +158,7 @@ const ContactUs = () => {
               <label
                 htmlFor="message"
                 className="block text-sm font-medium text-gray-700"
+                aria-label="Mensaje"
               >
                 Mensaje
               </label>
@@ -130,8 +177,10 @@ const ContactUs = () => {
             <button
               type="submit"
               className="w-full bg-[#89c77c] text-white py-2 px-4 rounded-md hover:bg-[#7cb370] transition duration-200"
+              onClick={handleCaptcha}
+              disabled={isSubmitting}
             >
-              Enviar Solicitud
+              {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
             </button>
           </form>
 
