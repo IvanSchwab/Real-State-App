@@ -35,7 +35,7 @@ const Appraisals = () => {
 
   const [statusMessage, setStatusMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState('');
+  const [, setCaptchaToken] = useState('');
 
 
   useEffect(() => {
