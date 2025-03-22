@@ -66,41 +66,48 @@ const Appraisals = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    if (!captchaToken) {
-      setStatusMessage('Por favor, verifica el captcha.');
-      setIsSubmitting(false);
-      return;
-    }
     try {
-      const response = await fetch("/api/sendEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...formData, captchaToken }),
+      const token = await window.grecaptcha.execute(
+        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!,
+        { action: 'submit' }
+      );
+      console.log('Captcha token:', token);
+
+      if (!formData.name || !formData.email || !formData.message || !token) {
+        console.error('Faltan campos obligatorios');
+        setStatusMessage('Todos los campos y el captcha son obligatorios');
+        setIsSubmitting(false);
+        return;
+      }
+
+      const response = await fetch('/api/sendEmail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          captchaToken: token
+        }),
       });
 
       const data = await response.json();
+      console.log('Respuesta del servidor:', data);
 
       if (response.ok && data.success) {
         setStatusMessage("Correo enviado exitosamente.");
-        setFormData({
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
-        });
       } else {
-        setStatusMessage("Hubo un problema al enviar el correo.");
+        setStatusMessage(data.message || "Hubo un problema al enviar el correo.");
       }
     } catch (error) {
-      console.error('Error al enviar correo:', error);
-      setStatusMessage('Hubo un error al enviar el correo.');
+      console.error('Error al enviar el formulario:', error);
+      setStatusMessage('Error al enviar el formulario');
     } finally {
       setIsSubmitting(false);
-    };
-
+    }
   };
 
   return (
@@ -189,7 +196,7 @@ const Appraisals = () => {
             <button
               type="submit"
               className="w-full bg-[#89c77c] text-white py-2 px-4 rounded-md hover:bg-[#7cb370] transition duration-200"
-              onClick={handleCaptcha} 
+              onClick={handleCaptcha}
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}

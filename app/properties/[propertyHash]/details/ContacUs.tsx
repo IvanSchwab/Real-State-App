@@ -57,44 +57,50 @@ const ContactUs = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!captchaToken) {
-      setStatusMessage('Por favor, verifica el captcha.');
-      setIsSubmitting(false);
-      return;
-    }
-
+    setIsSubmitting(true);
+  
     try {
-      const response = await fetch("/api/sendEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...formData, captchaToken }),
+      const token = await window.grecaptcha.execute(
+        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!,
+        { action: 'submit' }
+      );
+      console.log('Captcha token:', token); 
+  
+      if (!formData.name || !formData.email  || !formData.message || !token) {
+        console.error('Faltan campos obligatorios');
+        setStatusMessage('Todos los campos y el captcha son obligatorios');
+        setIsSubmitting(false);
+        return;
+      }
+  
+      const response = await fetch('/api/sendEmail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          captchaToken: token
+        }),
       });
-
+  
       const data = await response.json();
-
+      console.log('Respuesta del servidor:', data);
+  
       if (response.ok && data.success) {
         setStatusMessage("Correo enviado exitosamente.");
-        setFormData({
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
-        });
       } else {
-        setStatusMessage("Hubo un problema al enviar el correo.");
+        setStatusMessage(data.message || "Hubo un problema al enviar el correo.");
       }
     } catch (error) {
-      console.error('Error al enviar correo:', error);
-      setStatusMessage('Hubo un error al enviar el correo.');
+      console.error('Error al enviar el formulario:', error);
+      setStatusMessage('Error al enviar el formulario');
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  return (
+    return (
     <section className="bg-white py-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between space-y-12 lg:space-y-0">
         <div className="lg:w-2/4 space-y-6 text-center lg:text-left lg:ml-12">
