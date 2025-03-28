@@ -33,7 +33,7 @@ const PropertyTitle = ({ propertyTitle }: Props) => {
                     >
                         <div className="relative mb-3 w-full h-[52px] rounded-md">
                             <Image
-                                src="/images/logo-background.png"
+                                src="/images/logo-background.webp"
                                 alt="Logo"
                                 width={150}
                                 height={52}
@@ -56,7 +56,9 @@ const PropertyTitle = ({ propertyTitle }: Props) => {
                         <span className="absolute inset-0 bg-gradient-to-br bg-custom-green opacity-80 blur-md"></span>
                     </p>
                 </div>
-                <SearchCode />
+                <div className='max-w-[101px]'>
+                    <SearchCode />
+                </div>
             </div>
         </div>
     );

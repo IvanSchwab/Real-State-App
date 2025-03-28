@@ -124,7 +124,7 @@ const FilterBox = () => {
         <Link href="/">
           <div className="hidden w-48 h-20 xl:block absolute top-2 left-4 rounded-lg overflow-hidden shadow-xl cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110">
             <Image
-              src="/images/logo-hero.png"
+              src="/images/logo-hero.webp"
               alt="Logo de Olivera de Schwab"
               layout="fill"
               objectFit="cover"
@@ -136,14 +136,14 @@ const FilterBox = () => {
             <FaCircleArrowLeft />
           </div>
         </Link>
-        <div className="pt-5 pl-2 z-40 max-w-10 max-h-10 absolute top-2 right-14 md:right-20 lg:right-24 cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110 ">
+        <div className="pt-5 pl-2 z-40 max-w-[101px] max-h-10 absolute top-2 right-14 md:right-20 lg:right-24 cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-110 ">
           <SearchCode />
         </div>
 
         <div className="relative max-w-4xl mx-auto px-4 py-4 ">
           <div className="flex items-center w-full lg:hidden">
             <Image
-              src="/images/logo-hero.png"
+              src="/images/logo-hero.webp"
               alt="Logo"
               width={160}
               height={160}

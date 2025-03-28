@@ -10,6 +10,18 @@
   --foreground: #171717;
 }
 
+.grecaptcha-badge {
+  width: 70px !important;
+  overflow: hidden !important;
+  transition: all 0.3s ease !important;
+  left: -2px !important;
+  bottom: 20px !important;
+  z-index: 999;
+  }
+  .grecaptcha-badge:hover {
+  width: 256px !important;
+  }
+  
 .magnifier-lens {
   position: absolute;
   border: 2px solid #fff;

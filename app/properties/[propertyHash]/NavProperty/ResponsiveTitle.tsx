@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react'
 import NavProperty from './PropertyTitle';
+import { RiArrowGoBackFill } from 'react-icons/ri';
 
 const ResponsiveTitle = ({ propertyHash }: { propertyHash: string }) => {
     const [, setShowNav] = useState(false);
@@ -51,8 +52,22 @@ const ResponsiveTitle = ({ propertyHash }: { propertyHash: string }) => {
         fetchPropertyTitle();
     }, [propertyHash]);
 
+    const goBackHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            window.location.href = "/"; 
+        }
+    };
+    
     return (
-        <div className="z-0">
+        <div className="relative flex items-center justify-center z-0">
+            <button className="flex items-center text-white text-2xl absolute left-4"
+                onClick={goBackHandler}>
+                <RiArrowGoBackFill className="mr-2 text-3xl" />
+            </button>
             {propertyTitle ? (
                 <NavProperty openNav={openNavHandler} propertyTitle={propertyTitle} />
             ) : (

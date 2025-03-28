@@ -17,7 +17,7 @@ const AboutUs = () => {
             className="relative w-full h-full rounded-3xl overflow-hidden"
           >
             <Image
-              src="/images/picture-real-state.jpg"
+              src="/images/picture-real-state.webp"
               alt="Imagen de la empresa"
               fill
               sizes="(max-width: 768px) 100vw, 80vw"

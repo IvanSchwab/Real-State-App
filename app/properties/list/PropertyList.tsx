@@ -4,8 +4,6 @@ import { FaBed, FaBath, FaSquare, FaSadTear } from 'react-icons/fa';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Property } from '@/constant/constant';
 import FilterBox from '@/app/properties/list/FilterBox';
-import 'aos/dist/aos.css';
-import AOS from 'aos';
 import Image from 'next/image';
 
 const PropertyList: React.FC = () => {
@@ -138,14 +136,6 @@ const PropertyList: React.FC = () => {
   const handleGoHome = () => {
     router.push('/');
   };
-
-  AOS.init({
-    duration: 1000,
-    easing: 'ease-in-out',
-    once: false,
-    offset: 200,
-  });
-  AOS.refresh();
 
   if (error) return <div className="text-center text-red-500">Error: {error}</div>;
 

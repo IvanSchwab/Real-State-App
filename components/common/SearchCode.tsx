@@ -77,9 +77,9 @@ const SearchCode: React.FC = () => {
         <>
             <button
                 onClick={() => setIsModalOpen(true)}
-                className="hidden lg:block bg-[#81A781] text-sm text-white px-4 py-2 rounded-lg"
+                className="hidden lg:block bg-[#81A781] text-xs text-white px-4 py-2 rounded-lg"
             >
-                Buscar Propiedad
+                Buscar por Código
             </button>
 
             <button

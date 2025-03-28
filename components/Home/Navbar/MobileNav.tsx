@@ -17,7 +17,7 @@ const MobileNav = ({ closeNav, showNav }: Props) => {
       <div
         className={`fixed inset-0 z-[900] bg-black transition-opacity duration-500 ${showNav ? "opacity-70 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`}
-        onClick={closeNav} 
+        onClick={closeNav}
       ></div>
 
 
@@ -33,7 +33,7 @@ const MobileNav = ({ closeNav, showNav }: Props) => {
 
         {/* Navigation links */}
         {navLinks.map((navlink) => (
-          <Link key={navlink.id} href={navlink.url}>
+          <Link key={navlink.id} href={navlink.url} onClick={closeNav}>
             <p className="text-[20px] sm:text-[30px] font-medium ml-4 border-b border-white pb-1 hover:text-yellow-300 transition-colors duration-300 cursor-pointer">
               {navlink.label}
             </p>
