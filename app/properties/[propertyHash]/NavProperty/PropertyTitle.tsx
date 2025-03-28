@@ -33,7 +33,7 @@ const PropertyTitle = ({ propertyTitle }: Props) => {
                     >
                         <div className="relative mb-3 w-full h-[52px] rounded-md">
                             <Image
-                                src="/images/logo-background.webp"
+                                src="/images/logo-background.png"
                                 alt="Logo"
                                 width={150}
                                 height={52}

@@ -54,7 +54,7 @@ const Footer = () => {
                     <div className="w-28 md:w-32 h-12 md:h-14 rounded-lg overflow-hidden shadow-xl">
                         <div className="relative w-full h-full rounded-lg overflow-hidden">
                             <Image
-                                src="/images/logo-hero.webp"
+                                src="/images/logo-hero.png"
                                 alt="Logo de Olivera de Schwab"
                                 fill
                                 sizes="(max-width: 768px) 100px, 150px"

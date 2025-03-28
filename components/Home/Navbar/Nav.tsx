@@ -34,7 +34,7 @@ const Nav = ({ openNav }: Props) => {
                 >
                     <div className="relative w-full h-[52px] rounded-md overflow-hidden">
                         <Image
-                            src="/images/logo-background.webp"
+                            src="/images/logo-background.png"
                             alt="Logo"
                             fill
                             sizes="(max-width: 768px) 100px, 150px"
