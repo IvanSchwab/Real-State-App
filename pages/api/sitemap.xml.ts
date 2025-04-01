@@ -1,4 +1,14 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
+
+interface Property {
+  id: string;
+  slug?: string;
+  updatedAt?: string;
+}
+
+interface ApiResponse {
+  properties: Property[];
+}
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 const apiKey = process.env.NEXT_PUBLIC_API_KEY;
@@ -8,7 +18,7 @@ if (!apiUrl || !apiKey || !siteUrl) {
   throw new Error('Missing API configuration');
 }
 
-const getProperties = async () => {
+const getProperties = async (): Promise<{ slug: string; updatedAt: string }[]> => {
   try {
     const response = await fetch(`${apiUrl}properties?oauth_token=${apiKey}`, {
       method: 'GET',
@@ -22,10 +32,11 @@ const getProperties = async () => {
       throw new Error(`Failed to fetch properties: ${response.statusText}`);
     }
 
-    const data = await response.json();
-    return data.properties.map((property: any) => ({
-      slug: property.slug || property.id, 
-      updatedAt: property.updatedAt || new Date().toISOString().split('T')[0], 
+    const data = (await response.json()) as ApiResponse;
+
+    return data.properties.map((property: Property) => ({
+      slug: property.slug || property.id,
+      updatedAt: property.updatedAt || new Date().toISOString().split('T')[0],
     }));
   } catch (err) {
     console.error('Error fetching properties:', err);
@@ -56,11 +67,9 @@ const generateSitemap = (properties: { slug: string; updatedAt: string }[]) => {
 </urlset>`;
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const properties = await getProperties(); 
-
+export default async function handler(res: NextApiResponse) {
+  const properties = await getProperties();
   const sitemap = generateSitemap(properties);
-
   res.setHeader('Content-Type', 'application/xml');
   res.status(200).send(sitemap);
 }
