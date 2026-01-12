@@ -142,9 +142,14 @@ const PropertyList: React.FC = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-[#F8FCF3]">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="animate-spin rounded-full h-24 w-24 border-t-4 border-[#95e7b5] border-solid"></div>
-          <p className="text-xl text-gray-700">Cargando propiedades...</p>
+        <div className="flex flex-col items-center space-y-6">
+          <div className="relative">
+            <div className="animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-[#7c8f7c] border-solid"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="animate-pulse rounded-full h-16 w-16 bg-[#A4B494] opacity-40"></div>
+            </div>
+          </div>
+          <p className="text-xl font-medium text-gray-700 animate-pulse">Cargando propiedades...</p>
         </div>
       </div>
     );
@@ -179,7 +184,7 @@ const PropertyList: React.FC = () => {
             {properties.map((property) => (
               <div
                 key={property.propertyHash}
-                className="rounded-lg shadow-lg bg-custom-green bg-opacity-5 overflow-hidden cursor-pointer group relative h-[450px] sm:h-[500px] hover:scale-105 transition-all duration-300"
+                className="rounded-lg shadow-lg hover:shadow-2xl bg-custom-green bg-opacity-5 overflow-hidden cursor-pointer group relative h-[450px] sm:h-[500px] hover:scale-105 hover:-translate-y-2 transition-all duration-300"
                 onMouseDown={(event) => handleClick(event, property.propertyHash)}
               >
                 <div className="relative">
@@ -188,30 +193,32 @@ const PropertyList: React.FC = () => {
                       src={property.mainImage}
                       alt={property.title}
                       fill
-                      sizes="(max-width: 768px) 100vw, 768px"
-                      className="object-cover group-hover:scale-110 transition-all duration-300"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-110 transition-all duration-500"
+                      loading="lazy"
+                      quality={85}
                     />
                   </div>
                   <div className="p-5 space-y-4">
                     <div className="flex items-center justify-between">
-                      <h1 className="group-hover:underline text-gray-900 font-bold text-lg truncate">{property.title}</h1>
-                      <p className="text-base font-bold text-black bg-custom-green bg-opacity-20 py-1 px-3 rounded-lg shadow-md">
+                      <h1 className="group-hover:underline text-gray-900 font-bold text-lg truncate transition-all duration-300">{property.title}</h1>
+                      <p className="text-base font-bold text-black bg-custom-green bg-opacity-20 py-1 px-3 rounded-lg shadow-md group-hover:bg-opacity-30 group-hover:scale-105 transition-all duration-300">
                         {property.price} {property.currency}
                       </p>
                     </div>
-                    <p className="text-sm text-gray-500">{property.address}</p>
+                    <p className="text-sm text-gray-500 transition-all duration-300">{property.address}</p>
                     <div className="mt-4 space-y-4">
                       <div className="flex items-center justify-between space-x-6">
-                        <div className="flex items-center space-x-2">
-                          <FaBed className="text-custom-green text-xl" />
+                        <div className="flex items-center space-x-2 group-hover:translate-x-1 transition-transform duration-300">
+                          <FaBed className="text-custom-green text-xl group-hover:scale-110 transition-transform duration-300" />
                           <p className="text-sm font-medium text-gray-700">{property.bedrooms} Dormitorios</p>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <FaBath className="text-custom-green text-xl" />
+                        <div className="flex items-center space-x-2 group-hover:translate-x-1 transition-transform duration-300">
+                          <FaBath className="text-custom-green text-xl group-hover:scale-110 transition-transform duration-300" />
                           <p className="text-sm font-medium text-gray-700">{property.bathrooms} Baños</p>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <FaSquare className="text-custom-green text-xl" />
+                        <div className="flex items-center space-x-2 group-hover:translate-x-1 transition-transform duration-300">
+                          <FaSquare className="text-custom-green text-xl group-hover:scale-110 transition-transform duration-300" />
                           <p className="text-sm font-medium text-gray-700">{property.landArea} m²</p>
                         </div>
                       </div>
@@ -219,8 +226,8 @@ const PropertyList: React.FC = () => {
                   </div>
                   <div className="relative mt-8 sm:mt-2 h-[30px] sm:h-[40px]">
                     <div className="w-full h-[1px] mt-8 bg-gray-300"></div>
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 rounded-full bg-[#bcd1b7] px-4">
-                      <h1 className="inline-block bg-opacity-45 text-red-500 text-lg font-semibold px-4 py-2 rounded-full transition duration-300 ease-in-out">
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 rounded-full bg-[#bcd1b7] px-4 group-hover:scale-110 transition-all duration-300">
+                      <h1 className="inline-block bg-opacity-45 text-red-500 text-lg font-semibold px-4 py-2 rounded-full">
                         {property.propertyOperation}
                       </h1>
                     </div>
@@ -234,7 +241,7 @@ const PropertyList: React.FC = () => {
               <button
                 onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
                 disabled={currentPage === 1}
-                className={`px-3 py-2 rounded-md border ${currentPage === 1 ? 'bg-gray-400' : 'bg-[#729c6b]'} text-white transition duration-200`}
+                className={`px-4 py-2 rounded-md border font-medium ${currentPage === 1 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#729c6b] hover:bg-[#5b8456] hover:scale-105'} text-white transition-all duration-300 shadow-md hover:shadow-lg`}
               >
                 Anterior
               </button>
@@ -244,10 +251,10 @@ const PropertyList: React.FC = () => {
               <button
                 key={pageNumber}
                 onClick={() => handlePageChange(pageNumber)}
-                className={`px-3 py-2 rounded-md border ${currentPage === pageNumber
-                  ? 'bg-[#4e7249] pointer-events-none text-white'
-                  : 'bg-[#729c6b] text-white'
-                  } hover:bg-[#5b8456] transition duration-200 hidden md:inline-block`}
+                className={`px-3 py-2 rounded-md border font-medium ${currentPage === pageNumber
+                  ? 'bg-[#4e7249] pointer-events-none text-white scale-110 shadow-lg'
+                  : 'bg-[#729c6b] text-white hover:scale-105'
+                  } hover:bg-[#5b8456] transition-all duration-300 hidden md:inline-block shadow-md`}
               >
                 {pageNumber}
               </button>
@@ -257,7 +264,7 @@ const PropertyList: React.FC = () => {
               <button
                 onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className={`px-3 py-2 rounded-md border ${currentPage === totalPages ? 'bg-gray-400' : 'bg-[#729c6b]'} text-white transition duration-200`}
+                className={`px-4 py-2 rounded-md border font-medium ${currentPage === totalPages ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#729c6b] hover:bg-[#5b8456] hover:scale-105'} text-white transition-all duration-300 shadow-md hover:shadow-lg`}
               >
                 Siguiente
               </button>

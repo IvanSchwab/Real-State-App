@@ -16,10 +16,10 @@ const AppartmentType = () => {
                         <div
                             key={type.id}
                             data-aos="zoom-in"
-                            data-aos-delay={`${i * 50}`} 
-                            data-aos-duration="700"
+                            data-aos-delay={`${i * 50}`}
+                            data-aos-duration="800"
                             data-aos-easing="ease-out-cubic"
-                            data-aos-offset="150" 
+                            data-aos-offset="150"
                         >
                             <AppartmentTypeCard type={type}></AppartmentTypeCard>
                         </div>

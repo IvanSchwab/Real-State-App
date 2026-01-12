@@ -130,7 +130,7 @@ const Appraisals = () => {
           </p>
         </div>
 
-        <div className="lg:w-2/4 mt-8 bg-[#B5CDB1] p-6 rounded-lg shadow-md w-full max-w-md min-w-[350px]">
+        <div className="lg:w-2/4 mt-8 bg-[#B5CDB1] p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 w-full max-w-md min-w-[350px]">
           <h3 className="text-2xl font-semibold mb-4 text-gray-800 font-poppins select-none">Solicita tu Tasación</h3>
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
@@ -147,8 +147,7 @@ const Appraisals = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="mt-1 px-3 py-2 border rounded-md text-gray-700"
-                style={{ minWidth: '100%', maxWidth: '120%' }}
+                className="mt-1 px-3 py-2 border rounded-md text-gray-700 w-full focus:ring-2 focus:ring-[#7c8f7c] focus:border-transparent transition-all duration-300 hover:border-[#7c8f7c]"
                 required
               />
             </div>
@@ -167,8 +166,7 @@ const Appraisals = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="flex mt-1 px-3 py-2 border rounded-md text-gray-700"
-                style={{ minWidth: '100%', maxWidth: '120%' }}
+                className="mt-1 px-3 py-2 border rounded-md text-gray-700 w-full focus:ring-2 focus:ring-[#7c8f7c] focus:border-transparent transition-all duration-300 hover:border-[#7c8f7c]"
                 required
               />
             </div>
@@ -186,8 +184,7 @@ const Appraisals = () => {
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                className="mt-1 px-3 py-2 border rounded-md resize-none text-gray-700"
-                style={{ minWidth: '100%', maxWidth: '120%' }}
+                className="mt-1 px-3 py-2 border rounded-md resize-none text-gray-700 w-full focus:ring-2 focus:ring-[#7c8f7c] focus:border-transparent transition-all duration-300 hover:border-[#7c8f7c]"
                 rows={4}
                 required
               />
@@ -195,7 +192,7 @@ const Appraisals = () => {
 
             <button
               type="submit"
-              className="w-full bg-[#89c77c] text-white py-2 px-4 rounded-md hover:bg-[#7cb370] transition duration-200"
+              className="w-full bg-[#89c77c] text-white py-2 px-4 rounded-md hover:bg-[#7cb370] hover:scale-105 active:scale-95 transition-all duration-300 font-medium shadow-md hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
               onClick={handleCaptcha}
               disabled={isSubmitting}
             >
@@ -204,7 +201,7 @@ const Appraisals = () => {
           </form>
 
           {statusMessage && (
-            <p className="mt-4 text-sm font-semibold text-gray-600">{statusMessage}</p>
+            <p className="mt-4 text-sm font-semibold text-gray-700 bg-white p-3 rounded-md shadow-sm animate-fade-in">{statusMessage}</p>
           )}
         </div>
       </div>

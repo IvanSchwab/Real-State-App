@@ -22,7 +22,6 @@ const Properties = () => {
             const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
             if (!apiUrl || !apiKey) {
-                console.error('Missing API configuration');
                 setError('Missing API configuration');
                 setLoading(false);
                 return;
@@ -41,7 +40,6 @@ const Properties = () => {
                 );
 
                 if (!responseTotal.ok) {
-                    console.error('Error al obtener el total de propiedades:', responseTotal.statusText);
                     throw new Error('Error al obtener el total de propiedades');
                 }
 
@@ -65,7 +63,6 @@ const Properties = () => {
                 );
 
                 if (!response.ok) {
-                    console.error('Error al obtener las propiedades:', response.statusText);
                     throw new Error('Error al obtener las propiedades');
                 }
 
@@ -74,7 +71,6 @@ const Properties = () => {
                 setTotalProperties(totalProperties);
             } catch (err) {
                 if (err instanceof Error) {
-                    console.error('Fetch error:', err.message);
                     setError(err.message);
                 } else {
                     setError('Error desconocido');
@@ -90,7 +86,6 @@ const Properties = () => {
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement>, propertyHash: string) => {
         if (!propertyHash) {
-            console.error("Property ID is missing:", propertyHash);
             return;
         }
 
@@ -103,8 +98,6 @@ const Properties = () => {
             window.open(url, "_blank");
         } else if (router && router.push) {
             router.push(url);
-        } else {
-            console.error("Router is not initialized");
         }
     };
 
@@ -122,8 +115,25 @@ const Properties = () => {
                             .map((_, i) => (
                                 <div
                                     key={`skeleton-${i}`}
-                                    className="bg-[#a6b8a4] rounded-lg animate-pulse h-64"
-                                />
+                                    className="bg-white rounded-lg shadow-lg overflow-hidden h-[500px]"
+                                >
+                                    <div className="animate-pulse">
+                                        <div className="bg-[#a6b8a4] h-64 w-full"></div>
+                                        <div className="p-6 space-y-4">
+                                            <div className="flex justify-between items-center">
+                                                <div className="h-6 bg-[#a6b8a4] rounded w-1/2"></div>
+                                                <div className="h-8 bg-[#a6b8a4] rounded w-24"></div>
+                                            </div>
+                                            <div className="space-y-3">
+                                                <div className="flex justify-between">
+                                                    <div className="h-4 bg-[#a6b8a4] rounded w-20"></div>
+                                                    <div className="h-4 bg-[#a6b8a4] rounded w-20"></div>
+                                                    <div className="h-4 bg-[#a6b8a4] rounded w-20"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             ))}
                     </div>
                 </div>
@@ -158,7 +168,7 @@ const Properties = () => {
                                 key={property.propertyHash}
                                 data-aos="fade-up"
                                 data-aos-delay={`${i * 50}`}
-                                data-aos-duration="400"
+                                data-aos-duration="800"
                                 data-aos-easing="ease-in-out"
                                 data-aos-offset="200"
                                 onMouseDown={(event) => handleClick(event, property.propertyHash)}
@@ -172,9 +182,9 @@ const Properties = () => {
                 <div className="mt-8 text-center">
                     <Link href="/properties">
                         <button
-                            className="px-6 py-3 bg-[#446447] bg-opacity-70 hover:scale-110 text-white rounded-lg hover:bg-opacity-95 transition duration-100"
+                            className="px-6 py-3 bg-[#446447] bg-opacity-70 hover:scale-110 text-white rounded-lg hover:bg-opacity-95 transition-all duration-300 shadow-md hover:shadow-lg"
                             data-aos="fade-up"
-                            data-aos-duration="300"
+                            data-aos-duration="800"
                             data-aos-offset="100"
                         >
                             ¡Ver todas las propiedades!

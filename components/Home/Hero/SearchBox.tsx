@@ -19,7 +19,7 @@ interface Zone {
 export const useFetchData = () => {
   const [types, setTypes] = useState<Type[]>([]);
   const [zones, setZones] = useState<Zone[]>([]);
-  const [, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -31,7 +31,6 @@ export const useFetchData = () => {
       const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
       if (!apiUrl || !apiKey) {
-        console.error('Missing API configuration');
         setError('Missing API configuration');
         setLoading(false);
         return;
@@ -51,23 +50,18 @@ export const useFetchData = () => {
           })
         ]);
 
-        if (!typesRes.ok) {
-          console.error('Error fetching types:', typesRes.statusText);
-        } else {
+        if (typesRes.ok) {
           const typesData = await typesRes.json();
           setTypes(Array.isArray(typesData.types) ? typesData.types : typesData);
         }
 
-        if (!zonesRes.ok) {
-          console.error('Error fetching zones:', zonesRes.statusText);
-        } else {
+        if (zonesRes.ok) {
           const zonesData = await zonesRes.json();
           setZones(Array.isArray(zonesData.states) ? zonesData.states : zonesData);
         }
 
       } catch (err: unknown) {
         if (err instanceof Error) {
-          console.error('Fetch error:', err.message);
           setError(err.message || 'Unknown error');
         } else {
           setError('Unknown error');
@@ -80,12 +74,12 @@ export const useFetchData = () => {
     fetchData();
   }, []);
 
-  return { types, zones };
+  return { types, zones, loading };
 
 };
 
 const SearchBox = () => {
-  const { types, zones } = useFetchData();
+  const { types, zones, loading } = useFetchData();
   const [selectedCounty, setSelectedCounty] = useState<number | null>(null);
   const [selectedType, setSelectedType] = useState<number | null>(null);
   const [selectedZone, setSelectedZone] = useState<number | null>(null);
@@ -137,9 +131,10 @@ const SearchBox = () => {
         <select
           value={selectedType || ''}
           onChange={(e) => setSelectedType(e.target.value ? Number(e.target.value) : null)}
-          className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+          className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-300"
+          disabled={loading}
         >
-          <option value="">Tipo</option>
+          <option value="">{loading ? 'Cargando...' : 'Tipo'}</option>
           {types.map((type) => (
             <option key={type.id} value={type.id}>
               {type.description}
@@ -150,7 +145,7 @@ const SearchBox = () => {
         <select
           value={operation || ''}
           onChange={(e) => setOperation(e.target.value ? Number(e.target.value) : null)}
-          className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+          className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-300"
         >
           <option value="">Operación</option>
           {operationOptions.map((option) => (
@@ -164,9 +159,10 @@ const SearchBox = () => {
           id="zone"
           value={selectedZone || ''}
           onChange={(e) => setSelectedZone(Number(e.target.value))}
-          className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+          className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-300"
+          disabled={loading}
         >
-          <option value="">Zona</option>
+          <option value="">{loading ? 'Cargando...' : 'Zona'}</option>
           {zones.map((zone) => (
             <option key={zone.id} value={zone.id}>
               {zone.description}
@@ -178,7 +174,7 @@ const SearchBox = () => {
           id="county"
           value={selectedCounty || ''}
           onChange={(e) => setSelectedCounty(Number(e.target.value))}
-          className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+          className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
           disabled={!selectedZone}
         >
           <option value="">Partido</option>
@@ -219,12 +215,12 @@ const SearchBox = () => {
       </div>
 
       {showFilters && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in">
           <div
-            className="absolute inset-0 bg-black opacity-50"
+            className="absolute inset-0 bg-black opacity-50 transition-opacity duration-300"
             onClick={() => setShowFilters(false)}
           ></div>
-          <div className="bg-[#7c8f7c] w-11/12 max-w-md mx-auto p-6 rounded-lg shadow-lg z-50">
+          <div className="bg-[#7c8f7c] w-11/12 max-w-md mx-auto p-6 rounded-lg shadow-lg z-50 transform transition-all duration-300 scale-100">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-[#ddecde]">Filtros</h3>
               <button onClick={() => setShowFilters(false)}>
@@ -235,9 +231,10 @@ const SearchBox = () => {
               <select
                 value={selectedType || ''}
                 onChange={(e) => setSelectedType(e.target.value ? Number(e.target.value) : null)}
-                className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+                className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-300"
+                disabled={loading}
               >
-                <option value="">Tipo</option>
+                <option value="">{loading ? 'Cargando...' : 'Tipo'}</option>
                 {types.map((type) => (
                   <option key={type.id} value={type.id}>
                     {type.description}
@@ -248,7 +245,7 @@ const SearchBox = () => {
               <select
                 value={operation || ''}
                 onChange={(e) => setOperation(e.target.value ? Number(e.target.value) : null)}
-                className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+                className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-300"
               >
                 <option value="">Operación</option>
                 {operationOptions.map((option) => (
@@ -262,9 +259,10 @@ const SearchBox = () => {
                 id="zone"
                 value={selectedZone || ''}
                 onChange={(e) => setSelectedZone(Number(e.target.value))}
-                className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+                className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-300"
+                disabled={loading}
               >
-                <option value="">Zona</option>
+                <option value="">{loading ? 'Cargando...' : 'Zona'}</option>
                 {zones.map((zone) => (
                   <option key={zone.id} value={zone.id}>
                     {zone.description}
@@ -276,7 +274,7 @@ const SearchBox = () => {
                 id="county"
                 value={selectedCounty || ''}
                 onChange={(e) => setSelectedCounty(Number(e.target.value))}
-                className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-150"
+                className="w-full h-12 bg-[#A4B494] text-[#ddecde] rounded-lg px-4 font-semibold focus:ring-2 focus:ring-[#E3C565] transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
                 disabled={!selectedZone}
               >
                 <option value="">Partido</option>

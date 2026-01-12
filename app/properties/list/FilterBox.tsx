@@ -173,7 +173,7 @@ const FilterBox = () => {
                 id="type"
                 value={selectedType || ''}
                 onChange={(e) => setSelectedType(Number(e.target.value))}
-                className="w-full mt-1 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none shadow-sm hover:bg-gray-50 transition-all duration-300 ease-in-out"
+                className="w-full mt-1 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7c8f7c] shadow-sm hover:bg-gray-50 transition-all duration-300 ease-in-out"
               >
                 <option value="">Tipo</option>
                 {types.map((type) => (
@@ -189,7 +189,7 @@ const FilterBox = () => {
                 id="zone"
                 value={selectedZone || ''}
                 onChange={(e) => setSelectedZone(Number(e.target.value))}
-                className="w-full mt-1 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none shadow-sm hover:bg-gray-50 transition-all duration-300 ease-in-out"
+                className="w-full mt-1 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7c8f7c] shadow-sm hover:bg-gray-50 transition-all duration-300 ease-in-out"
               >
                 <option value="">Provincia</option>
                 {zones.map((zone) => (
@@ -205,7 +205,7 @@ const FilterBox = () => {
                 id="county"
                 value={selectedCounty || ''}
                 onChange={(e) => setSelectedCounty(Number(e.target.value))}
-                className="w-full mt-1 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none shadow-sm hover:bg-gray-50 transition-all duration-300 ease-in-out"
+                className="w-full mt-1 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7c8f7c] shadow-sm hover:bg-gray-50 transition-all duration-300 ease-in-out"
                 disabled={!selectedZone}
               >
                 <option value="">Partido</option>
@@ -225,7 +225,7 @@ const FilterBox = () => {
                 id="operation"
                 value={operation || ''}
                 onChange={(e) => setOperation(Number(e.target.value))}
-                className="w-full mt-1 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none shadow-sm hover:bg-gray-50 transition-all duration-300 ease-in-out"
+                className="w-full mt-1 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7c8f7c] shadow-sm hover:bg-gray-50 transition-all duration-300 ease-in-out"
               >
                 <option value="">Operación</option>
                 <option value={1}>Venta</option>
@@ -238,7 +238,7 @@ const FilterBox = () => {
                 id="bedrooms"
                 value={bedrooms || ''}
                 onChange={(e) => setBedrooms(Number(e.target.value))}
-                className="w-full mt-1 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none shadow-sm hover:bg-gray-50 transition-all duration-300 ease-in-out"
+                className="w-full mt-1 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7c8f7c] shadow-sm hover:bg-gray-50 transition-all duration-300 ease-in-out"
               >
                 <option value="">Habitaciones</option>
                 <option value={1}>1</option>
@@ -256,7 +256,7 @@ const FilterBox = () => {
                 onChange={(e) =>
                   setPriceTo(Math.max(0, Number(e.target.value)))
                 }
-                className="w-full mt-1 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none shadow-sm hover:bg-gray-50 transition-all duration-300 ease-in-out"
+                className="w-full mt-1 bg-white text-gray-700 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7c8f7c] shadow-sm hover:bg-gray-50 transition-all duration-300 ease-in-out"
                 placeholder="Valor"
                 min="0"
               />

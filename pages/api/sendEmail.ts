@@ -100,7 +100,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
       {
         headers: {
-          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_RESEND_API_KEY}`,
+          'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
         },
       }
     );
