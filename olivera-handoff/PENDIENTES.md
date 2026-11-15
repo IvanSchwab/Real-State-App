@@ -28,3 +28,24 @@ Lo que queda para después de salir a producción. Se actualiza en cada paso del
 - [ ] Ficha: no se muestran propietario, teléfono del propietario ni código postal (el diseño los reemplaza por la tarjeta de la oficina).
 - [ ] Ficha: el visor reemplaza al modal "+N más": ahora trae una tira con todas las miniaturas.
 - [ ] Ficha: dependencias sin uso (`react-magnifying-glass`, `leaflet`, `react-leaflet`, `react-map-gl`, `aos`, `react-awesome-reveal`, `react-google-recaptcha`, `resend`) quedaron en `package.json`; se pueden quitar en un cambio aparte.
+
+---
+
+## Checklist de aceptación del HANDOFF: estado al cierre del rediseño
+
+Verificado en la rama `redesign` (build y lint sin errores):
+- [x] Barra superior, tarjeta de contacto de la ficha y filtros del listado quedan fijos al scrollear (probado: filtros a 104 px, barra a 0).
+- [x] Precios siempre con moneda y separador de miles; specs solo si son mayores a 0 (probado con datos reales, incluidos `bedrooms: -1` y `0`).
+- [x] WhatsApp: todos los CTA abren el chat; desde la ficha, con el mensaje precargado.
+- [x] Buscar por código (barra y modal en celular, probado con `1584-1`), compartir y filtros/orden en la URL (el orden queda pendiente, ver arriba).
+- [x] `prefers-reduced-motion`: tokens.css apaga animaciones y transiciones; el subrayado del titular, los contadores y `Reveal` quedan estáticos y visibles.
+- [x] Sin textos con tuteo (búsqueda en `app`, `components`, `lib`, `config` y `pages`).
+- [x] Accesibilidad auditada en el navegador (Home, listado y ficha): todos los controles con nombre accesible, imágenes con `alt`, un solo `h1`, `lang="es"` y controles de 44 px o más.
+- [x] Imágenes con `loading="lazy"`; el hero, el logo y la primera foto de cada pantalla con prioridad.
+
+Sin verificar (requiere entorno que acá no estaba disponible):
+- [ ] Lighthouse mobile (Accesibilidad ≥ 95): no se pudo correr; la auditoría manual de arriba cubre nombres, alt y tamaño de controles, pero no contraste calculado.
+- [ ] Comparación pixel a pixel contra `preview/` a 1440 px y 390 px reales (se comparó en un iframe escalado y a 600–735 px).
+- [ ] Mapa y "Calcular ruta" (token de Mapbox restringido por dominio).
+- [ ] Envío real de los formularios a Resend (reCAPTCHA no acepta `localhost`).
+- [ ] Contadores animados en una pestaña en primer plano.

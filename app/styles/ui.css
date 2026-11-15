@@ -75,7 +75,7 @@
 .btn-light:hover { color: var(--green-d); transform: translateY(-1px); }
 .btn-y { background: var(--brand-yellow); color: var(--ink); box-shadow: 0 10px 24px -10px rgba(255, 199, 44, .6); }
 .btn-y:hover { background: #FFD55C; color: var(--ink); transform: translateY(-1px); }
-.link-arrow { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; text-decoration: none; color: var(--green); }
+.link-arrow { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 600; font-size: 16px; text-decoration: none; color: var(--green); }
 .link-arrow svg { transition: transform var(--t-lift) var(--ease); }
 .link-arrow:hover svg { transform: translateX(4px); }
 
@@ -85,7 +85,10 @@
 .fd:hover { background: rgba(255, 255, 255, .15); }
 .fd:focus-within { box-shadow: inset 0 0 0 2px var(--brand-yellow); }
 .fd label { font-size: 12px; font-weight: 600; letter-spacing: .03em; color: rgba(255, 255, 255, .72); }
-.fd select, .fd input { appearance: none; -webkit-appearance: none; border: 0; background: transparent; font: 500 16px var(--font-body); color: #fff; padding: 0 22px 0 0; outline: none; cursor: pointer; width: 100%; }
+.fd { min-height: 64px; }
+.fd label { position: relative; z-index: 1; pointer-events: none; }
+.fd select { position: absolute; inset: 0; width: 100%; height: 100%; appearance: none; -webkit-appearance: none; border: 0; border-radius: var(--r-button); background: transparent; font: 500 16px var(--font-body); color: #fff; padding: 30px 38px 0 16px; outline: none; cursor: pointer; }
+.fd input { appearance: none; -webkit-appearance: none; border: 0; background: transparent; font: 500 16px var(--font-body); color: #fff; padding: 0 22px 0 0; outline: none; width: 100%; }
 .fd input { cursor: text; }
 .fd input::placeholder { color: rgba(255, 255, 255, .6); }
 .fd select option { color: var(--ink); }
@@ -116,7 +119,7 @@
 
 /* ---------- pestañas, segmentados, chips, pills ---------- */
 .tabs { display: flex; gap: 28px; padding: 10px 14px 14px; overflow-x: auto; }
-.tabd { border: 0; background: transparent; cursor: pointer; font: 600 16px var(--font-body); color: rgba(255, 255, 255, .72); padding: 0 0 8px; border-bottom: 2px solid transparent; text-decoration: none; white-space: nowrap; transition: color .3s var(--ease), border-color var(--t-lift) var(--ease); }
+.tabd { border: 0; background: transparent; cursor: pointer; font: 600 16px var(--font-body); color: rgba(255, 255, 255, .72); padding: 12px 0 8px; min-height: 44px; border-bottom: 2px solid transparent; text-decoration: none; white-space: nowrap; transition: color .3s var(--ease), border-color var(--t-lift) var(--ease); }
 .page a.tabd { color: rgba(255, 255, 255, .72); }
 .tabd:hover, .page a.tabd:hover { color: #fff; }
 .tabd.on { color: #fff; border-color: var(--brand-yellow); }
@@ -140,7 +143,7 @@
 .h2 { font-size: var(--fs-h2); line-height: 1.04; font-weight: 560; margin: 12px 0 0; }
 .sub { font-size: 18px; line-height: 1.55; color: var(--muted); margin: 14px 0 0; max-width: 560px; }
 .crumbs { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); flex-wrap: wrap; }
-.page .crumbs a { color: var(--muted); text-decoration: none; }
+.page .crumbs a { color: var(--muted); text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
 .page .crumbs a:hover { color: var(--ink); }
 
 /* ---------- property card ---------- */
@@ -177,7 +180,9 @@
 .foot a, .foot button.flink { color: rgba(255, 255, 255, .88); text-decoration: none; }
 .foot a:hover, .foot button.flink:hover { color: #fff; }
 .foot button.flink { background: none; border: 0; padding: 0; font: inherit; cursor: pointer; text-align: left; }
-.foot ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; font-size: 15px; }
+.foot ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; font-size: 15px; }
+.foot ul a, .foot ul button.flink { display: inline-flex; align-items: center; min-height: 44px; }
+.foot ul li:not(:has(a, button)) { min-height: 44px; display: flex; align-items: center; }
 .soc { display: flex; gap: 10px; margin-top: 20px; }
 .soc a { width: 44px; height: 44px; border-radius: var(--r-button); display: grid; place-items: center; background: rgba(255, 255, 255, .08); transition: background var(--t-color) var(--ease); }
 .soc a:hover { background: rgba(255, 255, 255, .16); }

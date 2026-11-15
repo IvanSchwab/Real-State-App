@@ -115,7 +115,7 @@
 .office div { display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
 .office b { font-size: 15px; }
 .office span { color: var(--muted); }
-.page .office a { font-weight: 600; text-decoration: none; }
+.page .office a { font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
 
 /* barra inferior mobile */
 .mbar { display: none; }
