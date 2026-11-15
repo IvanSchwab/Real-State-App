@@ -1,0 +1,63 @@
+/* Olivera de Schwab — tokens del rediseño (fuente única de verdad).
+   Todo el CSS del sitio debe consumir estas variables; no hardcodear colores ni curvas. */
+:root {
+  /* Marca */
+  --brand-yellow: #FFC72C;      /* amarillo del logo: solo detalles (subrayado hero, botón Buscar, foco del buscador) */
+  --brand-red: #E1261C;         /* reservado al logo, no usar en UI */
+  --brand-mint: #99D3AB;        /* verde del fondo del logo */
+
+  /* Verdes de UI */
+  --green: #2E5A43;             /* principal: botones, links, datos */
+  --green-d: #1F4231;           /* hover, bloque de tasación */
+  --sage: #A9C1A3;              /* acento suave */
+  --mist: #EEF3EC;              /* fondos de sección e íconos */
+  --wa: #1F7A4D;                /* exclusivo WhatsApp */
+  --wa-hover: #18663F;
+
+  /* Neutros */
+  --paper: #FAFAF6;             /* fondo general */
+  --ink: #14201A;               /* texto principal */
+  --muted: #55605A;             /* texto secundario (pasa 4.5:1 sobre --paper) */
+  --line: #E2E6DF;              /* bordes */
+  --footer: #10201A;
+
+  /* Tipografía */
+  --font-display: "Fraunces", Georgia, serif;   /* font-variation-settings: "SOFT" 50; letter-spacing: -0.02em */
+  --font-body: "Inter", system-ui, sans-serif;
+  /* Google Fonts: family=Fraunces:opsz,wght,SOFT@9..144,400..700,50&family=Inter:wght@400;500;600;700 */
+  --fs-display: 84px;  --fs-display-m: 46px;
+  --fs-h2: 52px;       --fs-h2-m: 36px;
+  --fs-price: 30px;
+  --fs-body: 17px;
+  --fs-label: 13px;
+
+  /* Forma */
+  --r-control: 10px;
+  --r-button: 12px;
+  --r-card: 16px;
+  --r-panel: 20px;
+
+  /* Sombras */
+  --sh-rest: 0 1px 2px rgba(20,32,26,.08);
+  --sh-hover: 0 22px 40px -22px rgba(20,32,26,.28);
+  --sh-card-hover: 0 30px 60px -30px rgba(20,32,26,.35);
+  --sh-float: 0 30px 60px -24px rgba(0,0,0,.45);
+
+  /* Movimiento */
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --t-color: 250ms;
+  --t-lift: 450ms;
+  --t-enter: 1000ms;
+  --t-photo: 1200ms;
+
+  /* Vidrio */
+  --nav-glass: linear-gradient(90deg,
+      rgba(186,228,199,.72) 0%, rgba(194,231,205,.68) 8%, rgba(212,238,219,.66) 16%,
+      rgba(234,246,238,.68) 26%, rgba(255,255,255,.72) 38%, rgba(255,255,255,.76) 100%);
+  --search-glass: rgba(16,32,26,.55);
+  --glass-blur: saturate(1.8) blur(26px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

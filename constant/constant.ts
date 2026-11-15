@@ -1,32 +1,3 @@
-export const navLinks = [
-  {
-    id: 1,
-    url: '#Inicio',
-    label: "Inicio"
-  },
-  {
-    id: 2,
-    url: '#Propiedades',
-    label: "Propiedades"
-  },
-  {
-    id: 3,
-    url: '#Sobre-Nosotros',
-    label: "Sobre nosotros"
-  },
-  {
-    id: 5,
-    url: '#Tasaciones',
-    label: "Tasaciones"
-  },
-  {
-    id: 4,
-    url: '#Contacto',
-    label: "Contacto"
-  },
-];
-
-
 export interface Image {
   image: string;
   thumbnail: string;
@@ -73,6 +44,9 @@ export interface Property {
 
 interface ImageData {
   image: string;
+  thumbnail?: string;
+  main?: boolean;
+  order?: number;
 }
 export interface PropertyData {
   code: string;
@@ -84,8 +58,8 @@ export interface PropertyData {
   type: number;
   title: string;
   zone0: string;
-  zone1: string;
-  zone2: string;
+  zone1: number; // id de provincia (el mismo que acepta el filtro zone1)
+  zone2: number; // id de partido (el mismo que acepta el filtro zone2)
   customerPhone: string;
   seoUrl: string;
   rented: boolean;
@@ -101,6 +75,9 @@ export interface PropertyData {
   branchId: number;
   sold: boolean;
   ambiences: number;
+  bedrooms?: number;
+  bathrooms?: number;
+  buildingArea?: number;
   images: ImageData[];
   address: string;
   published: boolean;
