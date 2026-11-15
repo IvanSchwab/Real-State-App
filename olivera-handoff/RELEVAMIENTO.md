@@ -93,7 +93,7 @@ Variables: `NEXT_PUBLIC_API_URL` (termina en `/`) y `NEXT_PUBLIC_API_KEY`, envia
 | Ubicación en card ("Combet, San Martín") | listado: `address`, `city`, `county`; ficha: `zone2Desc`, `zone1Desc`, `address` | Hay que definir la composición con datos reales. |
 | Dormitorios | `bedrooms` | En la ficha no está tipado; confirmar. Solo si es > 0. |
 | Baños | `bathrooms` | Ídem. |
-| m² / Superficie | `landArea` | **La API no trae superficie cubierta ni total por separado** (o no se usa hoy). |
+| m² / Superficie | `landArea` (terreno) y `buildingArea` (cubierta) | Verificado con la API real: ambos vienen. Hoy el sitio muestra `landArea`, y el diseño (364 m²) también; se mantiene `landArea`. Mostrar la cubierta es una decisión pendiente. |
 | Ambientes | `ambiences` (ficha) | En el listado no se tipa. |
 | Tipo | `propertyType` | |
 | Descripción | `descriptionFormatted` | |
@@ -124,3 +124,12 @@ Variables: `NEXT_PUBLIC_API_URL` (termina en `/`) y `NEXT_PUBLIC_API_KEY`, envia
 11. **Sitemap y URLs** (`/properties/{hash}`) intactos: no se renombran rutas.
 12. **reCAPTCHA:** el script se carga dos veces si el formulario de la ficha y el de tasación conviven; lo centralizo en un hook sin cambiar el flujo.
 
+
+
+## Verificado contra la API real (Fase 2)
+- `currency`: `USD` (38 de 54) y `ARS` (16). `propertyOperation`: `Venta` (1) / `Alquiler` (2).
+- `bedrooms` puede venir en `-1` o `0` (solo 22 de 54 son > 0); `bathrooms` > 0 en 24; `landArea` > 0 en 20; `ambiences` > 0 en 7.
+- Hay 13 propiedades `reserved`, 5 `rented` y 3 `sold` entre las 54 leídas. El diseño no las muestra; las cards llevan una etiqueta de estado.
+- En el listado, `mainImage` es la miniatura (`...t.jpg`) y `images[]` trae las fotos completas.
+- `code` es interno (`1584-1`, `1584-casa suarez combet`); `codeSearch` viene vacío en el listado.
+- El `total` del listado es 65 propiedades.

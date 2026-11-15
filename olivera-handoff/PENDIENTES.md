@@ -13,3 +13,7 @@ Lo que queda para después de salir a producción. Se actualiza en cada paso del
 - [ ] Remitente de Resend: `onboarding@resend.dev` → dominio propio (fuera de alcance).
 - [ ] Eliminados por decisión: botón volver arriba, selector claro/oscuro del mapa, menú hamburguesa mobile (la navegación mobile queda en logo, lupa de código, WhatsApp y footer), campos Propietario/Teléfono/CP de la ficha.
 
+
+- [ ] Decidir si se muestra la superficie cubierta (`buildingArea`) además de `landArea`.
+- [ ] Decidir si el logo del Colegio de Martilleros (`public/images/colegio-martilleros.png`) vuelve al footer: el diseño no lo incluye y quedó afuera.
+- [ ] Rate limit de `/api/sendEmail`: hoy no limita nada (la IP nueva nunca se guarda en el mapa). No se tocó para no cambiar el comportamiento en producción.

@@ -7,6 +7,7 @@ const TIME_WINDOW = 60 * 60 * 1000;
 
 const sanitize = (str: string) => str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const phoneRegex = /^[0-9+()\-\s.]{6,30}$/;
 
 const getClientIp = (req: NextApiRequest) => {
   const forwarded = req.headers['x-forwarded-for'];
@@ -40,14 +41,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   console.log('Body recibido:', req.body);
 
-  const { name, email, subject, message, captchaToken } = req.body;
+  // phone, address y propertyType son opcionales (formularios nuevos). email o phone: al menos uno.
+  const { name, email = '', phone = '', address = '', propertyType = '', message, captchaToken } = req.body;
+  const subject: string = typeof req.body.subject === 'string' ? req.body.subject : '';
 
-  if (!name || !email || !message || !captchaToken) {
-    return res.status(400).json({ success: false, message: 'Todos los campos y el captcha son obligatorios' });
+  if (!name || !message || !captchaToken || (!email && !phone)) {
+    return res.status(400).json({ success: false, message: 'Completá tu nombre, un email o teléfono, el mensaje y el captcha' });
   }
 
-  if (!emailRegex.test(email)) {
+  if ([name, email, phone, address, propertyType, message].some((v) => typeof v !== 'string')) {
+    return res.status(400).json({ success: false, message: 'Datos no válidos' });
+  }
+
+  if (email && !emailRegex.test(email)) {
     return res.status(400).json({ success: false, message: 'Correo electrónico no válido' });
+  }
+
+  if (phone && !phoneRegex.test(phone)) {
+    return res.status(400).json({ success: false, message: 'Teléfono no válido' });
   }
 
   try {
@@ -79,13 +90,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(500).json({ success: false, message: 'Error en la verificación del captcha' });
   }
 
-  if (name.length > 100 || subject.length > 100 || message.length > 1000) {
+  if (name.length > 100 || subject.length > 100 || message.length > 1000 || address.length > 200 || propertyType.length > 50) {
     return res.status(400).json({ success: false, message: 'Alguno de los campos excede el tamaño permitido' });
   }
 
   const sanitizedMessage = `
     <p><strong>Nombre Completo:</strong> ${sanitize(name)}</p>
-    <p><strong>Correo Electrónico:</strong> ${sanitize(email)}</p>
+    ${email ? `<p><strong>Correo Electrónico:</strong> ${sanitize(email)}</p>` : ''}
+    ${phone ? `<p><strong>Teléfono:</strong> ${sanitize(phone)}</p>` : ''}
+    ${address ? `<p><strong>Dirección:</strong> ${sanitize(address)}</p>` : ''}
+    ${propertyType ? `<p><strong>Tipo de propiedad:</strong> ${sanitize(propertyType)}</p>` : ''}
     <p><strong>Mensaje:</strong> ${sanitize(message)}</p>
   `;
 
@@ -95,7 +109,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       {
         from: 'onboarding@resend.dev',
         to: 'ivan_schwab@outlook.com',
-        subject: subject,
+        subject: subject || 'Nueva consulta desde la web',
         html: sanitizedMessage,
       },
       {
