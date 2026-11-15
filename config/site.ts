@@ -24,6 +24,12 @@ export const SITE = {
     activeRentals: 30,
   },
 
+  /** Opciones del "Precio hasta" del buscador (la moneda cambia según Comprar / Alquilar). */
+  searchPrices: {
+    buy: { currency: "USD", symbol: "USD", noCap: "Sin tope (USD)", steps: [50000, 75000, 100000, 150000, 200000, 300000] },
+    rent: { currency: "ARS", symbol: "$", noCap: "Sin tope ($ / mes)", steps: [400000, 500000, 600000, 750000, 1000000, 1500000] },
+  },
+
   /**
    * TODO(pendiente): número de matrícula del Colegio de Martilleros.
    * Mientras sea null no se muestra en ningún lado (ni placeholder).

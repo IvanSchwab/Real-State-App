@@ -133,3 +133,12 @@ Variables: `NEXT_PUBLIC_API_URL` (termina en `/`) y `NEXT_PUBLIC_API_KEY`, envia
 - En el listado, `mainImage` es la miniatura (`...t.jpg`) y `images[]` trae las fotos completas.
 - `code` es interno (`1584-1`, `1584-casa suarez combet`); `codeSearch` viene vacío en el listado.
 - El `total` del listado es 65 propiedades.
+
+### Filtros de `GET properties` probados (Fase 3)
+- `operation`, `type`, `zone1`, `zone2`, `priceTo`: filtran.
+- `currency` (`USD` / `ARS`): **filtra**. Con `priceTo` evita mezclar monedas; el buscador nuevo lo envía cuando hay tope de precio.
+- `priceFrom`: **filtra** (precio mínimo). Se puede usar en el listado.
+- `bedrooms=N`: es **exacto** (`bedrooms=4` devuelve solo propiedades de 4), no "N o más". Por eso el buscador muestra `1, 2, 3, 4` y no `1+`, `2+`.
+- `size` máximo: con `size=60` responde 400; el sitio usa 9.
+- Tipos reales (`GET types`): Casa (2), Departamento (1), Garage (15), PH (10), Local Comercial (9), Terreno (4). **No existe "Oficina"**, así que el sexto tile del Home es Garages.
+- Zonas reales (`GET zones`): Capital Federal (Nuñez), Buenos Aires (San Martín, Tres De Febrero, Vicente López) y Córdoba (Punilla).

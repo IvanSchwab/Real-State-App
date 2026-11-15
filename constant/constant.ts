@@ -1,32 +1,3 @@
-export const navLinks = [
-  {
-    id: 1,
-    url: '#Inicio',
-    label: "Inicio"
-  },
-  {
-    id: 2,
-    url: '#Propiedades',
-    label: "Propiedades"
-  },
-  {
-    id: 3,
-    url: '#Sobre-Nosotros',
-    label: "Sobre nosotros"
-  },
-  {
-    id: 5,
-    url: '#Tasaciones',
-    label: "Tasaciones"
-  },
-  {
-    id: 4,
-    url: '#Contacto',
-    label: "Contacto"
-  },
-];
-
-
 export interface Image {
   image: string;
   thumbnail: string;
