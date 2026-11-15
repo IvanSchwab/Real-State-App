@@ -23,3 +23,8 @@ Lo que queda para después de salir a producción. Se actualiza en cada paso del
 - [ ] reCAPTCHA: la clave de producción no acepta `localhost`. Para probar el envío de formularios en local hay que agregar `localhost` a los dominios de la clave en google.com/recaptcha/admin, o probar en un preview de Vercel.
 - [ ] Listado: el encabezado no dice "ordenadas por más recientes" porque no se verificó el orden por defecto de la API (hoy muestra total y página).
 - [ ] Listado: el selector de superficie mínima y el de orden siguen ocultos (la API no los soporta); el precio mínimo y la moneda ya se usan.
+- [ ] Mapbox: el token está restringido por dominio y responde 403 desde `localhost` (no cargan los tiles ni la geocodificación). Para probar el mapa y "Calcular ruta" en local, agregar `http://localhost:3000` a las URLs permitidas del token en account.mapbox.com, o probar en un preview de Vercel. Verificar en producción que se dibuja el mapa, la ruta, el satélite y el 3D.
+- [ ] Ficha: Open Graph / título por propiedad para las vistas previas al compartir (hoy la ficha se renderiza en el cliente; el título de la pestaña sí se actualiza).
+- [ ] Ficha: no se muestran propietario, teléfono del propietario ni código postal (el diseño los reemplaza por la tarjeta de la oficina).
+- [ ] Ficha: el visor reemplaza al modal "+N más": ahora trae una tira con todas las miniaturas.
+- [ ] Ficha: dependencias sin uso (`react-magnifying-glass`, `leaflet`, `react-leaflet`, `react-map-gl`, `aos`, `react-awesome-reveal`, `react-google-recaptcha`, `resend`) quedaron en `package.json`; se pueden quitar en un cambio aparte.

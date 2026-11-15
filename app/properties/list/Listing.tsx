@@ -70,6 +70,15 @@ export default function Listing() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, retry]);
 
+  // Para que la ficha pueda volver a esta misma vista (con filtros y página).
+  useEffect(() => {
+    try {
+      sessionStorage.setItem("olivera:lastListing", key ? `/properties?${key}` : "/properties");
+    } catch {
+      /* sessionStorage no disponible */
+    }
+  }, [key]);
+
   useEffect(() => {
     if (!sheet) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setSheet(false);
