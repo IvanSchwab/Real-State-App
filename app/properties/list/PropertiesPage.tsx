@@ -1,18 +1,15 @@
-import React from 'react';
-import Footer from '@/components/Home/Footer/Footer';
-import ScrollToTopButton from '@/components/common/ScrollToTopButton';
-import WhatsappButton from '@/components/common/WhatsappButton';
-import PropertyList from './PropertyList';
+import Nav from "@/components/ui/Nav";
+import Footer from "@/components/ui/Footer";
+import WhatsAppFab from "@/components/ui/WhatsAppFab";
+import Listing from "./Listing";
 
 export default function PropertiesPage() {
   return (
-    <div className="bg-[#f8fcf3] font-quicksand ">
-      <PropertyList />
-      <div className="w-screen lg:transform sm:translate-x-[-4px] translate-y-[38px] lg:translate-x-[-8px]">
-        <Footer />
-      </div>
-        <ScrollToTopButton/>
-        <WhatsappButton />
+    <div className="page">
+      <Nav />
+      <Listing />
+      <Footer />
+      <WhatsAppFab />
     </div>
   );
-};
+}

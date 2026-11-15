@@ -106,6 +106,7 @@
 .fl select { appearance: none; -webkit-appearance: none; padding-right: 36px; }
 .fl textarea { height: 92px; padding: 12px; resize: none; line-height: 1.45; }
 .inp:focus, .fl input:focus, .fl select:focus, .fl textarea:focus { box-shadow: 0 0 0 3px rgba(46, 90, 67, .25); border-color: var(--green); }
+.fl.sr-label > label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .selx { position: relative; display: inline-flex; align-items: center; height: 44px; border-radius: var(--r-button); background: #fff; box-shadow: inset 0 0 0 1px var(--line); }
 .selx select { appearance: none; -webkit-appearance: none; border: 0; background: transparent; font: 500 15px var(--font-body); color: var(--ink); padding: 0 38px 0 14px; height: 44px; outline: none; cursor: pointer; width: 100%; }
 .selx .chev { position: absolute; right: 12px; top: 14px; color: var(--muted); pointer-events: none; }
@@ -163,6 +164,11 @@
 .specs { display: flex; flex-wrap: wrap; gap: 6px 18px; padding-top: 14px; margin-top: auto; border-top: 1px solid var(--line); font-size: 14px; color: #3A443F; }
 .specs span { display: inline-flex; align-items: center; gap: 6px; }
 .card-b .price { margin-bottom: 0; }
+
+/* skeletons */
+.skel { background: linear-gradient(90deg, var(--mist), #fff, var(--mist)); background-size: 200% 100%; animation: shimmer 1.6s linear infinite; }
+.card.skel { pointer-events: none; min-height: 360px; }
+@keyframes shimmer { to { background-position: -200% 0; } }
 
 /* ---------- footer ---------- */
 .foot { background: var(--footer); color: rgba(255, 255, 255, .8); padding: 72px 0 36px; margin-top: 112px; }

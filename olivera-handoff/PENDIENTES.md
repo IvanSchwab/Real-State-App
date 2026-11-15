@@ -21,3 +21,5 @@ Lo que queda para después de salir a producción. Se actualiza en cada paso del
 - [ ] Sección "Conocé al equipo" (botón del bloque Nosotros): no hay página de destino, no se muestra.
 - [ ] "Más filtros" del buscador del hero (oculto).
 - [ ] reCAPTCHA: la clave de producción no acepta `localhost`. Para probar el envío de formularios en local hay que agregar `localhost` a los dominios de la clave en google.com/recaptcha/admin, o probar en un preview de Vercel.
+- [ ] Listado: el encabezado no dice "ordenadas por más recientes" porque no se verificó el orden por defecto de la API (hoy muestra total y página).
+- [ ] Listado: el selector de superficie mínima y el de orden siguen ocultos (la API no los soporta); el precio mínimo y la moneda ya se usan.

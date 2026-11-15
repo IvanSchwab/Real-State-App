@@ -42,9 +42,7 @@
 .type:hover .type-ic { background: var(--green); color: #fff; }
 .type b { font-size: 17px; font-weight: 600; }
 .type small { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); }
-.type.skel { pointer-events: none; min-height: 150px; background: linear-gradient(90deg, var(--mist), #fff, var(--mist)); background-size: 200% 100%; animation: shimmer 1.6s linear infinite; }
-.card.skel { pointer-events: none; min-height: 360px; background: linear-gradient(90deg, var(--mist), #fff, var(--mist)); background-size: 200% 100%; animation: shimmer 1.6s linear infinite; }
-@keyframes shimmer { to { background-position: -200% 0; } }
+.type.skel { pointer-events: none; min-height: 150px; }
 .grid3 > .rv { display: flex; }
 .grid3 > .rv > .card { flex: 1; }
 .empty-note { margin: 0; padding: 28px; border-radius: var(--r-card); background: var(--mist); color: var(--muted); font-size: 16px; }
