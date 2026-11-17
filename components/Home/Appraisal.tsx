@@ -62,7 +62,7 @@ export default function Appraisal() {
           <div style={{ position: "relative" }}>
             <span className="kicker">Tasaciones</span>
             <h2 className="h2 serif">¿Cuánto vale tu propiedad?</h2>
-            <p className="sub">Pedí una tasación sin cargo. Te contactamos para coordinar la visita.</p>
+            <p className="sub">Pedí tu tasación. Te contactamos para coordinar la visita.</p>
             <div className="steps">
               {STEPS.map((s, i) => (
                 <div key={s}>
